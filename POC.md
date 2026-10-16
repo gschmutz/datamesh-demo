@@ -57,13 +57,13 @@ api:
 sources:
   zammad_in:
     type: http_server
-    address: "0.0.0.0:8080"
+    address: "0.0.0.0:28730"
     encoding: json
 
   aristech_in:
     type: http_server
-    address: "0.0.0.0:8080"
-    encoding: json
+    address: "0.0.0.0:28731"
+    encoding: json  
 
 internal_metrics:
     type: internal_metrics

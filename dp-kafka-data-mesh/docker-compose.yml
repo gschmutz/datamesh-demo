@@ -832,6 +832,7 @@ services:
       com.platys.description: High-performance observability data pipeline
     ports:
       - 28730:28730        # additional port to be used as a source in the vector config (vector.yaml) 
+      - 28731:28731        # additional port to be used as a source in the vector config (vector.yaml) 
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./conf/vector/vector.yaml:/etc/vector/vector.yaml:z
