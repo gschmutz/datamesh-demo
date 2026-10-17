@@ -14,7 +14,6 @@ sources:
   zammad_ticket_in:
     type: http_server
     address: "0.0.0.0:28730"
-    path: /ticket
     encoding: json
 
   zammad_customer_in:
