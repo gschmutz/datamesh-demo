@@ -901,8 +901,8 @@ services:
       KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
     volumes:
       - ./data-transfer:/data-transfer:z
-      - ./conf/redpanda-connect/connect.yaml:/connect.yaml:ro
-    command: run /connect.yaml
+      - ./conf/redpanda-connect/streams:/streams:ro
+    command: streams /streams/*.yaml
     restart: unless-stopped
     healthcheck:
       test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:4195/ping]

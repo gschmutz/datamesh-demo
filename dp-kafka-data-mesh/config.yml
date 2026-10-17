@@ -3390,7 +3390,7 @@
       #
       REDPANDA_CONNECT_enable: true
       # either 'standard' (single pipeline from connect.yaml) or 'streams' (multiple stream configs from the streams folder)
-      REDPANDA_CONNECT_mode: standard
+      REDPANDA_CONNECT_mode: streams
       # in 'standard' mode, watch the config file for changes and reload automatically (adds the --watcher flag)
       REDPANDA_CONNECT_watch_config_enabled: false
       REDPANDA_watch_config_enabled: true
