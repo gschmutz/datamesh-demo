@@ -50,7 +50,7 @@ sinks:
   zammad_ticket_out:
     type: kafka
     inputs:
-      - zammad_ticket_in:
+      - zammad_ticket_in
     bootstrap_servers: "${KAFKA_BOOTSTRAP_SERVERS}"
     topic: priv.zammad.ticket.v1
     encoding:
