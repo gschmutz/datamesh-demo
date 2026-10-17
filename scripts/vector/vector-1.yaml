@@ -45,6 +45,7 @@ transforms:
     fields:
       match:
         - id
+        - timestamp
 
 sinks:
   zammad_ticket_out:
