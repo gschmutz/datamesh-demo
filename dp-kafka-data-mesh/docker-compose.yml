@@ -902,7 +902,7 @@ services:
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./conf/redpanda-connect/streams:/streams:ro
-    command: streams /streams/*.yaml
+    command: streams --bind-http /streams/*.yaml
     restart: unless-stopped
     healthcheck:
       test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:4195/ping]
