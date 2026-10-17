@@ -883,6 +883,33 @@ services:
       retries: 5
       start_period: 30s
     restart: unless-stopped
+  #  ================================== Redpanda Connect ========================================== #
+  redpanda-connect:
+    image: docker.redpanda.com/redpandadata/connect:4
+    hostname: redpanda-connect
+    container_name: redpanda-connect
+    labels:
+      com.platys.name: redpanda-connect
+      com.platys.description: Redpanda Connect Stream Processing
+      com.platys.restapi.title: Redpanda Connect REST API
+      com.platys.restapi.url: http://dataplatform:4195
+    ports:
+      - 4195:4195
+    environment:
+      DUMMY: 1
+      KAFKA_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
+      KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./conf/redpanda-connect/connect.yaml:/connect.yaml:ro
+    command: run /connect.yaml
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:4195/ping]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
   #  ================================== Prometheus ========================================== #
   prometheus-1:
     image: docker.io/prom/prometheus:v3.13.4
@@ -1331,6 +1358,7 @@ services:
       - ./scripts/grafana/dashboards/datahub:/etc/grafana/provisioning/dashboards/datahub:z
       - ./scripts/grafana/dashboards/zammad:/etc/grafana/provisioning/dashboards/zammad:z
       - ./scripts/grafana/dashboards/vector:/etc/grafana/provisioning/dashboards/vector:z
+      - ./scripts/grafana/dashboards/redpanda-connect:/etc/grafana/provisioning/dashboards/redpanda-connect:z
       - ./scripts/grafana/datasources/prometheus-datasource.yml:/etc/grafana/provisioning/datasources/prometheus-datasource.yml:z
       - ./scripts/grafana/datasources/zammad-elasticsearch.yml:/etc/grafana/provisioning/datasources/zammad-elasticsearch.yml:z
 #        restart: unless-stopped
