@@ -19,9 +19,9 @@ sources:
 
   zammad_customer_in:
     type: http_client
-    endpoint: "http://2.58.54.30:28425/api/v1/users/search?query=created_at:%3Enow-1h&sort_by=id&order_by=desc"
+    endpoint: "http://2.58.54.30:28425/api/v1/users/search?query=created_at:%3Enow-1h&sort_by=id&order_by=asc"
     method: GET
-    scrape_interval_secs: 60
+    scrape_interval_secs: 15
     scrape_timeout_secs: 10
     auth:
       strategy: basic
