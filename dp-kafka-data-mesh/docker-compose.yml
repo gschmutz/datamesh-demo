@@ -823,19 +823,19 @@ services:
         ../scripts/start.sh
     restart: unless-stopped
   #  ================================== Vector ========================================== #
-  vector:
+  vector-1:
     image: docker.io/timberio/vector:0.58.X-alpine
-    container_name: vector
-    hostname: vector
+    container_name: vector-1
+    hostname: vector-1
     labels:
       com.platys.name: vector
       com.platys.description: High-performance observability data pipeline
     ports:
-      - 28730:28730        # additional port to be used as a source in the vector config (vector.yaml) 
-      - 28731:28731        # additional port to be used as a source in the vector config (vector.yaml) 
+      - 28731:28731        # additional port to be used as a source in the vector config
+      - 28732:28732        # additional port to be used as a source in the vector config
     volumes:
       - ./data-transfer:/data-transfer:z
-      - ./conf/vector/vector.yaml:/etc/vector/vector.yaml:z
+      - ./conf/vector/vector-1.yaml:/etc/vector/vector.yaml:z
       - ${PLATYS_DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock:z
     environment:
       VECTOR_DANGEROUSLY_ALLOW_ENV_VAR_INTERPOLATION: true
@@ -844,6 +844,38 @@ services:
       VECTOR_LOG: info
       VECTOR_WATCH_CONFIG: true    # Watch for changes in the configuration file and reload accordingly
       VECTOR_WATCH_CONFIG_POLL_INTERVAL_SECONDS: 30
+      KAFKA_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
+      KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
+    healthcheck:
+      test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:9598/health]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+  vector-2:
+    image: docker.io/timberio/vector:0.58.X-alpine
+    container_name: vector-2
+    hostname: vector-2
+    labels:
+      com.platys.name: vector
+      com.platys.description: High-performance observability data pipeline
+    ports:
+      - 28734:28734        # additional port to be used as a source in the vector config
+      - 28735:28735        # additional port to be used as a source in the vector config
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./conf/vector/vector-2.yaml:/etc/vector/vector.yaml:z
+      - ${PLATYS_DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock:z
+    environment:
+      VECTOR_DANGEROUSLY_ALLOW_ENV_VAR_INTERPOLATION: true
+      VECTOR_ALLOW_EMPTY_CONFIG: true
+      VECTOR_CONFIG: /etc/vector/vector.yaml
+      VECTOR_LOG: info
+      VECTOR_WATCH_CONFIG: true    # Watch for changes in the configuration file and reload accordingly
+      VECTOR_WATCH_CONFIG_POLL_INTERVAL_SECONDS: 30
+      KAFKA_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
+      KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
     healthcheck:
       test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:9598/health]
       interval: 30s
@@ -965,6 +997,25 @@ services:
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./init/postgresql:/docker-entrypoint-initdb.d/:z
+    restart: unless-stopped
+  #  ================================== Cloudbeaver ========================================== #
+  cloudbeaver:
+    image: docker.io/dbeaver/cloudbeaver:latest
+    container_name: cloudbeaver
+    hostname: cloudbeaver
+    labels:
+      com.platys.name: cloudbeaver
+      com.platys.description: Cloud Database Manager
+      com.platys.webui.title: Cloudbeaver UI
+      com.platys.webui.url: http://dataplatform:8978
+      com.platys.password.envvars: PLATYS_CLOUDBEAVER_ADMIN_PASSWORD
+    ports:
+      - 8978:8978
+    environment:
+      CB_SERVER_NAME: Cloudbeaver
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./conf/cloudbeaver/data-sources.json:/opt/cloudbeaver/workspace/GlobalConfiguration/.dbeaver/data-sources.json:z
     restart: unless-stopped
   #  ================================== Hasura ========================================== #
   hasura:
