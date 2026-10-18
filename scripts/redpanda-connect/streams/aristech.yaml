@@ -1,58 +1,30 @@
 # Redpanda Connect STREAM for the Aristech Adapter
 #
-# This file is loaded in streams mode (`connect streams /streams/*.yaml`), so it
-# may only contain stream-level fields: input / buffer / pipeline / output.
-# Top-level config (http, metrics, logger) is provided by the container's
-# `--bind-http` flag; shared resources (the dedupe cache) live in the resource
-# file loaded via `-r` (conf/redpanda-connect/resources.yaml).
+# Loaded in streams mode, so it may only contain stream-level fields:
+# input / buffer / pipeline / output. Top-level config (http/metrics/logger)
+# comes from connect.yaml via -o; shared resources from resources.yaml via -r.
 #
-# Ported from the Vector config (scripts/vector/vector-1.yaml). Vector models a
-# DAG of many sources/transforms/sinks; Redpanda Connect runs a single
-# input -> pipeline -> output stream, so the two independent Vector flows are
-# merged here with a broker INPUT (fan-in, tagging meta `kind`) and a switch
-# OUTPUT (fan-out, routing by `kind`).
+# Single flow:
+#   tickets: http_server (POST /aristech) -> priv.aristech.v1
 #
-# Flows:
-#   tickets:   http_server (POST /ticket)          -> priv.zammad.ticket.v1
+# (Unlike zammad.yaml this adapter has one source and one sink, so it uses a
+# direct input/output rather than a broker fan-in + switch fan-out.)
 #
 # See https://docs.redpanda.com/redpanda-connect/ for all options.
 
 input:
-  broker:
-    inputs:
-      # --- tickets: inbound webhook ------------------------------------- #
-      - label: aristech_in
-        http_server:
-          address: 0.0.0.0:28741
-          path: /aristech
-          allowed_verbs:
-            - POST
-        processors:
-          # Body arrives as raw bytes; parse to structured JSON (Vector did
-          # `. = parse_json!(.message)`).
-          - mapping: |
-              root = content().parse_json()
-              meta kind = "ticket"
-
-pipeline:
+  http_server:
+    address: 0.0.0.0:28741
+    path: /aristech
+    allowed_verbs:
+      - POST
   processors:
-    # Dedupe only applies to user messages (Vector's dedupe transform
-    # matched on id + updated_at, so a user is re-emitted only when changed).
-    - switch:
-        - check: 'meta("kind") == "user"'
-          processors:
-            - dedupe:
-                cache: dedupe_cache
-                key: '${! json("id") }-${! json("updated_at") }'
-                drop_on_err: true
+    # Body arrives as raw bytes; parse to structured JSON.
+    - mapping: |
+        root = content().parse_json()
 
 output:
-  switch:
-    cases:
-      - check: 'meta("kind") == "ticket"'
-        output:
-          kafka:
-            addresses:
-              - "${KAFKA_BOOTSTRAP_SERVERS}"
-            topic: priv.aristech.v1
-
+  kafka:
+    addresses:
+      - "${KAFKA_BOOTSTRAP_SERVERS}"
+    topic: priv.aristech.v1
