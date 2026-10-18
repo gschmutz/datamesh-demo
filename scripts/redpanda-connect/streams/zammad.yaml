@@ -88,5 +88,5 @@ output:
           kafka:
             addresses:
               - "${KAFKA_BOOTSTRAP_SERVERS}"
-            topic: priv.zammad.user.v1
+            topic: priv.zammad.customer.v1
             key: '${! json("id") }'

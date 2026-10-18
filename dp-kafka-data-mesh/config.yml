@@ -1063,7 +1063,7 @@
       ATLAS_provision_amundsen_sample_data: false
       ATLAS_hive_hook_enabled: false
       
-      DATAHUB_enable: true
+      DATAHUB_enable: false
       DATAHUB_volume_map_data: false
       DATAHUB_mce_consumer_standalone: false
       DATAHUB_mae_consumer_standalone: false
