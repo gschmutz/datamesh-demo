@@ -7,9 +7,10 @@
 # expect). Run from anywhere; paths are resolved relative to this script.
 #
 # Mapping (source -> destination), derived from dp-kafka-data-mesh/docker-compose.yml:
-#   scripts/vector/      -> dp-kafka-data-mesh/conf/vector/      (mounted as /etc/vector/vector.yaml)
-#   scripts/postgresql/  -> dp-kafka-data-mesh/init/postgresql/  (mounted as /docker-entrypoint-initdb.d/)
-#   scripts/jikkou/      -> dp-kafka-data-mesh/scripts/jikkou/   (mounted as /jikkou)
+#   scripts/vector/           -> dp-kafka-data-mesh/conf/vector/      (mounted as /etc/vector/vector.yaml)
+#   scripts/postgresql/       -> dp-kafka-data-mesh/init/postgresql/  (mounted as /docker-entrypoint-initdb.d/)
+#   scripts/jikkou/           -> dp-kafka-data-mesh/scripts/jikkou/   (mounted as /jikkou)
+#   scripts/redpanda-connect/ -> dp-kafka-data-mesh/conf/redpanda-connect/streams/ (Redpanda Connect streams mode)
 #
 # Usage:
 #   ./copy-scripts.sh            copy the files
@@ -26,6 +27,7 @@ MAPPINGS=(
   "vector:conf/vector"
   "postgresql:init/postgresql"
   "jikkou:scripts/jikkou"
+  "redpanda-connect:conf/redpanda-connect/streams"
 )
 
 DRY_RUN=false
