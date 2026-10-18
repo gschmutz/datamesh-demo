@@ -540,7 +540,7 @@ services:
       - ./custom-conf/redpanda-connect/streams:/connect/streams:ro
       - ./custom-conf/redpanda-connect/resources.yaml:/resources.yaml:ro
       - ./custom-conf/redpanda-connect/connect.yaml:/connect.yaml:ro
-    command: streams --bind-http -o /connect.yaml -r /resources.yaml --watcher/connect/streams/*.yaml
+    command: streams --bind-http -o /connect.yaml -r /resources.yaml --watcher  /connect/streams/*.yaml
     restart: unless-stopped
     healthcheck:
       test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:4195/ping]
