@@ -1,23 +1,23 @@
-# Redpanda Connect pipeline for the Zammad Adapter
+# Redpanda Connect STREAM for the Zammad Adapter
+#
+# This file is loaded in streams mode (`connect streams /streams/*.yaml`), so it
+# may only contain stream-level fields: input / buffer / pipeline / output.
+# Top-level config (http, metrics, logger) is provided by the container's
+# `--bind-http` flag; shared resources (the dedupe cache) live in the resource
+# file loaded via `-r` (conf/redpanda-connect/resources.yaml).
 #
 # Ported from the Vector config (scripts/vector/vector-1.yaml). Vector models a
 # DAG of many sources/transforms/sinks; Redpanda Connect runs a single
 # input -> pipeline -> output stream, so the two independent Vector flows are
-# merged here with:
-#   * a broker INPUT (fan-in) that tags each message with meta `kind`, and
-#   * a switch OUTPUT (fan-out) that routes by that `kind` to the right topic.
+# merged here with a broker INPUT (fan-in, tagging meta `kind`) and a switch
+# OUTPUT (fan-out, routing by `kind`).
 #
 # Flows:
-#   tickets:   http_server (POST /ticket)            -> priv.zammad.ticket.v1
-#   customers: poll Zammad users/search every 15s,    -> priv.zammad.user.v1
+#   tickets:   http_server (POST /ticket)          -> priv.zammad.ticket.v1
+#   customers: poll Zammad users/search every 15s,  -> priv.zammad.user.v1
 #              dedupe by id+updated_at
 #
 # See https://docs.redpanda.com/redpanda-connect/ for all options.
-
-# Serves liveness/readiness (/ping, /ready) and Prometheus metrics (/metrics).
-http:
-  address: 0.0.0.0:4195
-  enabled: true
 
 input:
   broker:
@@ -82,7 +82,6 @@ output:
             addresses:
               - "${KAFKA_BOOTSTRAP_SERVERS}"
             topic: priv.zammad.ticket.v1
-            # value is the (structured) JSON message, serialized automatically
 
       - check: 'meta("kind") == "customer"'
         output:
@@ -91,12 +90,3 @@ output:
               - "${KAFKA_BOOTSTRAP_SERVERS}"
             topic: priv.zammad.user.v1
             key: '${! json("id") }'
-
-cache_resources:
-  - label: dedupe_cache
-    memory:
-      # Roughly bounds how long a seen id+updated_at is remembered.
-      default_ttl: 60s
-
-metrics:
-  prometheus: {}
