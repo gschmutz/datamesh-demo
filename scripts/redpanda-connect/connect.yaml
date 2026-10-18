@@ -1,9 +1,10 @@
-# Shared Redpanda Connect resources, loaded in streams mode via:
-#   connect -r /connect/resources.yaml streams --bind-http --watcher /streams/*.yaml
+# Redpanda Connect MAIN config (observability), loaded via -c in streams mode:
+#   connect -c /connect/connect.yaml -r /connect/resources.yaml streams --bind-http --watcher /connect/streams/*.yaml
 #
-# Resource files must NOT live under the /streams directory (everything there is
-# loaded as a stream). Hence this is deployed to conf/redpanda-connect/ (one
-# level above conf/redpanda-connect/streams/).
+# Only http / logger / metrics / tracer belong here. Shared resources
+# (caches, rate limits) go in resources.yaml and are loaded via -r, because
+# cache_resources placed in this main config are IGNORED in streams mode.
+# This file must NOT live under the streams watcher directory.
 
 http:
   enabled: true
@@ -15,10 +16,3 @@ logger:
 
 metrics:
   prometheus: {}
-  
-cache_resources:
-  - label: dedupe_cache
-    memory:
-      # Roughly bounds how long a seen id+updated_at is remembered, so a user
-      # is only re-emitted to Kafka when it actually changes.
-      default_ttl: 60s
