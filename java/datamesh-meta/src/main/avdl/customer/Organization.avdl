@@ -1,0 +1,19 @@
+@namespace("ch.admin.customer.avro")
+protocol OrganizationProtocol {
+
+	record Organization {
+		long   id;
+		string name;
+		boolean shared;
+		string  domain            = "";
+		boolean domain_assignment;
+		boolean active;
+		boolean vip;
+		union { null, string } note = null;
+		array<long> member_ids           = [];
+		array<long> secondary_member_ids = [];
+		string created_at;
+		string updated_at;
+	}
+
+}

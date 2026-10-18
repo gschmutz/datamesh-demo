@@ -1,0 +1,59 @@
+@namespace("ch.admin.zammad.avro")
+protocol TicketProtocol {
+	import idl "User.avdl";
+	import idl "Group.avdl";
+	import idl "Priority.avdl";
+	
+	record Ticket {
+		long   id;
+		string number;
+		string title;
+		string state;
+		long   state_id;
+		long   group_id;
+		Group  group;
+		long   priority_id;
+		Priority priority;
+		long   owner_id;
+		User   owner;
+		long   customer_id;
+		union { null, long }   organization_id = null;
+		long   create_article_sender_id;
+		string create_article_sender;
+		long   create_article_type_id;
+		string create_article_type;
+		long   article_count;
+		array<long> article_ids = [];
+		union { null, string } note           = null;
+		union { null, string } type           = null;
+		union { null, string } pending_time   = null;
+		union { null, string } close_at       = null;
+		union { null, string } escalation_at  = null;
+		union { null, string } first_response_at           = null;
+		union { null, string } first_response_escalation_at = null;
+		union { null, string } close_escalation_at         = null;
+		union { null, string } update_escalation_at        = null;
+		union { null, string } last_contact_at             = null;
+		union { null, string } last_contact_agent_at       = null;
+		union { null, string } last_contact_customer_at    = null;
+		union { null, string } last_owner_update_at        = null;
+		union { null, string } last_close_at               = null;
+		union { null, long }   first_response_in_min       = null;
+		union { null, long }   first_response_diff_in_min  = null;
+		union { null, long }   close_in_min                = null;
+		union { null, long }   close_diff_in_min           = null;
+		union { null, long }   update_in_min               = null;
+		union { null, long }   update_diff_in_min          = null;
+		union { null, long }   time_unit                   = null;
+		union { null, long }   checklist_id                = null;
+		boolean ai_agent_running                           = false;
+		string  created_at;
+		string  updated_at;
+		User    created_by;
+		long    created_by_id;
+		User    updated_by;
+		long    updated_by_id;
+		array<string> ai_stored_result_ids = [];
+	}
+
+}

@@ -1,0 +1,10 @@
+@namespace("ch.admin.zammad.avro")
+protocol CardHolderStateProtocol {
+	import idl "../Ticket.avdl";
+	import idl "../Article.avdl";
+
+  	record ZammadTicketState {
+    	Ticket  ticket;
+    	union { null, Article } article = null;
+  	}
+}

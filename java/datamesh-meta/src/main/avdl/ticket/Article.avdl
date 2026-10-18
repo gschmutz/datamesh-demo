@@ -1,0 +1,47 @@
+@namespace("ch.admin.zammad.avro")
+protocol ArticleProtocol {
+
+	import idl "User.avdl";
+
+	enum SenderType {
+		Customer, Agent, System
+	}
+
+	enum ArticleType {
+		email, phone, web, note, sms, chat, fax
+	}
+
+	record Article {
+		long   id;
+		long   ticket_id;
+		string body;
+		string content_type;
+		ArticleType type;
+		long        type_id;
+		SenderType  sender;
+		long        sender_id;
+		union { null, string } from = null;
+		union { null, string } to   = null;
+		boolean     internal;
+		boolean     body_rendering_error;
+		union { null, string } subject          = null;
+		union { null, string } cc               = null;
+		union { null, string } reply_to         = null;
+		union { null, string } in_reply_to      = null;
+		union { null, string } message_id       = null;
+		union { null, string } message_id_md5   = null;
+		union { null, string } origin_by        = null;
+		union { null, long }   origin_by_id     = null;
+		union { null, string } detected_language = null;
+		union { null, string } time_unit        = null;
+		double accounted_time                   = 0.0;
+		User   created_by;
+		long   created_by_id;
+		User   updated_by;
+		long   updated_by_id;
+		string created_at;
+		string updated_at;
+		array<string> attachments       = [];
+		array<string> ai_stored_result_ids = [];
+	}
+}
