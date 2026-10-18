@@ -1,0 +1,239 @@
+# Open Data Contract Standard (ODCS) v3.0.2
+# Generated from src/main/avdl/customer/Customer.avdl (record ch.admin.customer.avro.Customer)
+apiVersion: v3.0.2
+kind: DataContract
+
+id: customer-avro
+name: Customer
+version: 1.0.0
+status: active
+domain: customer
+dataProduct: customer
+tenant: ch.admin
+
+description:
+  purpose: Customer master data sourced from Zammad, published as Avro.
+  usage: Consume for customer 360, ticket enrichment and analytics.
+  limitations: Personal data (PII) — handle according to data protection policy.
+
+# ------------------------------------------------------------------ #
+# Schema
+# ------------------------------------------------------------------ #
+schema:
+  - name: Customer
+    logicalType: object
+    physicalType: avro
+    physicalName: customer
+    description: A single customer (Zammad user in the Customer role).
+    properties:
+      - name: id
+        logicalType: integer
+        physicalType: long
+        required: true
+        unique: true
+        primaryKey: true
+        primaryKeyPosition: 1
+        description: Unique customer identifier.
+        examples: [7]
+
+      - name: login
+        logicalType: string
+        physicalType: string
+        required: true
+        unique: true
+        description: Login name (typically the e-mail address).
+
+      - name: email
+        logicalType: string
+        physicalType: string
+        required: true
+        classification: PII
+        description: Primary e-mail address.
+
+      - name: firstname
+        logicalType: string
+        physicalType: string
+        required: true
+        classification: PII
+
+      - name: lastname
+        logicalType: string
+        physicalType: string
+        required: true
+        classification: PII
+
+      - name: image
+        logicalType: string
+        physicalType: string
+        required: false
+        description: Avatar image reference (md5 hash).
+
+      - name: image_source
+        logicalType: string
+        physicalType: string
+        required: false
+
+      - name: department
+        logicalType: string
+        physicalType: string
+        required: false
+
+      - name: organization_id
+        logicalType: string
+        physicalType: string
+        required: false
+        description: Primary organization reference, if any.
+
+      - name: organization_ids
+        logicalType: array
+        physicalType: array
+        required: false
+        description: All organizations the customer belongs to.
+        items:
+          logicalType: integer
+          physicalType: long
+
+      - name: role_ids
+        logicalType: array
+        physicalType: array
+        required: false
+        items:
+          logicalType: integer
+          physicalType: long
+
+      - name: roles
+        logicalType: array
+        physicalType: array
+        required: false
+        items:
+          logicalType: string
+          physicalType: string
+
+      - name: created_at
+        logicalType: date
+        physicalType: string
+        required: true
+        description: Creation timestamp (ISO-8601).
+        logicalTypeOptions:
+          format: "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+
+      - name: updated_at
+        logicalType: date
+        physicalType: string
+        required: true
+        description: Last update timestamp (ISO-8601).
+        logicalTypeOptions:
+          format: "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+
+      - name: active
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+
+      - name: verified
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+
+      - name: vip
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+
+      - name: phone
+        logicalType: string
+        physicalType: string
+        required: true
+        classification: PII
+
+      - name: mobile
+        logicalType: string
+        physicalType: string
+        required: true
+        classification: PII
+
+      - name: fax
+        logicalType: string
+        physicalType: string
+        required: true
+
+      - name: web
+        logicalType: string
+        physicalType: string
+        required: true
+
+      - name: street
+        logicalType: string
+        physicalType: string
+        required: true
+        classification: PII
+
+      - name: city
+        logicalType: string
+        physicalType: string
+        required: true
+
+      - name: zip
+        logicalType: string
+        physicalType: string
+        required: true
+
+      - name: country
+        logicalType: string
+        physicalType: string
+        required: true
+
+      - name: note
+        logicalType: string
+        physicalType: string
+        required: true
+
+      - name: address
+        logicalType: string
+        physicalType: string
+        required: false
+        classification: PII
+
+# ------------------------------------------------------------------ #
+# Servers (where the data physically lives)
+# ------------------------------------------------------------------ #
+servers:
+  - server: kafka-prod
+    type: kafka
+    format: avro
+    host: kafka-1:19092
+    topic: pub.customer.v1
+    description: Avro records serialized with Confluent Schema Registry.
+    customProperties:
+      - property: schemaRegistryUrl
+        value: http://schema-registry-1:8081
+      - property: subject
+        value: pub.customer.v1-value
+
+# ------------------------------------------------------------------ #
+# Ownership & support
+# ------------------------------------------------------------------ #
+team:
+  - username: guido.schmutz@accenture.com
+    role: owner
+
+support:
+  - channel: "#customer-data"
+    tool: slack
+    scope: interactive
+
+slaProperties:
+  - property: retention
+    value: 7
+    unit: d
+
+tags:
+  - zammad
+  - customer
+  - pii
+
+customProperties:
+  - property: sourceSchema
+    value: src/main/avdl/customer/Customer.avdl
+  - property: avroNamespace
+    value: ch.admin.customer.avro
