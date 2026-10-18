@@ -14,7 +14,7 @@
 #
 # Flows:
 #   tickets:   http_server (POST /ticket)          -> priv.zammad.ticket.v1
-#   customers: poll Zammad users/search every 15s,  -> priv.zammad.user.v1
+#   users: poll Zammad users/search every 15s,     -> priv.zammad.user.v1
 #              dedupe by id+updated_at
 #
 # See https://docs.redpanda.com/redpanda-connect/ for all options.
@@ -36,8 +36,8 @@ input:
               root = content().parse_json()
               meta kind = "ticket"
 
-      # --- customers: scheduled poll of the Zammad search API ----------- #
-      - label: zammad_customer_in
+      # --- users: scheduled poll of the Zammad search API ----------- #
+      - label: zammad_user_in
         # `generate` emits an empty trigger message on an interval; the `http`
         # processor then performs the GET (Vector's scrape_interval_secs: 15).
         generate:
@@ -59,14 +59,14 @@ input:
           - unarchive:
               format: json_array
           - mapping: |
-              meta kind = "customer"
+              meta kind = "user"
 
 pipeline:
   processors:
-    # Dedupe only applies to customer messages (Vector's dedupe transform
+    # Dedupe only applies to user messages (Vector's dedupe transform
     # matched on id + updated_at, so a user is re-emitted only when changed).
     - switch:
-        - check: 'meta("kind") == "customer"'
+        - check: 'meta("kind") == "user"'
           processors:
             - dedupe:
                 cache: dedupe_cache
@@ -83,10 +83,10 @@ output:
               - "${KAFKA_BOOTSTRAP_SERVERS}"
             topic: priv.zammad.ticket.v1
 
-      - check: 'meta("kind") == "customer"'
+      - check: 'meta("kind") == "user"'
         output:
           kafka:
             addresses:
               - "${KAFKA_BOOTSTRAP_SERVERS}"
-            topic: priv.zammad.customer.v1
+            topic: priv.zammad.user.v1
             key: '${! json("id") }'
