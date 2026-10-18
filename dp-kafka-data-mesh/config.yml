@@ -3393,7 +3393,7 @@
       REDPANDA_CONNECT_mode: streams
       # watch the config file(s) for changes and reload automatically (adds the --watcher flag), supported in both 'standard' and 'streams' mode
       REDPANDA_CONNECT_watch_config_enabled: true
-      REDPANDA_CONNECT_additional_port_mappings: 1
+      REDPANDA_CONNECT_additional_port_mappings: 2
 
       #
       #=====  Minio Web ========
