@@ -3391,9 +3391,9 @@
       REDPANDA_CONNECT_enable: true
       # either 'standard' (single pipeline from connect.yaml) or 'streams' (multiple stream configs from the streams folder)
       REDPANDA_CONNECT_mode: streams
-      # in 'standard' mode, watch the config file for changes and reload automatically (adds the --watcher flag)
-      REDPANDA_CONNECT_watch_config_enabled: false
-      REDPANDA_watch_config_enabled: true
+      # watch the config file(s) for changes and reload automatically (adds the --watcher flag), supported in both 'standard' and 'streams' mode
+      REDPANDA_CONNECT_watch_config_enabled: true
+      REDPANDA_CONNECT_additional_port_mappings: 1
 
       #
       #=====  Minio Web ========

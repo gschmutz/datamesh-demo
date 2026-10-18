@@ -895,6 +895,7 @@ services:
       com.platys.restapi.url: http://dataplatform:4195
     ports:
       - 4195:4195
+      - 28740:28740
     environment:
       DUMMY: 1
       KAFKA_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
@@ -902,7 +903,7 @@ services:
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./conf/redpanda-connect/streams:/streams:ro
-    command: streams --bind-http /streams/*.yaml
+    command: streams --bind-http --watcher /streams/*.yaml
     restart: unless-stopped
     healthcheck:
       test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:4195/ping]

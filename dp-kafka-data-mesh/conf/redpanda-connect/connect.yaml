@@ -1,7 +1,7 @@
 # Redpanda Connect configuration
 # See https://docs.redpanda.com/redpanda-connect/about/ for all options
 
-# HTTP server exposing the health check and metrics endpoints (mapped to host port 4195)
+# HTTP server exposing the health check and metrics endpoints (mapped to host port 4197)
 http:
   address: 0.0.0.0:4195
   enabled: true
