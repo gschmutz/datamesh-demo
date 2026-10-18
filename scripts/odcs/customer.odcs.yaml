@@ -78,36 +78,81 @@ schema:
         physicalType: string
         required: false
 
-      - name: organization_id
-        logicalType: string
-        physicalType: string
+      - name: organization
+        logicalType: object
+        physicalType: record
         required: false
-        description: Primary organization reference, if any.
+        description: Primary organization the customer belongs to (enriched).
+        properties: &organization_properties
+          - name: id
+            logicalType: integer
+            physicalType: long
+            required: true
+            description: Unique organization identifier.
+          - name: name
+            logicalType: string
+            physicalType: string
+            required: true
+          - name: shared
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+          - name: domain
+            logicalType: string
+            physicalType: string
+            required: true
+          - name: domain_assignment
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+          - name: active
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+          - name: vip
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+          - name: note
+            logicalType: string
+            physicalType: string
+            required: false
+          - name: member_ids
+            logicalType: array
+            physicalType: array
+            required: false
+            items:
+              logicalType: integer
+              physicalType: long
+          - name: secondary_member_ids
+            logicalType: array
+            physicalType: array
+            required: false
+            items:
+              logicalType: integer
+              physicalType: long
+          - name: created_at
+            logicalType: date
+            physicalType: string
+            required: true
+            logicalTypeOptions:
+              format: "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+          - name: updated_at
+            logicalType: date
+            physicalType: string
+            required: true
+            logicalTypeOptions:
+              format: "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
 
-      - name: organization_ids
+      - name: secondary_organizations
         logicalType: array
         physicalType: array
         required: false
-        description: All organizations the customer belongs to.
+        description: Additional organizations the customer belongs to (enriched).
         items:
-          logicalType: integer
-          physicalType: long
-
-      - name: role_ids
-        logicalType: array
-        physicalType: array
-        required: false
-        items:
-          logicalType: integer
-          physicalType: long
-
-      - name: roles
-        logicalType: array
-        physicalType: array
-        required: false
-        items:
-          logicalType: string
-          physicalType: string
+          logicalType: object
+          physicalType: record
+          properties: *organization_properties
 
       - name: created_at
         logicalType: date
