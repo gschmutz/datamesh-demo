@@ -10,7 +10,8 @@
 #   scripts/vector/           -> dp-kafka-data-mesh/conf/vector/      (mounted as /etc/vector/vector.yaml)
 #   scripts/postgresql/       -> dp-kafka-data-mesh/init/postgresql/  (mounted as /docker-entrypoint-initdb.d/)
 #   scripts/jikkou/           -> dp-kafka-data-mesh/scripts/jikkou/   (mounted as /jikkou)
-#   scripts/redpanda-connect/ -> dp-kafka-data-mesh/conf/redpanda-connect/streams/ (Redpanda Connect streams mode)
+#   scripts/redpanda-connect/      -> dp-kafka-data-mesh/conf/redpanda-connect/streams/ (streams mode: input/pipeline/output only)
+#   scripts/redpanda-connect-conf/ -> dp-kafka-data-mesh/conf/redpanda-connect/         (resources, loaded via -r; must be OUTSIDE /streams)
 #
 # Usage:
 #   ./copy-scripts.sh            copy the files
@@ -28,6 +29,7 @@ MAPPINGS=(
   "postgresql:init/postgresql"
   "jikkou:scripts/jikkou"
   "redpanda-connect:conf/redpanda-connect/streams"
+  "redpanda-connect-conf:conf/redpanda-connect"
 )
 
 DRY_RUN=false
