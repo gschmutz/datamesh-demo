@@ -13,9 +13,10 @@
 # OUTPUT (fan-out, routing by `kind`).
 #
 # Flows:
-#   tickets:   http_server (POST /ticket)          -> priv.zammad.ticket.v1
-#   users: poll Zammad users/search every 15s,     -> priv.zammad.user.v1
-#              dedupe by id+updated_at
+#   tickets:       http_server (POST /ticket)                -> priv.zammad.ticket.v1
+#   users:         poll Zammad users/search every 15s        -> priv.zammad.user.v1
+#   organizations: poll Zammad organizations/search every 15s -> priv.zammad.organization.v1
+#                  (users + organizations deduped by kind+id+updated_at)
 #
 # See https://docs.redpanda.com/redpanda-connect/ for all options.
 
@@ -45,7 +46,7 @@ input:
           mapping: "root = {}"
         processors:
           - http:
-              url: "http://2.58.54.30:28425/api/v1/users/search?query=%28created_at%3A%3Enow-2m%20OR%20updated_at%3A%3Enow-2m%29%20AND%20role_ids%3A3&sort_by=id&order_by=asc&per_page=50"
+              url: "http://2.58.54.30:28425/api/v1/users/search?query=%28created_at%3A%3Enow-2m%20OR%20updated_at%3A%3Enow-2m&sort_by=id&order_by=asc&per_page=50"
               verb: GET
               timeout: 10s
               headers:
@@ -61,16 +62,39 @@ input:
           - mapping: |
               meta kind = "user"
 
+      # --- organizations: scheduled poll of the Zammad search API ------ #
+      - label: zammad_organization_in
+        generate:
+          interval: 15s
+          mapping: "root = {}"
+        processors:
+          - http:
+              url: "http://2.58.54.30:28425/api/v1/organizations/search?query=%28created_at%3A%3Enow-2m%20OR%20updated_at%3A%3Enow-2m%29&sort_by=id&order_by=asc&per_page=50"
+              verb: GET
+              timeout: 10s
+              headers:
+                Accept: application/json
+              basic_auth:
+                enabled: true
+                username: "schmutz68@gmail.com"
+                password: "Abc123!Abc123!"
+          # The search endpoint returns a JSON array; split into one message
+          # per organization.
+          - unarchive:
+              format: json_array
+          - mapping: |
+              meta kind = "organization"
+
 pipeline:
   processors:
-    # Dedupe only applies to user messages (Vector's dedupe transform
-    # matched on id + updated_at, so a user is re-emitted only when changed).
+    # Dedupe applies to the polled sources (user, organization): re-emit only
+    # when id + updated_at changes. Tickets (webhook) are not deduped.
     - switch:
-        - check: 'meta("kind") == "user"'
+        - check: 'meta("kind") == "user" || meta("kind") == "organization"'
           processors:
             - dedupe:
                 cache: dedupe_cache
-                key: '${! json("id") }-${! json("updated_at") }'
+                key: '${! meta("kind") }-${! json("id") }-${! json("updated_at") }'
                 drop_on_err: true
 
 output:
@@ -89,4 +113,12 @@ output:
             addresses:
               - "${KAFKA_BOOTSTRAP_SERVERS}"
             topic: priv.zammad.user.v1
+            key: '${! json("id") }'
+
+      - check: 'meta("kind") == "organization"'
+        output:
+          kafka:
+            addresses:
+              - "${KAFKA_BOOTSTRAP_SERVERS}"
+            topic: priv.zammad.organization.v1
             key: '${! json("id") }'

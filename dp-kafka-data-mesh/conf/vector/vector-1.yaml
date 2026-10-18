@@ -1,0 +1,86 @@
+# Vector configuration for Zammad Adapter
+#
+# See https://vector.dev/docs/reference/configuration/ for all options
+
+# Data directory for internal state (used when VECTOR_volume_map_data: true)
+data_dir: /var/lib/vector
+
+# API (used for the health check endpoint on port 9598)
+api:
+  enabled: true
+  address: "0.0.0.0:9598"
+
+sources:
+  zammad_ticket_in:
+    type: http_server
+    address: "0.0.0.0:28730"
+    path: /ticket
+    encoding: json
+
+  zammad_customer_in:
+    type: http_client
+    endpoint: "http://2.58.54.30:28425/api/v1/users/search"
+    method: GET
+    query:
+      query: "(created_at:>now-2m OR updated_at:>now-2m) AND role_ids:3"
+      sort_by: id
+      order_by: asc
+      per_page: "50"    
+    scrape_interval_secs: 15
+    scrape_timeout_secs: 10
+    auth:
+      strategy: basic
+      user: "schmutz68@gmail.com"
+      password: "Abc123!Abc123!"
+    headers:
+      Accept:
+        - application/json
+    decoding:
+      codec: json
+
+  internal_metrics:
+    type: internal_metrics
+    scrape_interval_secs: 10
+
+transforms:  
+  deduplicate_by_id:
+    type: dedupe
+    inputs:
+      - zammad_customer_in
+    fields:
+      match:
+        - id
+        - updated_at
+
+  ticket_parse_message:
+    type: remap
+    inputs:
+      - zammad_ticket_in
+    source: |
+      . = parse_json!(.message)
+
+sinks:
+  zammad_ticket_out:
+    type: kafka
+    inputs:
+      - ticket_parse_message
+    bootstrap_servers: "${KAFKA_BOOTSTRAP_SERVERS}"
+    topic: priv.zammad.ticket.v1
+    encoding:
+      codec: json
+  
+  zammad_customer_out:
+    type: kafka
+    inputs:
+      - deduplicate_by_id
+    bootstrap_servers: "${KAFKA_BOOTSTRAP_SERVERS}"
+    topic: priv.zammad.customer.v1
+    key_field: "id"
+    encoding:
+      codec: json
+
+  prometheus:
+    type: prometheus_exporter
+    inputs:
+      - internal_metrics
+    address: 0.0.0.0:9090 
