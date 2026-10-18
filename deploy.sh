@@ -28,8 +28,8 @@ MAPPINGS=(
   "vector:conf/vector"
   "postgresql:init/postgresql"
   "jikkou:scripts/jikkou"
-  "redpanda-connect/streams:conf/redpanda-connect/streams"
-  "redpanda-connect:conf/redpanda-connect"
+  "redpanda-connect/streams:custom-conf/redpanda-connect/streams"
+  "redpanda-connect:custom-conf/redpanda-connect"
 )
 
 DRY_RUN=false
