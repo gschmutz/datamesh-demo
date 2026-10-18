@@ -46,7 +46,7 @@ input:
           mapping: "root = {}"
         processors:
           - http:
-              url: "http://2.58.54.30:28425/api/v1/users/search?query=%28created_at%3A%3Enow-2m%20OR%20updated_at%3A%3Enow-2m&sort_by=id&order_by=asc&per_page=50"
+              url: "http://2.58.54.30:28425/api/v1/users/search?query=%28created_at%3A%3Enow-2m%20OR%20updated_at%3A%3Enow-2m%29&sort_by=id&order_by=asc&per_page=50"
               verb: GET
               timeout: 10s
               headers:
