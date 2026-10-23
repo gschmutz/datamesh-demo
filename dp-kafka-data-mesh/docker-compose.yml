@@ -712,7 +712,8 @@ services:
       - --watch
       - --enhance-graphiql
       - --dynamic-json
-      - --skip-plugins graphile-build:NodePlugin
+      - --skip-plugins
+      - graphile-build:NodePlugin
     volumes:
       - ./data-transfer:/data-transfer:z
     restart: unless-stopped
