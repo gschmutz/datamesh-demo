@@ -688,6 +688,33 @@ services:
     volumes:
       - ./data-transfer:/data-transfer:z
     restart: unless-stopped
+  #  ================================== PostGraphile ========================================== #
+  postgraphile:
+    image: docker.io/graphile/postgraphile:4
+    container_name: postgraphile
+    hostname: postgraphile
+    labels:
+      com.platys.name: postgraphile
+      com.platys.description: Instant, highly-performant GraphQL API for PostgreSQL
+      com.platys.webui.title: PostGraphile GraphiQL
+      com.platys.webui.url: http://dataplatform:28151/graphiql
+    ports:
+      - 28151:5000
+    command:
+      - --connection
+      - postgres://demo:${PLATYS_POSTGRESQL_PASSWORD:-abc123!}@postgresql:5432/demodb
+      - --schema
+      - customer
+      - --host
+      - 0.0.0.0
+      - --port
+      - '5000'
+      - --watch
+      - --enhance-graphiql
+      - --dynamic-json
+    volumes:
+      - ./data-transfer:/data-transfer:z
+    restart: unless-stopped
   #  ================================== Zammad ========================================== #
   zammad-railsserver:
     image: ghcr.io/zammad/zammad:7.1
@@ -1078,16 +1105,3 @@ volumes:
   data-transfer-vol:
     name: data_transfer_vol
   nifi-config-vol:
-configs:
-  # Nimtable config file to be mounted into the Docker containers.
-  # See backend/config.yaml for more complete example
-  nimtable-config.yaml:
-    content: |-
-      server:
-        port: 8182
-        host: 0.0.0.0
-      database:
-        # You can also point to your own Postgres database, instead of using the one provided by docker-compose.
-        url: jdbc:postgresql://postgresql:5432/nimtabledb
-        username: nimtable
-        password: abc123!

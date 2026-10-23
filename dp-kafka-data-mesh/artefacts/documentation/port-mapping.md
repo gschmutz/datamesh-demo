@@ -214,7 +214,6 @@ Container Port(s) | Internal Port(s)           | Service (alternatives) |
 7050 | 7050 | kudu-tserver-1 |
 7051 | 7051 | kudo-master-1 |
 7077 | 7077 | spark-master |
-7080 | 7080 | coder |
 7199 | 7199 | cassandra-1 |
 7200 | 7199 | cassandra-2 |
 7201 | 7199 | cassandra-3 |
@@ -560,7 +559,7 @@ Container Port(s) | Internal Port(s)           | Service (alternatives) |
 28137 | 9000 | portainer |
 28138 | 8080 | cadvisor |
 28139 | 8080 | airflow (2.x) or airflow-apiserver (3.x) |
-28140 | 8080 | code-server |
+28140 |  |  |
 28141 | 8000 | kafka-topics-ui |
 28142 | 8080 | datahub-gms |
 28143 | 9001 | datahub-frontend-ember |
@@ -569,7 +568,7 @@ Container Port(s) | Internal Port(s)           | Service (alternatives) |
 28146 | 9092 | datahub-mce-consumer |
 28150 | 8888 | druid-router |
 28150 | 8888 | druid-sandbox |
-28151 |  |  |
+28151 | 5000 | postgraphile |
 28152 |  |  |
 28154 | 8080 | penthao |
 28155 | 8080 | hawtio |
@@ -743,8 +742,8 @@ Container Port(s) | Internal Port(s)           | Service (alternatives) |
 28344 | 3001 | anything-llm |
 28345 | 8080 | akhq (env1)    |
 28346 | 8080 | akhq (env2)     |
-28347
-28348
+28347 | 7080 | coder |
+28348 | 8443 | code-server |
 28349 | 3000 | dockhand |
 28350 | 3001 | vector-admin |
 28351 | 8000 | single-store |
