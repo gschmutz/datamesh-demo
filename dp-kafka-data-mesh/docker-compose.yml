@@ -548,6 +548,56 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+  #  ================================== Redis ========================================== #
+  redis-1:
+    image: docker.io/bitnamilegacy/redis:8.2
+    hostname: redis-1
+    container_name: redis-1
+    labels:
+      com.platys.name: redis
+      com.platys.description: Key-value store
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PORT_NUMBER=6379
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_AOF_ENABLED=yes
+      - REDIS_RDB_POLICY_DISABLED=yes
+    volumes:
+      - ./data-transfer:/data-transfer:z
+    command: /opt/bitnami/scripts/redis/run.sh --loglevel notice
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, redis-cli --no-auth-warning ping | grep PONG]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  #  ================================== ClickHouse ========================================== #
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server:26.10-alpine
+    hostname: clickhouse
+    container_name: clickhouse
+    labels:
+      com.platys.name: clickhouse
+      com.platys.description: Real-time analytics database
+      com.platys.password.envvars: PLATYS_CLICKHOUSE_PASSWORD
+    ports:
+      - 28428:8123
+      - 28429:9000
+    environment:
+      - CLICKHOUSE_DB=clickhouse
+      - CLICKHOUSE_USER=clickhouse
+      - CLICKHOUSE_PASSWORD=${PLATYS_CLICKHOUSE_PASSWORD:-abc123!}
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./init/clickhouse:/docker-entrypoint-initdb.d:z
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, wget, --no-proxy, --spider, -q, http://localhost:8123/ping]
+      interval: 5s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
   #  ================================== Prometheus ========================================== #
   prometheus-1:
     image: docker.io/prom/prometheus:v3.13.4
@@ -712,10 +762,313 @@ services:
       - --watch
       - --enhance-graphiql
       - --dynamic-json
-      - --skip-plugins
-      - graphile-build:NodePlugin
     volumes:
       - ./data-transfer:/data-transfer:z
+    restart: unless-stopped
+  #  ================================== GraphQL Hive Console ========================================== #
+  #  Reuses the Platys postgresql, redis-1, clickhouse, kafka and S3 services.
+  #  Requires: POSTGRESQL_enable, REDIS_enable, CLICKHOUSE_enable, KAFKA_enable and an S3 service (s3_service_to_use) to be enabled.
+  hive-console-migrations:
+    image: ghcr.io/graphql-hive/storage:latest
+    container_name: hive-console-migrations
+    hostname: hive-console-migrations
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - DB migrations
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis-1:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    environment:
+      MIGRATOR: up
+      CLICKHOUSE_MIGRATOR: up
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PLATYS_POSTGRESQL_PASSWORD:-abc123!}
+      REDIS_HOST: redis-1
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: None
+      CLICKHOUSE_PROTOCOL: http
+      CLICKHOUSE_HOST: clickhouse
+      CLICKHOUSE_PORT: '8123'
+      CLICKHOUSE_USERNAME: clickhouse
+      CLICKHOUSE_PASSWORD: ${PLATYS_CLICKHOUSE_PASSWORD:-abc123!}
+      TS_NODE_TRANSPILE_ONLY: 'true'
+      LOG_LEVEL: debug
+    restart: on-failure
+  hive-console-policy:
+    image: ghcr.io/graphql-hive/policy:latest
+    container_name: hive-console-policy
+    hostname: hive-console-policy
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - Schema Policy service
+    environment:
+      NODE_ENV: production
+      PORT: 3012
+      SERVER_HOST: 0.0.0.0
+      SERVER_HOST_IPV6_ONLY: '0'
+      LOG_LEVEL: debug
+    restart: unless-stopped
+  hive-console-schema:
+    image: ghcr.io/graphql-hive/schema:latest
+    container_name: hive-console-schema
+    hostname: hive-console-schema
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - Schema service
+    depends_on:
+      redis-1:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      SERVER_HOST: 0.0.0.0
+      SERVER_HOST_IPV6_ONLY: '0'
+      REDIS_HOST: redis-1
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: None
+      ENCRYPTION_SECRET: wywyryf9p225kuvarygyb8pyszwkrecx
+      LOG_LEVEL: debug
+    restart: unless-stopped
+  hive-console-server:
+    image: ghcr.io/graphql-hive/server:latest
+    container_name: hive-console-server
+    hostname: hive-console-server
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - GraphQL API server
+      com.platys.restapi.title: GraphQL Hive API
+      com.platys.restapi.url: http://dataplatform:28108/graphql
+    depends_on:
+      hive-console-migrations:
+        condition: service_completed_successfully
+      postgresql:
+        condition: service_healthy
+      redis-1:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    ports:
+      - 28108:3001
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PLATYS_POSTGRESQL_PASSWORD:-abc123!}
+      CLICKHOUSE_PROTOCOL: http
+      CLICKHOUSE_HOST: clickhouse
+      CLICKHOUSE_PORT: 8123
+      CLICKHOUSE_USERNAME: clickhouse
+      CLICKHOUSE_PASSWORD: ${PLATYS_CLICKHOUSE_PASSWORD:-abc123!}
+      REDIS_HOST: redis-1
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: None
+      SCHEMA_ENDPOINT: http://hive-console-schema:3002
+      SCHEMA_POLICY_ENDPOINT: http://hive-console-policy:3012
+      ENCRYPTION_SECRET: wywyryf9p225kuvarygyb8pyszwkrecx
+      WEB_APP_URL: http://${PUBLIC_IP:-localhost}:28107
+      PORT: 3001
+      SERVER_HOST: 0.0.0.0
+      SERVER_HOST_IPV6_ONLY: '0'
+      S3_ENDPOINT: http://versitygw:9000
+      S3_ACCESS_KEY_ID: ${PLATYS_AWS_ACCESS_KEY:-admin}
+      S3_SECRET_ACCESS_KEY: ${PLATYS_AWS_SECRET_ACCESS_KEY:-abc123abc123!}
+      S3_BUCKET_NAME: artifacts
+      S3_AUDIT_LOG_ENDPOINT: http://versitygw:9000
+      S3_AUDIT_LOG_ACCESS_KEY_ID: ${PLATYS_AWS_ACCESS_KEY:-admin}
+      S3_AUDIT_LOG_SECRET_ACCESS_KEY: ${PLATYS_AWS_SECRET_ACCESS_KEY:-abc123abc123!}
+      S3_AUDIT_LOG_BUCKET_NAME: audit-logs
+      CDN_AUTH_PRIVATE_KEY: kglbtqvqfvncuujxqdfqcscghfxkbrgy
+      CDN_API: '1'
+      CDN_API_BASE_URL: http://${PUBLIC_IP:-localhost}:28108
+      LOG_LEVEL: debug
+      AUTH_ORGANIZATION_OIDC: '1'
+      AUTH_REQUIRE_EMAIL_VERIFICATION: '0'
+      GRAPHQL_PUBLIC_ORIGIN: http://${PUBLIC_IP:-localhost}:28108
+      SUPERTOKENS_REFRESH_TOKEN_KEY: qhhhcepkvllbvdvccenbyfcganxoscxt
+      SUPERTOKENS_ACCESS_TOKEN_KEY: qhhhcepkvllbvdvccenbyfcganxoscxt
+    restart: unless-stopped
+  hive-console-workflows:
+    image: ghcr.io/graphql-hive/workflows:latest
+    container_name: hive-console-workflows
+    hostname: hive-console-workflows
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - Workflows service
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis-1:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3014
+      SERVER_HOST: 0.0.0.0
+      SERVER_HOST_IPV6_ONLY: '0'
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PLATYS_POSTGRESQL_PASSWORD:-abc123!}
+      EMAIL_FROM: no-reply@graphql-hive.com
+      EMAIL_PROVIDER: sendmail
+      LOG_LEVEL: debug
+      LOG_JSON: '1'
+      SCHEMA_ENDPOINT: http://hive-console-schema:3002
+      WEB_APP_URL: http://${PUBLIC_IP:-localhost}:28107
+      REDIS_HOST: redis-1
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: None
+      ENCRYPTION_SECRET: wywyryf9p225kuvarygyb8pyszwkrecx
+    restart: unless-stopped
+  hive-console-usage:
+    image: ghcr.io/graphql-hive/usage:latest
+    container_name: hive-console-usage
+    hostname: hive-console-usage
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - Usage ingestion API
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis-1:
+        condition: service_healthy
+    ports:
+      - 28109:3006
+    environment:
+      NODE_ENV: production
+      KAFKA_CONNECTION_MODE: docker
+      KAFKA_TOPIC: usage_reports_v2
+      KAFKA_BROKER: kafka-1:19092
+      KAFKA_BUFFER_SIZE: 350
+      KAFKA_BUFFER_INTERVAL: 1000
+      KAFKA_BUFFER_DYNAMIC: '1'
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PLATYS_POSTGRESQL_PASSWORD:-abc123!}
+      REDIS_HOST: redis-1
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: None
+      PORT: 3006
+      SERVER_HOST: 0.0.0.0
+      SERVER_HOST_IPV6_ONLY: '0'
+      LOG_LEVEL: debug
+    restart: unless-stopped
+  hive-console-usage-ingestor:
+    image: ghcr.io/graphql-hive/usage-ingestor:latest
+    container_name: hive-console-usage-ingestor
+    hostname: hive-console-usage-ingestor
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - Usage ingestor
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      KAFKA_CONNECTION_MODE: docker
+      KAFKA_BROKER: kafka-1:19092
+      KAFKA_CONCURRENCY: '1'
+      KAFKA_CONSUMER_GROUP: usage-ingestor-v2
+      KAFKA_TOPIC: usage_reports_v2
+      CLICKHOUSE_PROTOCOL: http
+      CLICKHOUSE_HOST: clickhouse
+      CLICKHOUSE_PORT: 8123
+      CLICKHOUSE_USERNAME: clickhouse
+      CLICKHOUSE_PASSWORD: ${PLATYS_CLICKHOUSE_PASSWORD:-abc123!}
+      PORT: 3007
+      SERVER_HOST: 0.0.0.0
+      SERVER_HOST_IPV6_ONLY: '0'
+      LOG_LEVEL: debug
+    restart: unless-stopped
+  hive-console-app:
+    image: ghcr.io/graphql-hive/app:latest
+    container_name: hive-console-app
+    hostname: hive-console-app
+    labels:
+      com.platys.name: hive-console
+      com.platys.description: GraphQL Hive - Web Console
+      com.platys.webui.title: GraphQL Hive Console
+      com.platys.webui.url: http://dataplatform:28107
+    ports:
+      - 28107:3000
+    environment:
+      PORT: 3000
+      SERVER_HOST: 0.0.0.0
+      SERVER_HOST_IPV6_ONLY: '0'
+      NODE_ENV: production
+      APP_BASE_URL: http://${PUBLIC_IP:-localhost}:28107
+      GRAPHQL_PUBLIC_ENDPOINT: http://${PUBLIC_IP:-localhost}:28108/graphql
+      GRAPHQL_PUBLIC_SUBSCRIPTION_ENDPOINT: http://${PUBLIC_IP:-localhost}:28108/graphql
+      GRAPHQL_PUBLIC_ORIGIN: http://${PUBLIC_IP:-localhost}:28108
+      AUTH_REQUIRE_EMAIL_VERIFICATION: '0'
+      AUTH_ORGANIZATION_OIDC: '1'
+      LOG_LEVEL: debug
+    restart: unless-stopped
+  #  ================================== Versity S3 Gateway ========================================== #
+  versitygw:
+    image: ghcr.io/versity/versitygw:v1.10.0
+    container_name: versitygw
+    hostname: versitygw
+    labels:
+      com.platys.name: versitygw
+      com.platys.description: Versity S3 Gateway
+      com.platys.restapi.title: VersityGW S3 API
+      com.platys.restapi.url: http://dataplatform:9006
+      com.platys.webui.title: VersityGW WebUI
+      com.platys.webui.url: http://dataplatform:9007
+      com.platys.password.envvars: PLATYS_AWS_SECRET_ACCESS_KEY
+    ports:
+      - 9006:9000
+      - 9007:9001
+    entrypoint: [/bin/sh, -c]
+    command:
+      - >-
+        mkdir -p /data/artifacts /data/audit-logs /metadata && exec /usr/local/bin/versitygw --port
+        :9000 --webui :9001 --webui-no-tls --region us-east-1 --health /health
+        --disable-acl posix --sidecar /metadata /data
+    environment:
+      ROOT_ACCESS_KEY: ${PLATYS_AWS_ACCESS_KEY:-admin}
+      ROOT_SECRET_KEY: ${PLATYS_AWS_SECRET_ACCESS_KEY:-abc123abc123!}
+    volumes:
+      - ./data-transfer:/data-transfer:z
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, http://localhost:9000/health]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  #  ================================== VersityGW MC ========================================== #
+  versitygw-mc:
+    image: quay.io/minio/aistor/mc:latest
+    container_name: versitygw-mc
+    hostname: versitygw-mc
+    labels:
+      com.platys.name: versitygw
+      com.platys.description: VersityGW CLI
+    environment:
+      MC_HOST_versitygw: http://${PLATYS_AWS_ACCESS_KEY:-admin}:${PLATYS_AWS_SECRET_ACCESS_KEY:-abc123abc123!}@versitygw:9000
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./scripts/docker/wait-for-it.sh:/usr/src/app/wait-for-it.sh:z
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        /usr/src/app/wait-for-it.sh -t 180 versitygw:9000
+        mc mb --ignore-existing versitygw/admin-bucket
+           #
+        while [ 1 -eq 1 ];do sleep 60;done
     restart: unless-stopped
   #  ================================== Zammad ========================================== #
   zammad-railsserver:
@@ -1020,6 +1373,7 @@ services:
       - ./scripts/grafana/dashboards/kafka/kafka-stream.json:/etc/grafana/provisioning/dashboards/kafka/kafka-stream.json:z
       - ./scripts/grafana/dashboards/kafka/kafka-streams-rocksdb.json:/etc/grafana/provisioning/dashboards/kafka/kafka-streams-rocksdb.json:z
       - ./scripts/grafana/dashboards/kafka/OTel_kafkametrics.json:/etc/grafana/provisioning/dashboards/kafka/OTel_kafkametrics.json:z
+      - ./scripts/grafana/dashboards/redis:/etc/grafana/provisioning/dashboards/redis:z
       - ./scripts/grafana/dashboards/postgresql:/etc/grafana/provisioning/dashboards/postgresql:z
       - ./scripts/grafana/dashboards/nifi2:/etc/grafana/provisioning/dashboards/nifi2:z
       - ./scripts/grafana/dashboards/zammad:/etc/grafana/provisioning/dashboards/zammad:z

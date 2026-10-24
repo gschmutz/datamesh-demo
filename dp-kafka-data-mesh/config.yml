@@ -36,8 +36,8 @@
       data_centers: dc1,dc2,dc3
       data_center_to_use: 0
       
-      # either 'minio' or 'rustfs' or `seaweedfs`
-      s3_service_to_use: minio
+      # either 'minio' or 'rustfs' or `seaweedfs` or 'versitygw'
+      s3_service_to_use: versitygw
       # a list of table formats to use, separated by comma, for example 'delta,iceberg,hudi'
       table_formats_to_use: ''
       
@@ -59,18 +59,18 @@
         # ===== Apache Kafka ========
         #
         KAFKA_enable: false
-        KAFKA_bootstrap_servers: null
+        KAFKA_bootstrap_servers:
         # either 'PLAINTEXT', 'SASL_PLAINTEXT', 'SSL' ('SASL_SSL' not yet supported)
-        KAFKA_security_protocol: null
+        KAFKA_security_protocol:
         # either 'PLAIN', 'SCRAM-SHA-256' or 'SCRAM-SHA-512'
-        KAFKA_sasl_mechanism: null
-        KAFKA_login_module: null
+        KAFKA_sasl_mechanism:
+        KAFKA_login_module:
         # Username to use for the tools to connect to the Kafka cluster, either set it here or use PLATYS_KAFKA_USERNAME and PLATYS_KAFKA_PASSWORD environment variable
-        KAFKA_sasl_username: null
-        KAFKA_sasl_password: null
+        KAFKA_sasl_username:
+        KAFKA_sasl_password:
         
         SCHEMA_REGISTRY_enable: false
-        SCHEMA_REGISTRY_url: null
+        SCHEMA_REGISTRY_url:
         
         SPARK_enable: false
         SPARK_master_url: spark://spark-master:7077
@@ -82,37 +82,37 @@
         
         S3_enable: false
         S3_endpoint: s3.amazonaws.com
-        S3_default_region: null
+        S3_default_region:
         S3_path_style_access: false
         S3_admin_bucket_name: admin-bucket
         
         POSTGRESQL_enable: false
-        POSTGRESQL_host: null
+        POSTGRESQL_host:
         POSTGRESQL_port: 5432
-        POSTGRESQL_database: null
-        POSTGRESQL_user: null
-        POSTGRESQL_password: null
+        POSTGRESQL_database:
+        POSTGRESQL_user:
+        POSTGRESQL_password:
         
         MYSQL_enable: false
-        MYSQL_host: null
+        MYSQL_host:
         MYSQL_port: 5432
-        MYSQL_database: null
-        MYSQL_user: null
-        MYSQL_password: null
+        MYSQL_database:
+        MYSQL_user:
+        MYSQL_password:
         
         ADLS_enable: false
-        ADLS_storage_account: null
+        ADLS_storage_account:
         
         SNOWFLAKE_enable: false
-        SNOWFLAKE_account: null
-        SNOWFLAKE_user: null
-        SNOWFLAKE_password: null
-        SNOWFLAKE_database: null
-        SNOWFLAKE_role: null
-        SNOWFLAKE_warehouse: null
+        SNOWFLAKE_account:
+        SNOWFLAKE_user:
+        SNOWFLAKE_password:
+        SNOWFLAKE_database:
+        SNOWFLAKE_role:
+        SNOWFLAKE_warehouse:
         
         DATAHUB_enable: false
-        DATAHUB_gms_url: null
+        DATAHUB_gms_url:
         
         OLLAMA_enable: false
         OLLAMA_url: http://${PUBLIC_IP}:11434
@@ -125,37 +125,37 @@
         
         OPENAI_enable: false
         OPENAI_api_key: ${OPENAI_API_KEY}
-        OPENAI_base_url: null
-        OPENAI_model_name: null
-        OPENAI_small_model_name: null
+        OPENAI_base_url:
+        OPENAI_model_name:
+        OPENAI_small_model_name:
         
         GROQ_enable: false
         GROQ_api_key: ${GROQ_API_KEY}
         GROQ_base_url: https://api.groq.com/openai/v1
         
         OPENROUTER_enable: false
-        OPENROUTER_api_key: null
+        OPENROUTER_api_key:
         
         LANGSMITH_enable: false
-        LANGSMITH_api_key: null
-        LANGSMITH_project: null
+        LANGSMITH_api_key:
+        LANGSMITH_project:
         
         LANGWATCH_enable: false
-        LANGWATCH_url: null
+        LANGWATCH_url:
         
         LANGFUSE_enable: false
-        LANGFUSE_secret_key: null
-        LANGFUSE_public_key: null
-        LANGFUSE_url: null
+        LANGFUSE_secret_key:
+        LANGFUSE_public_key:
+        LANGFUSE_url:
         
         BRAVE_enable: false
-        BRAVE_api_key: null
+        BRAVE_api_key:
         
         SEARXNG_enable: false
-        SEARXNG_url: null
+        SEARXNG_url:
         
         NEXUS_enable: false
-        NEXUS_endpoint: null
+        NEXUS_endpoint:
       
       
       # ========================================================================
@@ -163,7 +163,7 @@
       # ========================================================================
       
       PROVISIONING_DATA_enable: false
-      PROVISIONING_DATA_additional_data_folder: null
+      PROVISIONING_DATA_additional_data_folder:
       
       #
       # ===== Platys Modern Data Platform Init ========
@@ -225,20 +225,20 @@
       # KAFKA_compression_type:
       # KAFKA_min_insync_replicas:
       # KAFKA_replica_selector_class: org.apache.kafka.common.replica.RackAwareReplicaSelector
-      KAFKA_confluent_log_placement_constraints: null
+      KAFKA_confluent_log_placement_constraints:
       KAFKA_confluent_cluster_link_enabled: false
       KAFKA_confluent_tier_feature: false
       KAFKA_confluent_tier_enabled: false
       KAFKA_confluent_tier_backend: S3
       KAFKA_confluent_tier_s3_bucket: kafka-logs
       KAFKA_confluent_tier_s3_region: us-east-1
-      KAFKA_confluent_tier_s3_aws_endpoint_override: null
+      KAFKA_confluent_tier_s3_aws_endpoint_override:
       KAFKA_confluent_tier_s3_force_path_style_access: false
-      KAFKA_confluent_tier_local_hotset_bytes: null
-      KAFKA_confluent_tier_local_hotset_ms: null
-      KAFKA_confluent_tier_archiver_num_threads: null
-      KAFKA_confluent_tier_fetcher_num_threads: null
-      KAFKA_confluent_tier_topic_delete_check_interval_ms: null
+      KAFKA_confluent_tier_local_hotset_bytes:
+      KAFKA_confluent_tier_local_hotset_ms:
+      KAFKA_confluent_tier_archiver_num_threads:
+      KAFKA_confluent_tier_fetcher_num_threads:
+      KAFKA_confluent_tier_topic_delete_check_interval_ms:
       KAFKA_confluent_tier_metadata_replication_factor: 1
       KAFKA_log4j_root_level: INFO
       KAFKA_log4j_loggers: ''
@@ -305,7 +305,7 @@
       KSQLDB_queries_file: ''
       KSQLDB_response_http_headers_config: ''
       KSQLDB_use_embedded_connect: false
-      KSQLDB_connect_connectors: null
+      KSQLDB_connect_connectors:
       KSQLDB_persistence_default_format_key: KAFKA
       KSQLDB_persistence_default_format_value: ''
       KSQLDB_log_topic: ksql_processing_log
@@ -464,7 +464,7 @@
       # ===== Confluent MQTT Proxy ========
       #
       KAFKA_MQTTPROXY_enable: false
-      KAFKA_MQTTPROXY_topic_regex_list: null
+      KAFKA_MQTTPROXY_topic_regex_list:
       
       #
       # ===== Zilla ========
@@ -625,11 +625,11 @@
       # either 'ce', 'se' or 'ee'
       KPOW_edition: ce
       KPOW_use_external_license_info: false
-      KPOW_license_id: null
-      KPOW_license_code: null
-      KPOW_licensee: null
-      KPOW_license_expiry: null
-      KPOW_license_signature: null
+      KPOW_license_id:
+      KPOW_license_code:
+      KPOW_licensee:
+      KPOW_license_expiry:
+      KPOW_license_signature:
       
       #
       # ===== Conduktor Platform ========
@@ -662,10 +662,10 @@
       KAFKISTRY_enable: false
       # format: <username>|<password>|<name>|<surname>|<email>|<role>|<token>
       KAFKISTRY_users_passwords: admin|abc123!|Admy|Adminsky|admin@kafkistry.local|ADMIN|
-      KAFKISTRY_users_passwords_yaml_file: null
+      KAFKISTRY_users_passwords_yaml_file:
       # format: <owner/group>|<username1>,<username2>,...  multiple owner groups can be separated either by new line \n or by ;
       KAFKISTRY_owner_groups: Test_Group|admin
-      KAFKISTRY_owner_groups_yaml_file: null
+      KAFKISTRY_owner_groups_yaml_file:
       # either `git` or `dir`
       KAFKISTRY_repository_type: git
       
@@ -736,23 +736,23 @@
       # ===== ShadowTraffic ========
       #
       SHADOW_TRAFFIC_enable: false
-      SHADOW_TRAFFIC_compose_profile: null
+      SHADOW_TRAFFIC_compose_profile:
       SHADOW_TRAFFIC_config_file: config.json
       SHADOW_TRAFFIC_watch_config_file_change: false
       # either 'completion' or 'immediate'
       SHADOW_TRAFFIC_reload_policy: completion
-      SHADOW_TRAFFIC_sample_size: null
-      SHADOW_TRAFFIC_seed_value: null
+      SHADOW_TRAFFIC_sample_size:
+      SHADOW_TRAFFIC_seed_value:
       SHADOW_TRAFFIC_to_stdout: false
       SHADOW_TRAFFIC_with_studio: false
       SHADOW_TRAFFIC_report_benchmark: false
       # to not having to copy the license information into the config file, you can also provide the information as environment variables, using the format PLATYS_SHADOW_TRAFFIC_LICENSE_ID
-      SHADOW_TRAFFIC_license_id: null
-      SHADOW_TRAFFIC_license_email: null
-      SHADOW_TRAFFIC_license_organization: null
-      SHADOW_TRAFFIC_license_edition: null
-      SHADOW_TRAFFIC_license_expiration: null
-      SHADOW_TRAFFIC_license_signature: null
+      SHADOW_TRAFFIC_license_id:
+      SHADOW_TRAFFIC_license_email:
+      SHADOW_TRAFFIC_license_organization:
+      SHADOW_TRAFFIC_license_edition:
+      SHADOW_TRAFFIC_license_expiration:
+      SHADOW_TRAFFIC_license_signature:
       
       #
       # ===== Apache Hadoop ========
@@ -771,8 +771,8 @@
       
       # to restrict the default cores, use '-Dspark.deploy.defaultCores=6'
       SPARK_master_opts: ''
-      SPARK_worker_cores: null
-      SPARK_worker_memory: null
+      SPARK_worker_cores:
+      SPARK_worker_memory:
       SPARK_worker_opts: -Dspark.worker.cleanup.enabled=true
       SPARK_jars_repositories: ''
       SPARK_jars_packages: ''
@@ -786,11 +786,11 @@
       SPARK_driver_extraJavaOptions: ''
       SPARK_executor_extraJavaOptions: ''
       SPARK_sql_warehouse_dir: ''
-      SPARK_cores_max: null
-      SPARK_executor_memory: null
+      SPARK_cores_max:
+      SPARK_executor_memory:
       SPARK_datahub_agent_enabled: false
       
-      SPARK_sql_default_catalog: null
+      SPARK_sql_default_catalog:
       
       # misc spark 'addons'
       SPARK_HISTORY_enable: false
@@ -800,16 +800,16 @@
       #
       SPARK_CONNECT_enable: false
       SPARK_CONNECT_use_local_spark: false
-      SPARK_CONNECT_cores_max: null
-      SPARK_CONNECT_executor_memory: null
+      SPARK_CONNECT_cores_max:
+      SPARK_CONNECT_executor_memory:
       #
       # ===== Apache Spark Thriftserver ========
       #
       SPARK_THRIFTSERVER_enable: false
       SPARK_THRIFTSERVER_use_local_spark: false
-      SPARK_THRIFTSERVER_cores_max: null
-      SPARK_THRIFTSERVER_executor_memory: null
-      SPARK_THRIFTSERVER_default_catalog: null
+      SPARK_THRIFTSERVER_cores_max:
+      SPARK_THRIFTSERVER_executor_memory:
+      SPARK_THRIFTSERVER_default_catalog:
       
       #
       # ===== Apache Kyuubi ========
@@ -887,8 +887,8 @@
       #
       UNSTRUCTURED_API_enable: false
       UNSTRUCTURED_API_memory_free_minimum_mb: 2048
-      UNSTRUCTURED_API_api_key: null
-      UNSTRUCTURED_API_max_lifetime_seconds: null
+      UNSTRUCTURED_API_api_key:
+      UNSTRUCTURED_API_max_lifetime_seconds:
       
       SEARXNG_enable: false
       
@@ -897,7 +897,7 @@
       #
       FIRECRAWL_enable: false
       FIRECRAWL_use_db_authentication: false
-      FIRECRAWL_model_name: null
+      FIRECRAWL_model_name:
       
       #
       # ===== Crawl4AI ========
@@ -913,7 +913,7 @@
       MCP_INSPECTOR_enable: false
       MCP_INSPECTOR_with_authentication: false
       # use openssl rand -hex 32 to generate a random token
-      MCP_INSPECTOR_auth_token: null
+      MCP_INSPECTOR_auth_token:
       
       #
       # ===== MCP Toolbox for Databases ========
@@ -954,16 +954,16 @@
       HIVE_METASTORE_use_standalone_edition: true
       HIVE_METASTORE_transactional_event_listener_enabled: false
       # an implementatio of the TransactionalMetaStoreEventListener, for example 'org.apache.hive.hcatalog.listener.DbNotificationListener'
-      HIVE_METASTORE_transactional_event_listeners: null
+      HIVE_METASTORE_transactional_event_listeners:
       HIVE_METASTORE_transactional_event_listener_configs: ''
-      HIVE_METASTORE_plugin_jars: null
+      HIVE_METASTORE_plugin_jars:
       HIVE_METASTORE_volume_map_data: false
       # one of 'derby' or 'postgres'
       HIVE_METASTORE_db_type: postgres
       HIVE_METASTORE_db_user: hive
       HIVE_METASTORE_db_password: abc123!
       # one of the valid Postgresql wal_levels: "replica", "minimal", "logical". Use logical if you want to work with Debezium.
-      HIVE_METASTORE_db_postgresql_wal_level: null
+      HIVE_METASTORE_db_postgresql_wal_level:
       HIVE_METASTORE_warehouse_tenant_colocation_enabled: false
       
       #
@@ -1024,11 +1024,11 @@
       # ===== Cedar Agent (Policy Store) ========
       #
       CEDAR_enable: false
-      CEDAR_agent_authentication: null
+      CEDAR_agent_authentication:
       CEDAR_log_level: info
-      CEDAR_schema: null
-      CEDAR_data: null
-      CEDAR_policies: null
+      CEDAR_schema:
+      CEDAR_data:
+      CEDAR_policies:
       
       #
       # ===== Open Policy Administration Layer (OPAL) ========
@@ -1040,13 +1040,13 @@
       OPAL_policy_source_type: git
       OPAL_policy_repo_polling_interval: 30
       OPAL_policy_repo_webhook_secret: 1THQSpwrTz_Km41OGsGPAu2bgzP0WYhBt4eVnTtYVrc
-      OPAL_policy_bundle_url: null
+      OPAL_policy_bundle_url:
       
-      OPAL_policy_repo_url: null
-      OPAL_policy_repo_ssh_key: null
+      OPAL_policy_repo_url:
+      OPAL_policy_repo_ssh_key:
       OPAL_policy_repo_main_branch: main
       
-      OPAL_policy_subscription_dirs: null
+      OPAL_policy_subscription_dirs:
       OPAL_broadcast_enabled: false
       # either postgres or kafka or redis
       OPAL_broadcast_type: postgres
@@ -1104,9 +1104,9 @@
       ODD_PLATFORM_auth_type: DISABLED
       ODD_PLATFORM_auth_login_form_credentials: admin:abc123!
       ODD_PLATFORM_notifications_enabled: false
-      ODD_PLATFORM_notifications_receivers_webhook_url: null
+      ODD_PLATFORM_notifications_receivers_webhook_url:
       ODD_PLATFORM_collector_enabled: false
-      ODD_PLATFORM_token: null
+      ODD_PLATFORM_token:
       ODD_PLATFORM_provision_sample_data: false
       
       #
@@ -1157,8 +1157,8 @@
       DATAVERSE_download_redirect: false
       DATAVERSE_upload_redirect: false
       DATAVERSE_url_expiration_minutes: 60
-      DATAVERSE_direct_upload_limit: null
-      DATAVERSE_minimal_part_size: null
+      DATAVERSE_direct_upload_limit:
+      DATAVERSE_minimal_part_size:
       DATAVERSE_volume_map_data: false
       DATAVERSE_bootstrap_persona: dev
       DATAVERSE_volume_map_bootstrap_script: false
@@ -1222,8 +1222,8 @@
       #
       STREAMSETS_DATAOPS_enable: false
       STREAMSETS_DATAOPS_deployment_sch_url: https://eu01.hub.streamsets.com
-      STREAMSETS_DATAOPS_deployment_id: null
-      STREAMSETS_DATAOPS_deployment_token: null
+      STREAMSETS_DATAOPS_deployment_id:
+      STREAMSETS_DATAOPS_deployment_token:
       
       #
       # ===== Apache NiFi ========
@@ -1246,8 +1246,8 @@
       NIFI_volume_map_logs: false
       NIFI_volume_map_custom_config: false
       NIFI_volume_map_addl_jars: false
-      NIFI_jvm_heap_init: null
-      NIFI_jvm_heap_max: null
+      NIFI_jvm_heap_init:
+      NIFI_jvm_heap_max:
       NIFI_python_enabled: false
       NIFI_python_provide_requirements_file: false
       NIFI_python_version: '3.10'
@@ -1297,15 +1297,15 @@
       NIFI_REGISTRY_flow_storage_folder_on_dockerhost: ./container-volume/nifi-registry/flow-storage
       # one of 'git' or 'file'
       NIFI_REGISTRY_flow_provider: file
-      NIFI_REGISTRY_git_remote: null
-      NIFI_REGISTRY_git_user: null
-      NIFI_REGISTRY_git_password: null
+      NIFI_REGISTRY_git_remote:
+      NIFI_REGISTRY_git_user:
+      NIFI_REGISTRY_git_password:
       NIFI_REGISTRY_git_use_ssh_auth: false
-      NIFI_REGISTRY_git_repo: null
+      NIFI_REGISTRY_git_repo:
       # one of 'file' or 's3'
       NIFI_REGISTRY_bundle_provider: file
-      NIFI_REGISTRY_s3_bucket_name: null
-      NIFI_REGISTRY_s3_key_prefix: null
+      NIFI_REGISTRY_s3_bucket_name:
+      NIFI_REGISTRY_s3_key_prefix:
       
       #
       # ===== Apache NiFi Toolkit ========
@@ -1316,7 +1316,7 @@
       # ===== Apache MiNiFi C++ ========
       #
       MINIFI_enable: false
-      MINIFI_compose_profile: null
+      MINIFI_compose_profile:
       MINIFI_volume_map_custom_config: false
       MINIFI_volume_map_custom_minifi_properties: false
       
@@ -1342,9 +1342,9 @@
       N8N_postgres_schema: public
       N8N_postgres_user: postgres
       N8N_postgres_password: abc123!
-      N8N_mysql_dbname: null
-      N8N_mysql_user: null
-      N8N_mysql_password: null
+      N8N_mysql_dbname:
+      N8N_mysql_user:
+      N8N_mysql_password:
       N8N_available_binary_data_modes: filesystem
       N8N_default_binary_data_mode: default
       N8N_s3_bucket_name: n8n-bucket
@@ -1517,14 +1517,14 @@
       # ===== Ofelia ========
       #
       OFELIA_enable: false
-      OFELIA_job_name: null
+      OFELIA_job_name:
       # either 'job-exec' or 'job-run' or 'job-local'
       OFELIA_job_type: job-exec
-      OFELIA_job_command: null
-      OFELIA_job_schedule: null
-      OFELIA_job_container: null
-      OFELIA_job_image: null
-      OFELIA_job_network: null
+      OFELIA_job_command:
+      OFELIA_job_schedule:
+      OFELIA_job_container:
+      OFELIA_job_image:
+      OFELIA_job_network:
       OFELIA_log_to_folder: false
       OFELIA_env_variables: ''
       
@@ -1537,8 +1537,8 @@
       ZEPPELIN_admin_password: changeme
       ZEPPELIN_user_username: zeppelin
       ZEPPELIN_user_password: changeme
-      ZEPPELIN_spark_cores_max: null
-      ZEPPELIN_spark_executor_memory: null
+      ZEPPELIN_spark_cores_max:
+      ZEPPELIN_spark_executor_memory:
       ZEPPELIN_notebook_dir: notebook
       ZEPPELIN_notebook_cron_enabled: true
       ZEPPELIN_spark_submit_options: ''
@@ -1639,18 +1639,18 @@
       OLLAMA_gpu_count: 1
       OLLAMA_volume_map_data: false
       # comma separated list of models to install, like llama2 or mistral
-      OLLAMA_llms: null
+      OLLAMA_llms:
       OLLAMA_debug: false
       
       #
       # ===== Nvidia NIMs ========
       #
       NVIDIA_NIM_enable: false
-      NVIDIA_NIM_images: null
+      NVIDIA_NIM_images:
       NVIDIA_NIM_volume_map_cache: false
-      NVIDIA_NIM_api_key: null
+      NVIDIA_NIM_api_key:
       NVIDIA_NIM_gpu_enabled: false
-      NVIDIA_NIM_gpu_counts: null
+      NVIDIA_NIM_gpu_counts:
       
       #
       # ===== LocalAI ========
@@ -1664,10 +1664,10 @@
       #
       OPEN_WEBUI_enable: false
       OPEN_WEBUI_volume_map_data: false
-      OPEN_WEBUI_secret_key: null
+      OPEN_WEBUI_secret_key:
       OPEN_WEBUI_gpu_enabled: false
       # either 'sqlite' or 'posgres'
-      OPEN_WEBUI_database_type: null
+      OPEN_WEBUI_database_type:
       # the next 3 configs are req. when mysql or postgres is used
       OPEN_WEBUI_database_user: postgres
       OPEN_WEBUI_database_password: abc123!
@@ -1675,10 +1675,10 @@
       # one of 'chroma', 'milvus', 'qdrant', 'opensearch', 'pgvector'
       OPEN_WEBUI_vector_db: chroma
       # either empty (for SentenceTransformers) or 'openai' or 'ollama'
-      OPEN_WEBUI_rag_embedding_engine: null
-      OPEN_WEBUI_rag_embedding_model: null
+      OPEN_WEBUI_rag_embedding_engine:
+      OPEN_WEBUI_rag_embedding_model:
       # either emtpy (for local whisper) or 'openai'
-      OPEN_WEBUI_audio_stt_engine: null
+      OPEN_WEBUI_audio_stt_engine:
       OPEN_WEBUI_audio_transcriber_enabled: false
       
       #
@@ -1717,14 +1717,14 @@
       #
       AUTOGEN_STUDIO_enable: false
       AUTOGEN_STUDIO_workers: 1
-      AUTOGEN_STUDIO_openai_api_key: null
+      AUTOGEN_STUDIO_openai_api_key:
       
       #
       # ===== CrewAI Studio ========
       #
       CREWAI_STUDIO_enable: false
       CREWAI_STUDIO_agentops_enabled: false
-      CREWAI_STUDIO_ollama_models: null
+      CREWAI_STUDIO_ollama_models:
       
       #
       # ===== Agent Zero Studio ========
@@ -1744,25 +1744,25 @@
       #
       FLOWISE_enable: false
       FLOWISE_volume_map_data: false
-      FLOWISE_username: null
-      FLOWISE_password: null
+      FLOWISE_username:
+      FLOWISE_password:
       FLOWISE_debug: false
       FLOWISE_log_level: info
       FLOWISE_enable_telemetry: true
       # one of sqlite, mysql, postgres
       FLOWISE_database_type: sqlite
       # the next 3 configs are req. when mysql or postgres is used
-      FLOWISE_database_user: null
-      FLOWISE_database_password: null
-      FLOWISE_database_name: null
+      FLOWISE_database_user:
+      FLOWISE_database_password:
+      FLOWISE_database_name:
       # one of local or s3
       FLOWISE_storage_type: local
       FLOWISE_s3_storage_bucket_name: flowise-bucket
       # for LangSmith Tracing
       FLOWISE_langchain_tracing_v2: false
       FLOWISE_langchain_endpoint: https://api.smith.langchain.com
-      FLOWISE_langchain_api_key: null
-      FLOWISE_langchain_project: null
+      FLOWISE_langchain_api_key:
+      FLOWISE_langchain_project:
       
       #
       # ===== Langflow ========
@@ -1778,7 +1778,7 @@
       LANGFLOW_auth_enabled: false
       LANGFLOW_superuser_username: langflow
       LANGFLOW_superuser_password: abc123!
-      LANGFLOW_secret_key: null
+      LANGFLOW_secret_key:
       LANGFLOW_backend_only: false
       LANGFLOW_log_level: info
       LANGFLOW_store_enabled: true
@@ -1789,16 +1789,16 @@
       OPENCLAW_enable: false
       OPENCLAW_volume_map_data: false
       # either 'loopback' or 'lan' or 'tailnet' or 'auto' or 'custom'
-      OPENCLAW_gateway_bind: null
+      OPENCLAW_gateway_bind:
       OPENCLAW_with_auth: false
-      OPENCLAW_username: null
-      OPENCLAW_password: null
+      OPENCLAW_username:
+      OPENCLAW_password:
       OPENCLAW_gateway_token: 9c3b8b31072b56586fdd3a330145a8fd
-      OPENCLAW_primary_model: null
+      OPENCLAW_primary_model:
       OPENCLAW_hooks_enabled: false
       OPENCLAW_hooks_token: c5bbd4b3d31fd7b53f863d1dbfe56556
-      OPENCLAW_docker_apt_packages: null
-      OPENCLAW_docker_init_script: null
+      OPENCLAW_docker_apt_packages:
+      OPENCLAW_docker_init_script:
       
       LANGFUSE_enable: false
       # one of postgres
@@ -1838,17 +1838,17 @@
       GPT_RESEARCHER_enable: false
       GPT_RESEARCHER_llm_provider: openai
       GPT_RESEARCHER_embedding_provider: openai
-      GPT_RESEARCHER_fast_llm_model: null
-      GPT_RESEARCHER_smart_llm_model: null
-      GPT_RESEARCHER_temperature: null
-      GPT_RESEARCHER_embedding_model: null
+      GPT_RESEARCHER_fast_llm_model:
+      GPT_RESEARCHER_smart_llm_model:
+      GPT_RESEARCHER_temperature:
+      GPT_RESEARCHER_embedding_model:
       # one of 'tavily', 'yahoo', 'google', searx', 'serpapi', 'googleSerp', 'duckduckgo', 'bing', 'ArxivSearch'
       GPT_RESEARCHER_retriever: tavily
-      GPT_RESEARCHER_retriever_api_key: null
-      GPT_RESEARCHER_retriever_api_key2: null
-      GPT_RESEARCHER_retriever_url: null
+      GPT_RESEARCHER_retriever_api_key:
+      GPT_RESEARCHER_retriever_api_key2:
+      GPT_RESEARCHER_retriever_url:
       
-      GPT_RESEARCHER_langchain_api_key: null
+      GPT_RESEARCHER_langchain_api_key:
       
       #
       # ===== Local Deep Researcher ========
@@ -1856,19 +1856,19 @@
       LOCAL_DEEP_RESEARCHER_enable: false
       # either 'ollama' or 'lmstudio'
       LOCAL_DEEP_RESEARCHER_llm_provider: ollama
-      LOCAL_DEEP_RESEARCHER_model: null
+      LOCAL_DEEP_RESEARCHER_model:
       # either 'duckduckgo' or 'tavily' or 'perplexity', 'searxng'
-      LOCAL_DEEP_RESEARCHER_search_api: null
-      LOCAL_DEEP_RESEARCHER_tavily_api_key: null
-      LOCAL_DEEP_RESEARCHER_perplexity_api_key: null
+      LOCAL_DEEP_RESEARCHER_search_api:
+      LOCAL_DEEP_RESEARCHER_tavily_api_key:
+      LOCAL_DEEP_RESEARCHER_perplexity_api_key:
       #
       # ===== Weaviate Verba ========
       #
       VERBA_enable: false
       VERBA_volume_map_data: false
-      VERBA_unstructured_api_key: null
-      VERBA_ollama_model: null
-      VERBA_github_token: null
+      VERBA_unstructured_api_key:
+      VERBA_ollama_model:
+      VERBA_github_token:
       
       #
       # ===== RAGFlow ========
@@ -1892,9 +1892,9 @@
       # ===== Neo4j Knowledge Graph Builder ========
       #
       NEO4J_KG_BUILDER_enable: false
-      NEO4J_KG_BUILDER_openai_api_key: null
-      NEO4J_KG_BUILDER_diffbot_api_key: null
-      NEO4J_KG_BUILDER_embedding_model: null
+      NEO4J_KG_BUILDER_openai_api_key:
+      NEO4J_KG_BUILDER_diffbot_api_key:
+      NEO4J_KG_BUILDER_embedding_model:
       NEO4J_KG_BUILDER_knn_min_score: '0.94'
       NEO4J_KG_BUILDER_is_embedding: true
       NEO4J_KG_BUILDER_ollama_model: llama3.2
@@ -1966,7 +1966,7 @@
       # list of preview features to enable (tempoSearch, tempoServiceGraph, ... see https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/feature-toggles/)
       GRAFANA_feature_toggles: ''
       # list of plugins to install (see here: https://grafana.com/grafana/plugins/)
-      GRAFANA_install_plugins: null
+      GRAFANA_install_plugins:
       GRAFANA_auth_anonymous_enabled: false
       GRAFANA_provision_custom_dashboard_folder_names: ''
       
@@ -2003,7 +2003,7 @@
       #
       LIGHTDASH_enable: false
       LIGHTDASH_volume_map_dbt_project: false
-      LIGHTDASH_dbt_project_path: null
+      LIGHTDASH_dbt_project_path:
       LIGHTDASH_secret: changeme-use-a-long-random-secret-here
       LIGHTDASH_license_key: ''
       # postgres connection (requires POSTGRESQL_enable: true)
@@ -2047,7 +2047,7 @@
       TIPBOARD_port: 7272
       TIPBOARD_redis_host: redis-1
       TIPBOARD_redis_port: 6379
-      TIPBOARD_redis_password: null
+      TIPBOARD_redis_password:
       TIPBOARD_redis_db: 4
       TIPBOARD_flipboard_interval: 0
       TIPBOARD_flipboard_sequence: ''
@@ -2101,22 +2101,22 @@
       #
       # ===== Redis ========
       #
-      REDIS_enable: false
+      REDIS_enable: true
       # either 'redis' or 'valkey'
       REDIS_edition: redis
       REDIS_replicasets: 0
       REDIS_volume_map_data: false
       REDIS_allow_empty_password: true
-      REDIS_password: null
-      REDIS_password_file: null
-      REDIS_aclfile: null
-      REDIS_disable_commands: null
+      REDIS_password:
+      REDIS_password_file:
+      REDIS_aclfile:
+      REDIS_disable_commands:
       REDIS_rdb_enabled: false
-      REDIS_rdb_save_policy: null
+      REDIS_rdb_save_policy:
       REDIS_aof_enabled: true
-      REDIS_io_threads: null
+      REDIS_io_threads:
       REDIS_io_threads_do_reads_enabled: false
-      REDIS_overrides_config_file: null
+      REDIS_overrides_config_file:
       # one of 'nothing', 'warning', 'notice', 'verbose', 'debug'
       REDIS_log_level: notice
       
@@ -2125,13 +2125,13 @@
       #
       REDIS_STACK_enable: false
       REDIS_STACK_volume_map_data: false
-      REDIS_STACK_password: null
+      REDIS_STACK_password:
       
       #
       # ===== Redis (Metrics) Exporter ========
       #
       REDIS_EXPORTER_enable: false
-      REDIS_EXPORTER_password_file: null
+      REDIS_EXPORTER_password_file:
       REDIS_EXPORTER_check_keys: ''
       REDIS_EXPORTER_check_single_keys: ''
       REDIS_EXPORTER_count_keys: ''
@@ -2168,16 +2168,16 @@
       VALKEY_replicasets: 0
       VALKEY_volume_map_data: false
       VALKEY_allow_empty_password: true
-      VALKEY_password: null
-      VALKEY_password_file: null
-      VALKEY_aclfile: null
-      VALKEY_disable_commands: null
+      VALKEY_password:
+      VALKEY_password_file:
+      VALKEY_aclfile:
+      VALKEY_disable_commands:
       VALKEY_rdb_enabled: false
-      VALKEY_rdb_save_policy: null
+      VALKEY_rdb_save_policy:
       VALKEY_aof_enabled: true
-      VALKEY_io_threads: null
+      VALKEY_io_threads:
       VALKEY_io_threads_do_reads_enabled: false
-      VALKEY_overrides_config_file: null
+      VALKEY_overrides_config_file:
       # one of 'nothing', 'warning', 'notice', 'verbose', 'debug'
       VALKEY_log_level: notice
       
@@ -2211,9 +2211,9 @@
       MONGO_nodes: 1
       MONGO_volume_map_data: false
       MONGO_volume_map_log: false
-      MONGO_root_username: null
-      MONGO_root_password: null
-      MONGO_init_database: null
+      MONGO_root_username:
+      MONGO_root_password:
+      MONGO_init_database:
       
       #
       # ===== Mongo Admin ========
@@ -2231,8 +2231,8 @@
       # ===== Mongo Express ========
       #
       MONGO_EXPRESS_enable: false
-      MONGO_EXPRESS_username: null
-      MONGO_EXPRESS_password: null
+      MONGO_EXPRESS_username:
+      MONGO_EXPRESS_password:
       # one of 'defult', 'ambient', 'dracula', ... see here for more: https://codemirror.net/5/demo/theme.html#default
       MONGO_EXPRESS_editor_theme: default
       
@@ -2420,9 +2420,9 @@
       #
       JENA_FUSEKI_enable: false
       JENA_FUSEKI_volume_map_data: false
-      JENA_FUSEKI_admin_password: null
+      JENA_FUSEKI_admin_password:
       JENA_FUSEKI_tdb2_enabled: false
-      JENA_FUSEKI_datasets: null
+      JENA_FUSEKI_datasets:
       
       #
       # ===== Influx DB 1.x ========
@@ -2497,7 +2497,7 @@
       #
       CHROMA_enable: false
       CHROMA_volume_map_data: false
-      CHROMA_auth_token: null
+      CHROMA_auth_token:
       CHROMA_enable_telemetry: false
       
       #
@@ -2511,7 +2511,7 @@
       #
       WEAVIATE_enable: false
       WEAVIATE_volume_map_data: false
-      WEAVIATE_modules: null
+      WEAVIATE_modules:
       
       #
       # ===== Milvus (VectorDB) + Attu (UI) ========
@@ -2540,8 +2540,8 @@
       #
       DUCKDB_enable: false
       DUCKDB_ui_enabled: false
-      DUCKDB_db_folder: null
-      DUCKDB_init_script: null
+      DUCKDB_db_folder:
+      DUCKDB_init_script:
       #
       # ===== QuackFlight ========
       #
@@ -2573,7 +2573,7 @@
       #
       # ===== Clickhouse ========
       #
-      CLICKHOUSE_enable: false
+      CLICKHOUSE_enable: true
       CLICKHOUSE_volume_map_data: false
       CLICKHOUSE_db_name: clickhouse
       CLICKHOUSE_username: clickhouse
@@ -2629,7 +2629,7 @@
       # ===== SingleStore ========
       #
       SINGLE_STORE_enable: false
-      SINGLE_STORE_license: null
+      SINGLE_STORE_license:
       SINGLE_STORE_password: abc123!
       
       #
@@ -2731,7 +2731,7 @@
       SQLSERVER_password: abc123abc123!
       SQLSERVER_volume_map_data: false
       SQLSERVER_volume_map_backup: false
-      SQLSERVER_backup_local_dir: null
+      SQLSERVER_backup_local_dir:
       SQLSERVER_agent_enabled: false
       SQLSERVER_availability_groups_enabled: false
       SQLSERVER_provision_adventure_works: false
@@ -2796,10 +2796,10 @@
       SUPABASE_enable: false
       SUPABASE_volume_map_data: false
       SUPABASE_volume_map_custom_conf: false
-      SUPABASE_db_password: null
+      SUPABASE_db_password:
       SUPABASE_db_provision_seed_data: false
       SUPABASE_dashboard_username: supabase
-      SUPABASE_dashboard_password: null
+      SUPABASE_dashboard_password:
       SUPABASE_anon_key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
       SUPABASE_jwt_secret: your-super-secret-jwt-token-with-at-least-32-characters-long
       SUPABASE_service_role_key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAog
@@ -2843,7 +2843,7 @@
       #
       CLOUDBEAVER_enable: false
       CLOUDBEAVER_volume_map_workspace: false
-      CLOUDBEAVER_admin_username: null
+      CLOUDBEAVER_admin_username:
       CLOUDBEAVER_admin_password: Abc123!abc123!
       
       #
@@ -2871,8 +2871,8 @@
       # either 'community' or 'premium'
       DBGATE_edition: community
       DBGATE_volume_map_data: false
-      DBGATE_license: null
-      DBGATE_user: null
+      DBGATE_license:
+      DBGATE_user:
       DBGATE_password: abc123!
       
       #
@@ -2938,7 +2938,7 @@
       TRINO_access_control_enabled: false
       # either 'file' or 'opa'
       TRINO_access_control_method: file
-      TRINO_opa_namespace: null
+      TRINO_opa_namespace:
       TRINO_resource_groups_enabled: false
       # either 'file' or 'db'
       TRINO_resource_groups_type: file
@@ -2965,7 +2965,7 @@
       TRINO_redis_stack_table_names: ''
       TRINO_with_iceberg_rest_catalog: false
       TRINO_iceberg_rest_catalog_url: http://iceberg-rest-catalog:8181
-      TRINO_iceberg_rest_catalog_warehouse: null
+      TRINO_iceberg_rest_catalog_warehouse:
       TRINO_with_duckdb_catalog: false
       TRINO_duckdb_path_to_db: /data-transfer/duckdb/duckdb-demo.duckdb
       # add the hive metastore db as a catalog?
@@ -2980,8 +2980,8 @@
       TRINO_with_jmx_catalog: false
       TRINO_jmx_dump_tables: java.lang:type=Runtime,trino.execution.scheduler:name=NodeScheduler
       TRINO_with_gsheets_catalog: false
-      TRINO_gsheets_metadata_sheet_id: null
-      TRINO_gsheets_credentials_key: null
+      TRINO_gsheets_metadata_sheet_id:
+      TRINO_gsheets_credentials_key:
       TRINO_starburstdata_use_license: false
       TRINO_starburstdata_enable_data_product: false
       TRINO_additional_catalogs: ''
@@ -3009,7 +3009,7 @@
       # FILE or EXTERNAL
       TRINO_GATEWAY_rules_type: FILE
       TRINO_GATEWAY_rules_file: routing-rules-default.yml
-      TRINO_GATEWAY_url_path: null
+      TRINO_GATEWAY_url_path:
       # strategy for performing health checks: one of 'NOOP', 'INFO_API', 'UI_API', 'JDBC', 'JMX', 'METRICS'
       TRINO_GATEWAY_monitor_type: INFO_API
       TRINO_GATEWAY_analyze_request_enabled: false
@@ -3043,7 +3043,7 @@
       PRESTO_kafka_default_schema: default
       PRESTO_with_iceberg_rest_catalog: false
       PRESTO_iceberg_rest_catalog_url: http://iceberg-rest-catalog:8181
-      PRESTO_iceberg_rest_catalog_warehouse: null
+      PRESTO_iceberg_rest_catalog_warehouse:
       PRESTO_with_hive_metastore_db_catalog: false
       
       #
@@ -3096,7 +3096,19 @@
       # ===== Cosmo Router ========
       #
       COSMO_ROUTER_enable: false
-      
+
+      #
+      # ===== GraphQL Hive Console ========
+      #
+      # Requires POSTGRESQL, REDIS, CLICKHOUSE, KAFKA and an S3 service (s3_service_to_use) to be enabled.
+      HIVE_CONSOLE_enable: true
+      HIVE_CONSOLE_log_level: debug
+      # secrets - change these for anything beyond local testing (ENCRYPTION_SECRET must be 32 characters)
+      HIVE_CONSOLE_encryption_secret: wywyryf9p225kuvarygyb8pyszwkrecx
+      HIVE_CONSOLE_supertokens_access_token_key: qhhhcepkvllbvdvccenbyfcganxoscxt
+      HIVE_CONSOLE_supertokens_refresh_token_key: qhhhcepkvllbvdvccenbyfcganxoscxt
+      HIVE_CONSOLE_cdn_auth_private_key: kglbtqvqfvncuujxqdfqcscghfxkbrgy
+
       #
       # ===== Directus ========
       #
@@ -3250,7 +3262,7 @@
       # either "community" or "aistor"
       MINIO_edition: community
       # the Minio AIStor license if not specified in PLATYS_MINIO_AISTOR_LICENSE env variable
-      MINIO_aistor_license: null
+      MINIO_aistor_license:
       MINIO_volume_map_data: false
       MINIO_datacenters: 1
       # "single" or "cluster"
@@ -3269,37 +3281,37 @@
       MINIO_upload_data_transfer_subfolders: ''
       
       MINIO_audit_webhook_enabled: false
-      MINIO_audit_webhook_endpoint: null
-      MINIO_audit_webhook_auth_token: null
+      MINIO_audit_webhook_endpoint:
+      MINIO_audit_webhook_auth_token:
       MINIO_audit_kafka_enabled: false
       MINIO_audit_kafka_topic: minio-audit-log
       
       MINIO_notify_snyc_enabled: false
       MINIO_notify_webhook_enabled: false
-      MINIO_notify_webhook_endpoint: null
-      MINIO_notify_webhook_auth_token: null
+      MINIO_notify_webhook_endpoint:
+      MINIO_notify_webhook_auth_token:
       MINIO_notify_kafka_enabled: false
       MINIO_notify_kafka_topic: minio-notify-log
       MINIO_notify_mqtt_enabled: false
       MINIO_notify_mqtt_broker_endpoint: tcp://mosquitto-1:1883
       MINIO_notify_mqtt_topic: minio-notify-log
-      MINIO_notify_mqtt_username: null
-      MINIO_notify_mqtt_password: null
+      MINIO_notify_mqtt_username:
+      MINIO_notify_mqtt_password:
       MINIO_notify_redis_enabled: false
       MINIO_notify_redis_endpoint: redis-1:6379/0
       MINIO_notify_redis_key: minio-key
       MINIO_notify_redis_format: namespace
-      MINIO_notify_redis_password: null
+      MINIO_notify_redis_password: 
       
       MINIO_lambda_webhook_enabled: false
-      MINIO_lambda_webhook_endpoint: null
-      MINIO_lambda_webhook_auth_token: null
+      MINIO_lambda_webhook_endpoint:
+      MINIO_lambda_webhook_auth_token:
       
       MINIO_key_encryption_service_enabled: false
       MINIO_policy_plugin_enabled: false
       MINIO_policy_type: opa
-      MINIO_policy_namespace: null
-      MINIO_policy_token: null
+      MINIO_policy_namespace:
+      MINIO_policy_token:
       
       #
       #=====  Object Storage UIs ========
@@ -3350,7 +3362,22 @@
       GARAGE_WEBUI_admin_username: admin
       # htpasswd -nbBC 10 "admin" "YOUR_PASSWORD"
       GARAGE_WEBUI_admin_password: $2y$10$37WREr2MRsiJnit1Bu..ie8Buo8YXXoR/oW2ZARmSI2SXNzawu62u
-      
+
+
+      #
+      #=====  Versity S3 Gateway ========
+      #
+      VERSITYGW_enable: true
+      VERSITYGW_access_key: admin
+      VERSITYGW_secret_key: abc123abc123!
+      VERSITYGW_region: us-east-1
+      VERSITYGW_admin_bucket_name: admin-bucket
+      VERSITYGW_volume_map_data: false
+      # start a companion mc (MinIO client) container that creates the buckets listed in VERSITYGW_buckets on startup
+      VERSITYGW_mc_enabled: true
+      # comma-separated list of buckets to create on startup (requires VERSITYGW_mc_enabled: true)
+      VERSITYGW_buckets: ''
+
       #
       #=====  AWS CLI ========
       #
@@ -3363,8 +3390,8 @@
       AZURITE_volume_map_data: false
       # one of blob, queue, table to restrict starting only one service, or empty for all services
       AZURITE_start_service: ''
-      AZURITE_account_name: null
-      AZURITE_account_key: null
+      AZURITE_account_name:
+      AZURITE_account_key:
       # add additional buckets, comma separated, admin-bucket will be created by default
       AZURITE_blob_containers: ''
       
@@ -3465,7 +3492,7 @@
       
       LAKEFS_auth_encrypt_secret_key: ''
       LAKEFS_user_name: quickstart
-      LAKEFS_commited_local_cache_dir: null
+      LAKEFS_commited_local_cache_dir:
       LAKEFS_logging_level: INFO
       LAKEFS_logging_audit_log_level: INFO
       # enable and configure quickstart (only applicable if LAKEFS_database_type = 'local')
@@ -3767,7 +3794,7 @@
       VAULT_use_dev_mode: false
       VAULT_dev_mode_token: abc123!
       VAULT_volume_map_data: false
-      VAULT_username: null
+      VAULT_username:
       VAULT_password: abc123!
       
       #
@@ -3820,12 +3847,12 @@
       #
       DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_enable: false
       DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_workspace_host: https://adb-1727053904354619.19.azuredatabricks.net
-      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_workspace_clientid: null
-      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_workspace_clientsecret: null
-      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_host: null
-      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_accountid: null
-      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_clientid: null
-      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_clientsecret: null
+      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_workspace_clientid:
+      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_workspace_clientsecret:
+      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_host:
+      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_accountid:
+      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_clientid:
+      DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_clientsecret:
       
       #
       # ===== Data Contract Manager ========
@@ -3873,7 +3900,7 @@
       # ===== Docker Exec Web Console ========
       #
       DOCKER_EXEC_WEBCONSOLE_enable: false
-      DOCKER_EXEC_WEBCONSOLE_context_path: null
+      DOCKER_EXEC_WEBCONSOLE_context_path:
         
       #
       # ===== Rancher UI ========
@@ -3891,8 +3918,8 @@
       #CETUSGUARD_rules: >
       #    GET %API_PREFIX_CONTAINERS%/%CONTAINER_ID_OR_NAME%/json,
       #    POST %API_PREFIX_CONTAINERS%/create
-      CETUSGUARD_rules: null
-      CETUSGUARD_rules_file: null
+      CETUSGUARD_rules:
+      CETUSGUARD_rules_file:
       CETUSGUARD_log_level: 6
       
       #
@@ -4048,7 +4075,7 @@
       WATCHTOWER_label_enabled: false
       WATCHTOWER_scope: ''
       WATCHTOWER_http_api_update_enabled: false
-      WATCHTOWER_http_api_token: null
+      WATCHTOWER_http_api_token:
       WATCHTOWER_http_api_period_polls_enabled: false
       WATCHTOWER_http_api_metrics_enabled: false
       WATCHTOWER_timeout: 10
@@ -4101,8 +4128,8 @@
       # ===== Linux for Healthcare (IBM) FHIR Server ========
       #
       LFH_FHIR_enable: false
-      LFH_FHIR_user_password: null
-      LFH_FHIR_admin_password: null
+      LFH_FHIR_user_password:
+      LFH_FHIR_admin_password:
       
       #
       # ===== Miracum FHIR Gateway ========
@@ -4110,8 +4137,8 @@
       FHIR_GATEWAY_enable: false
       FHIR_GATEWAY_fhir_server_enabled: false
       FHIR_GATEWAY_fhir_server_url: http://hapi-server:8080/fhir
-      FHIR_GATEWAY_fhir_server_username: null
-      FHIR_GATEWAY_fhir_server_password: null
+      FHIR_GATEWAY_fhir_server_username:
+      FHIR_GATEWAY_fhir_server_password:
       FHIR_GATEWAY_postgresql_enabled: false
       FHIR_GATEWAY_kafka_enabled: false
       FHIR_GATEWAY_pseudonymizer_enabled: false
