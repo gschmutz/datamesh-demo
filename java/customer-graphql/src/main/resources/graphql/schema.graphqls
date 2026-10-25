@@ -1,0 +1,61 @@
+scalar DateTime
+scalar Long
+
+type Query {
+    "List customers (default 50)."
+    customers(limit: Int = 50): [Customer!]!
+    "A single customer by id."
+    customerById(id: ID!): Customer
+    "A single customer by login."
+    customerByLogin(login: String!): Customer
+
+    "List organizations (default 50)."
+    organizations(limit: Int = 50): [Organization!]!
+    "A single organization by id."
+    organizationById(id: ID!): Organization
+}
+
+type Customer {
+    id: ID!
+    login: String!
+    email: String!
+    firstname: String!
+    lastname: String!
+    image: String
+    imageSource: String
+    department: String
+    "Primary organization (may be null)."
+    organization: Organization
+    "Additional organizations the customer belongs to."
+    secondaryOrganizations: [Organization!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    active: Boolean!
+    verified: Boolean!
+    vip: Boolean!
+    phone: String!
+    mobile: String!
+    fax: String!
+    web: String!
+    street: String!
+    city: String!
+    zip: String!
+    country: String!
+    note: String!
+    address: String
+}
+
+type Organization {
+    id: ID!
+    name: String!
+    shared: Boolean!
+    domain: String!
+    domainAssignment: Boolean!
+    active: Boolean!
+    vip: Boolean!
+    note: String
+    memberIds: [Long!]!
+    secondaryMemberIds: [Long!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

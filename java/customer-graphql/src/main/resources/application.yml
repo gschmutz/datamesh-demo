@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: customer-graphql
+
+  datasource:
+    # currentSchema puts the search_path on the `customer` schema from cr_customer.sql
+    url: jdbc:postgresql://${PG_HOST:localhost}:${PG_PORT:5432}/${PG_DB:demodb}?currentSchema=${PG_SCHEMA:customer}
+    username: ${PG_USER:demo}
+    password: ${PG_PASSWORD:abc123!}
+
+  jpa:
+    # Set the dialect explicitly so startup doesn't need a live JDBC connection
+    # just to detect it (a DB that is down then gives a clear connection error
+    # instead of "Unable to determine Dialect without JDBC metadata").
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none          # schema is managed by scripts/postgresql/cr_customer.sql
+    properties:
+      hibernate:
+        default_schema: ${PG_SCHEMA:customer}
+        format_sql: true
+    open-in-view: true        # keeps the session open so GraphQL can resolve lazy associations
+
+  graphql:
+    graphiql:
+      enabled: false          # built-in GraphiQL loads from a CDN (unpkg) that is
+                              # blocked here; use the self-hosted page at /graphiql.html
+    schema:
+      printer:
+        enabled: true         # schema available at /graphql/schema
+    cors:
+      # Dev-friendly CORS so GraphiQL works when the page origin differs from
+      # the endpoint origin (e.g. localhost vs 127.0.0.1, or a reverse proxy).
+      # Tighten allowed-origins for production.
+      allowed-origin-patterns: "*"
+      allowed-methods: "GET,POST,OPTIONS"
+      allowed-headers: "*"
+
+server:
+  port: ${SERVER_PORT:8088}
