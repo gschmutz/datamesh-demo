@@ -40,6 +40,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default=os.environ.get("PG_DSN", "postgresql://postgres:abc123!@dataplatform:5432/demodb"),
         help="PostgreSQL connection string (libpq / psycopg DSN).",
     )
+    p.add_argument(
+        "--pg-schema",
+        default=os.environ.get("PG_SCHEMA", "ticket"),
+        help="PostgreSQL schema holding the ticket tables (set as search_path).",
+    )
     return p.parse_args(argv)
 
 
@@ -65,7 +70,7 @@ def main(argv: list[str]) -> int:
     )
     consumer.subscribe([args.input_topic])
 
-    conn = psycopg.connect(args.dsn, autocommit=False)
+    conn = psycopg.connect(args.dsn, autocommit=False, options=f"-c search_path={args.pg_schema}")
 
     running = {"flag": True}
 
