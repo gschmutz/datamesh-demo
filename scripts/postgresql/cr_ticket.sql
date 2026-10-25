@@ -28,7 +28,7 @@ CREATE TABLE article_sender (
 -- User (renamed to avoid collision with pg reserved word)
 -- -------------------------------------------------------
 
-CREATE TABLE zammad_user (
+CREATE TABLE agent_user (
     id                          BIGINT PRIMARY KEY,
     login                       VARCHAR(255) NOT NULL UNIQUE,
     email                       VARCHAR(255) NOT NULL,
@@ -36,63 +36,27 @@ CREATE TABLE zammad_user (
     lastname                    VARCHAR(128),
     image                       VARCHAR(64),        -- md5 hash ref
     image_source                TEXT,
-    department                  VARCHAR(255),
-    phone                       VARCHAR(64),
-    mobile                      VARCHAR(64),
-    fax                         VARCHAR(64),
-    web                         VARCHAR(255),
-    street                      VARCHAR(255),
-    city                        VARCHAR(128),
-    zip                         VARCHAR(32),
-    country                     VARCHAR(128),
-    note                        TEXT,
     source                      VARCHAR(128),
     active                      BOOLEAN NOT NULL DEFAULT TRUE,
     verified                    BOOLEAN NOT NULL DEFAULT FALSE,
-    vip                         BOOLEAN NOT NULL DEFAULT FALSE,
     out_of_office               BOOLEAN NOT NULL DEFAULT FALSE,
     out_of_office_start_at      TIMESTAMP WITH TIME ZONE,
     out_of_office_end_at        TIMESTAMP WITH TIME ZONE,
-    out_of_office_replacement_id BIGINT REFERENCES zammad_user(id),
+    out_of_office_replacement_id BIGINT REFERENCES agent_user(id),
     created_at                  TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at                  TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id               BIGINT REFERENCES zammad_user(id),
-    updated_by_id               BIGINT REFERENCES zammad_user(id)
+    created_by_id               BIGINT REFERENCES agent_user(id),
+    updated_by_id               BIGINT REFERENCES agent_user(id)
 );
 
 -- -------------------------------------------------------
 -- User ↔ Role  (M:N)
 -- -------------------------------------------------------
 
-CREATE TABLE user_role (
-    user_id     BIGINT NOT NULL REFERENCES zammad_user(id) ON DELETE CASCADE,
-    role_id     BIGINT NOT NULL REFERENCES role(id) ON DELETE CASCADE,
-    PRIMARY KEY (user_id, role_id)
-);
-
--- -------------------------------------------------------
--- Organization
--- -------------------------------------------------------
-
-CREATE TABLE organization (
-    id              BIGINT PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL,
-    note            TEXT,
-    active          BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at      TIMESTAMP WITH TIME ZONE NOT NULL,
-    updated_at      TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id   BIGINT REFERENCES zammad_user(id),
-    updated_by_id   BIGINT REFERENCES zammad_user(id)
-);
-
--- -------------------------------------------------------
--- User ↔ Organization  (M:N — a user can belong to many orgs)
--- -------------------------------------------------------
-
-CREATE TABLE user_organization (
-    user_id         BIGINT NOT NULL REFERENCES zammad_user(id) ON DELETE CASCADE,
-    organization_id BIGINT NOT NULL REFERENCES organization(id) ON DELETE CASCADE,
-    PRIMARY KEY (user_id, organization_id)
+CREATE TABLE agent_user_role (
+    agent_user_id       BIGINT NOT NULL REFERENCES agent_user(id) ON DELETE CASCADE,
+    role_id             BIGINT NOT NULL REFERENCES role(id) ON DELETE CASCADE,
+    PRIMARY KEY (agent_user_id, role_id)
 );
 
 -- -------------------------------------------------------
@@ -109,8 +73,8 @@ CREATE TABLE priority (
     active          BOOLEAN NOT NULL DEFAULT TRUE,
     created_at      TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at      TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id   BIGINT REFERENCES zammad_user(id),
-    updated_by_id   BIGINT REFERENCES zammad_user(id)
+    created_by_id   BIGINT REFERENCES agent_user(id),
+    updated_by_id   BIGINT REFERENCES agent_user(id)
 );
 
 -- -------------------------------------------------------
@@ -137,8 +101,8 @@ CREATE TABLE ticket_group (
                             CHECK (summary_generation IN ('global_default', 'enabled', 'disabled')),
     created_at          TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at          TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id       BIGINT REFERENCES zammad_user(id),
-    updated_by_id       BIGINT REFERENCES zammad_user(id)
+    created_by_id       BIGINT REFERENCES agent_user(id),
+    updated_by_id       BIGINT REFERENCES agent_user(id)
 );
 
 -- -------------------------------------------------------
@@ -153,9 +117,8 @@ CREATE TABLE ticket (
     state_id                        BIGINT NOT NULL,
     group_id                        BIGINT NOT NULL REFERENCES ticket_group(id),
     priority_id                     BIGINT NOT NULL REFERENCES priority(id),
-    owner_id                        BIGINT NOT NULL REFERENCES zammad_user(id),
-    customer_id                     BIGINT NOT NULL REFERENCES zammad_user(id),
-    organization_id                 BIGINT REFERENCES organization(id),
+    owner_id                        BIGINT NOT NULL REFERENCES agent_user(id),
+    customer_id                     BIGINT
     create_article_type_id          BIGINT REFERENCES article_type(id),
     create_article_sender_id        BIGINT REFERENCES article_sender(id),
     ai_agent_running                BOOLEAN NOT NULL DEFAULT FALSE,
@@ -187,8 +150,8 @@ CREATE TABLE ticket (
     time_unit                       NUMERIC(10,2),
     created_at                      TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at                      TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id                   BIGINT REFERENCES zammad_user(id),
-    updated_by_id                   BIGINT REFERENCES zammad_user(id)
+    created_by_id                   BIGINT REFERENCES agent_user(id),
+    updated_by_id                   BIGINT REFERENCES agent_user(id)
 );
 
 -- -------------------------------------------------------
@@ -214,14 +177,14 @@ CREATE TABLE article (
     internal            BOOLEAN NOT NULL DEFAULT FALSE,
     body_rendering_error BOOLEAN NOT NULL DEFAULT FALSE,
     origin_by           VARCHAR(255),
-    origin_by_id        BIGINT REFERENCES zammad_user(id),
+    origin_by_id        BIGINT REFERENCES agent_user(id),
     detected_language   VARCHAR(16),
     time_unit           NUMERIC(10,2),
     accounted_time      NUMERIC(10,2) NOT NULL DEFAULT 0,
     created_at          TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at          TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id       BIGINT REFERENCES zammad_user(id),
-    updated_by_id       BIGINT REFERENCES zammad_user(id)
+    created_by_id       BIGINT REFERENCES agent_user(id),
+    updated_by_id       BIGINT REFERENCES agent_user(id)
 );
 
 -- -------------------------------------------------------
@@ -238,4 +201,4 @@ CREATE INDEX idx_article_ticket      ON article(ticket_id);
 CREATE INDEX idx_article_type        ON article(type_id);
 CREATE INDEX idx_article_sender      ON article(sender_id);
 CREATE INDEX idx_article_created_by  ON article(created_by_id);
-CREATE INDEX idx_user_email          ON zammad_user(email);
+CREATE INDEX idx_user_email          ON agent_user(email);
