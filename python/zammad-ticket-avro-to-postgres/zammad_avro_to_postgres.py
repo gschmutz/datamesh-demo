@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Consume Avro ``ZammadTicketState`` records from Kafka and load them into
+"""Consume Avro ``TicketAction (v1)`` records from Kafka and load them into
 PostgreSQL.
 
 Reads the ``pub.zammad`` topic (Confluent Schema-Registry Avro), fans each
 denormalized ``{ticket, article}`` message out into the normalized relational
-tables from ``cr_schema.sql``, and upserts them idempotently. Kafka offsets are
+tables from ``cr_ticket.sql``, and upserts them idempotently. Kafka offsets are
 committed only after the database transaction for that message commits, giving
 at-least-once delivery.
 
@@ -23,7 +23,7 @@ import os
 import signal
 import sys
 
-from mapping import persist_state
+from mapping import persist_action
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
@@ -32,12 +32,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     p.add_argument("--bootstrap-servers", default=os.environ.get("BOOTSTRAP_SERVERS", "dataplatform:9092"))
     p.add_argument("--schema-registry-url", default=os.environ.get("SCHEMA_REGISTRY_URL", "http://dataplatform:8081"))
-    p.add_argument("--input-topic", default=os.environ.get("INPUT_TOPIC", "pub.zammad.v1"))
+    p.add_argument("--input-topic", default=os.environ.get("INPUT_TOPIC", "pub.zammad.ticket.action.v1"))
     p.add_argument("--group-id", default=os.environ.get("GROUP_ID", "zammad-avro-to-postgres"))
     p.add_argument("--offset-reset", default=os.environ.get("OFFSET_RESET", "earliest"), choices=["earliest", "latest"])
     p.add_argument(
         "--dsn",
-        default=os.environ.get("PG_DSN", "postgresql://postgres:abc123!@dataplatform:5432/postgres"),
+        default=os.environ.get("PG_DSN", "postgresql://postgres:abc123!@dataplatform:5432/demodb"),
         help="PostgreSQL connection string (libpq / psycopg DSN).",
     )
     return p.parse_args(argv)
@@ -96,9 +96,9 @@ def main(argv: list[str]) -> int:
 
             try:
                 ctx = SerializationContext(msg.topic(), MessageField.VALUE)
-                state = avro_deserializer(raw, ctx)
+                action = avro_deserializer(raw, ctx)
                 with conn.cursor() as cur:
-                    persist_state(cur, state)
+                    persist_action(cur, action)
                 conn.commit()
             except Exception as exc:  # noqa: BLE001 - keep the consumer alive
                 conn.rollback()

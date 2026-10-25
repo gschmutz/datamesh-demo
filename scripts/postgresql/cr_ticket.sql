@@ -114,11 +114,10 @@ CREATE TABLE ticket (
     number                          VARCHAR(32) NOT NULL UNIQUE,
     title                           VARCHAR(255) NOT NULL,
     state                           VARCHAR(64) NOT NULL,
-    state_id                        BIGINT NOT NULL,
     group_id                        BIGINT NOT NULL REFERENCES ticket_group(id),
     priority_id                     BIGINT NOT NULL REFERENCES priority(id),
     owner_id                        BIGINT NOT NULL REFERENCES agent_user(id),
-    customer_id                     BIGINT
+    customer_id                     BIGINT,
     create_article_type_id          BIGINT REFERENCES article_type(id),
     create_article_sender_id        BIGINT REFERENCES article_sender(id),
     ai_agent_running                BOOLEAN NOT NULL DEFAULT FALSE,
@@ -195,8 +194,6 @@ CREATE INDEX idx_ticket_group        ON ticket(group_id);
 CREATE INDEX idx_ticket_customer     ON ticket(customer_id);
 CREATE INDEX idx_ticket_owner        ON ticket(owner_id);
 CREATE INDEX idx_ticket_priority     ON ticket(priority_id);
-CREATE INDEX idx_ticket_org          ON ticket(organization_id);
-CREATE INDEX idx_ticket_state        ON ticket(state_id);
 CREATE INDEX idx_article_ticket      ON article(ticket_id);
 CREATE INDEX idx_article_type        ON article(type_id);
 CREATE INDEX idx_article_sender      ON article(sender_id);

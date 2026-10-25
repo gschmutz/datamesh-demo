@@ -1,8 +1,8 @@
-"""Map a deserialized ``ZammadTicketState`` Avro record into the normalized
-PostgreSQL schema defined in ``cr_schema.sql``.
+"""Map a deserialized ``TicketAction`` (v1) Avro record into the normalized
+PostgreSQL schema defined in ``cr_ticket.sql``.
 
 The Avro message is a denormalized ``{ticket, article}`` tree where every
-user/group/priority is embedded as a full record. ``persist_state`` fans that
+user/group/priority is embedded as a full record. ``persist_action`` fans that
 tree out into the relational tables, upserting on primary key so re-consuming
 the same (or an updated) message is idempotent.
 
@@ -12,8 +12,8 @@ Foreign-key safety:
   with those columns NULL, then a second pass sets them once every user exists.
 - Any user/group FK pointing at an id we did not receive as a full record is
   written as NULL rather than violating the constraint.
-- No ``organization`` record is present in the Avro schema, so ``ticket``/
-  ``user`` organization links are left empty (``ticket.organization_id`` NULL).
+- ``ticket.customer_id`` is a plain id (the Avro ``Ticket`` carries no customer
+  record, and the SQL column has no FK).
 """
 
 from __future__ import annotations
@@ -81,20 +81,9 @@ def _user_row(u: dict) -> dict:
         "lastname": u.get("lastname"),
         "image": u.get("image"),
         "image_source": u.get("image_source"),
-        "department": u.get("department"),
-        "phone": u.get("phone"),
-        "mobile": u.get("mobile"),
-        "fax": u.get("fax"),
-        "web": u.get("web"),
-        "street": u.get("street"),
-        "city": u.get("city"),
-        "zip": u.get("zip"),
-        "country": u.get("country"),
-        "note": u.get("note"),
         "source": u.get("source"),
         "active": u.get("active", True),
         "verified": u.get("verified", False),
-        "vip": u.get("vip", False),
         "out_of_office": u.get("out_of_office", False),
         "out_of_office_start_at": ts(u.get("out_of_office_start_at")),
         "out_of_office_end_at": ts(u.get("out_of_office_end_at")),
@@ -103,14 +92,13 @@ def _user_row(u: dict) -> dict:
     }
 
 
-def _collect_users(state: dict) -> dict[int, dict]:
+def _collect_users(action: dict) -> dict[int, dict]:
     """Every embedded full User record in the message, keyed by id."""
-    ticket = state["ticket"]
-    article = state.get("article") or {}
+    ticket = action["ticket"]
+    article = action.get("article") or {}
     users: dict[int, dict] = {}
     for u in (
         ticket.get("owner"),
-        ticket.get("customer"),
         ticket.get("created_by"),
         ticket.get("updated_by"),
         article.get("created_by"),
@@ -124,11 +112,11 @@ def _collect_users(state: dict) -> dict[int, dict]:
 # --------------------------------------------------------------------------- #
 # Main persistence routine (one transaction per message, caller commits)
 # --------------------------------------------------------------------------- #
-def persist_state(cur, state: dict) -> None:
-    ticket = state["ticket"]
-    article = state.get("article")  # optional: null on article-less events
+def persist_action(cur, action: dict) -> None:
+    ticket = action["ticket"]
+    article = action.get("article")  # optional: null on article-less events
 
-    users = _collect_users(state)
+    users = _collect_users(action)
     known_user_ids = set(users)
 
     def fk_user(uid):
@@ -179,14 +167,14 @@ def persist_state(cur, state: dict) -> None:
 
     # --- user_role (replace current set per user) ------------------------- #
     for u in users.values():
-        cur.execute("DELETE FROM user_role WHERE user_id = %s", (u["id"],))
+        cur.execute("DELETE FROM agent_user_role WHERE agent_user_id = %s", (u["id"],))
         for rid in u.get("role_ids", []):
             if rid in roles:
                 upsert(
                     cur,
-                    "user_role",
-                    {"user_id": u["id"], "role_id": rid},
-                    ["user_id", "role_id"],
+                    "agent_user_role",
+                    {"agent_user_id": u["id"], "role_id": rid},
+                    ["agent_user_id", "role_id"],
                 )
 
     # --- priority --------------------------------------------------------- #
@@ -242,8 +230,8 @@ def persist_state(cur, state: dict) -> None:
     )
 
     # --- ticket ----------------------------------------------------------- #
-    # No organization record is available in the Avro schema, so the optional
-    # organization FK is left NULL.
+    # The Avro Ticket embeds group/priority/owner records instead of carrying
+    # group_id/priority_id/owner_id, so the FK ids are taken from those records.
     upsert(
         cur,
         "ticket",
@@ -252,12 +240,10 @@ def persist_state(cur, state: dict) -> None:
             "number": ticket["number"],
             "title": ticket["title"],
             "state": ticket["state"],
-            "state_id": ticket["state_id"],
-            "group_id": ticket["group_id"],
-            "priority_id": ticket["priority_id"],
-            "owner_id": ticket["owner_id"],
+            "group_id": g["id"],
+            "priority_id": p["id"],
+            "owner_id": ticket["owner"]["id"],
             "customer_id": ticket["customer_id"],
-            "organization_id": None,
             "create_article_type_id": ticket.get("create_article_type_id"),
             "create_article_sender_id": ticket.get("create_article_sender_id"),
             "ai_agent_running": ticket.get("ai_agent_running", False),

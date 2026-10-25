@@ -1,8 +1,8 @@
 # zammad-avro-to-postgres
 
-Consumes Avro **`ZammadTicketState`** records from the Kafka topic
-**`pub.zammad`** (Confluent Schema-Registry serialized) and loads them into the
-normalized PostgreSQL schema defined in [`cr_schema.sql`](../../scripts/postgresql/cr_schema.sql).
+Consumes Avro **`TicketAction`** (v1) records from the Kafka topic
+**`pub.zammad.ticket.action.v1`** (Confluent Schema-Registry serialized) and loads them into the
+normalized PostgreSQL schema defined in [`cr_ticket.sql`](../../scripts/postgresql/cr_ticket.sql).
 
 Each Avro message is a denormalized `{ticket, article}` tree with embedded
 user / group / priority records. [mapping.py](mapping.py) fans it out into the
@@ -13,8 +13,8 @@ updated message is idempotent.
 
 | Source (Avro) | Target table(s) |
 |---------------|-----------------|
-| `ticket.owner`, `.customer`, `.created_by`, `.updated_by`, `article.created_by`, `.updated_by` | `agent_user` |
-| user `role_ids` + `roles` | `role`, `user_role` |
+| `ticket.owner`, `.created_by`, `.updated_by`, `article.created_by`, `.updated_by` | `agent_user` |
+| user `role_ids` + `roles` | `role`, `agent_user_role` |
 | `ticket.priority` | `priority` |
 | `ticket.group` | `ticket_group` |
 | `ticket` | `ticket` |
@@ -28,8 +28,9 @@ Foreign-key safety:
   exists.
 - Any user/group FK pointing at an id not received as a full record is written
   as **NULL** instead of violating the constraint.
-- The Avro schema carries **no organization record**, so `ticket.organization_id`
-  is left NULL and `user_organization` is not populated.
+- `ticket.group_id`, `priority_id` and `owner_id` are taken from the embedded
+  `group`, `priority` and `owner` records; `customer_id` is a plain id (no customer
+  record in the Avro schema, no FK).
 - `article.from` / `article.to` map to `from_address` / `to_address`
   (the SQL columns, avoiding reserved words).
 
@@ -46,7 +47,7 @@ pip install -r requirements.txt
 ## Create the tables
 
 ```bash
-psql "postgresql://demo:abc123!@localhost:5432/demodb" -f ../../scripts/postgresql/cr_schema.sql
+psql "postgresql://demo:abc123!@localhost:5432/demodb" -f ../../scripts/postgresql/cr_ticket.sql
 ```
 
 ## Run
@@ -61,7 +62,7 @@ python zammad_avro_to_postgres.py
 |------|-----|---------|
 | `--bootstrap-servers` | `BOOTSTRAP_SERVERS` | `localhost:9092` |
 | `--schema-registry-url` | `SCHEMA_REGISTRY_URL` | `http://localhost:8081` |
-| `--input-topic` | `INPUT_TOPIC` | `pub.zammad` |
+| `--input-topic` | `INPUT_TOPIC` | `pub.zammad.ticket.action.v1` |
 | `--group-id` | `GROUP_ID` | `zammad-avro-to-postgres` |
 | `--offset-reset` | `OFFSET_RESET` | `earliest` |
 | `--dsn` | `PG_DSN` | `postgresql://demo:abc123!@localhost:5432/demodb` |

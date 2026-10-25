@@ -33,7 +33,7 @@ Override the location with `--schema <path>` or `AVRO_SCHEMA=<path>`.
 ## Install
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate.fish
 pip install -r requirements.txt
 ```
 
@@ -43,7 +43,7 @@ Defaults match the Platys `dp-kafka-data-mesh` stack (`localhost:9092`,
 Schema Registry `http://localhost:8081`):
 
 ```bash
-python zammad_json_to_avro.py
+python3 zammad_json_to_avro.py
 ```
 
 Options (also settable via env vars):
