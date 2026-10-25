@@ -1,0 +1,10 @@
+@namespace("ch.admin.zammad.avro")
+protocol TicketActionProtocol {
+	import idl "../Ticket.avdl";
+	import idl "../Article.avdl";
+
+  	record TicketAction {
+    	Ticket  ticket;
+    	union { null, Article } article = null;
+  	}
+}
