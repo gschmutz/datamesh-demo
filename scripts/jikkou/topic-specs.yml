@@ -34,7 +34,7 @@ items:
         min.cleanable.dirty.ratio: 0.001
 
   - metadata:
-      name: 'pub.zammad.ticket.v1'
+      name: 'pub.zammad.ticket.action.v1'
     spec:
       partitions: 2
       replicas: 3
@@ -43,7 +43,18 @@ items:
         segment.bytes: 104857600
 
   - metadata:
-      name: 'pub.zammad.customer.v1'
+      name: 'pub.zammad.agent-user.state.v1'
+    spec:
+      partitions: 2
+      replicas: 3
+      configs:
+        cleanup.policy: compact
+        segment.ms: 100
+        delete.retention.ms: 100
+        min.cleanable.dirty.ratio: 0.001
+
+  - metadata:
+      name: 'pub.cus.customer.state.v1'
     spec:
       partitions: 2
       replicas: 3
