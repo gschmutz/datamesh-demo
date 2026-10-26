@@ -1,2 +1,3 @@
 /java/datamesh-meta/target
 .DS_Store
+/dp-kafka-data-mesh/node_modules
