@@ -55,27 +55,45 @@ api:
   address: "0.0.0.0:9598"
 
 sources:
-  zammad_in:
+  zammad_ticket_in:
     type: http_server
     address: "0.0.0.0:28730"
+    path: /ticket
     encoding: json
+
+  zammad_customer_in:
+    type: http_client
+    endpoint: "http://2.58.54.30:28425/api/v1/users/search?query=created_at:%3Enow-1h&sort_by=id&order_by=desc"
+    method: GET
+    scrape_interval_secs: 60
+    scrape_timeout_secs: 10
+    auth:
+      strategy: basic
+      user: "schmutz68@gmail.com"
+      password: "Abc123!Abc123!"
+    headers:
+      Accept:
+        - application/json
+    decoding:
+      codec: json
 
   aristech_in:
     type: http_server
     address: "0.0.0.0:28731"
     encoding: json  
 
-internal_metrics:
+  internal_metrics:
     type: internal_metrics
     scrape_interval_secs: 10
 
-transforms:
-  zammad_parse_message:
-    type: remap
+transforms:  
+  deduplicate_by_id:
+    type: dedupe
     inputs:
-      - zammad_in
-    source: |
-      . = parse_json!(.message)
+      - zammad_customer_in
+    fields:
+      match:
+        - id
 
   aristech_parse_message:
     type: remap
@@ -85,23 +103,33 @@ transforms:
       . = parse_json!(.message)
 
 sinks:
-  zammad_out:
+  zammad_ticket_out:
     type: kafka
     inputs:
-      - zammad_parse_message
-    bootstrap_servers: kafka-1:19092, kafka-2:19093
+      - aristech_in
+    bootstrap_servers: "${KAFKA_BOOTSTRAP_SERVERS}"
+    topic: priv.zammad.ticket.v1
     encoding:
       codec: json
-    topic: priv.zammad
   
+  zammad_customer_out:
+    type: kafka
+    inputs:
+      - deduplicate_by_id
+    bootstrap_servers: "${KAFKA_BOOTSTRAP_SERVERS}"
+    topic: priv.zammad.customer.v1
+    key_field: "id"
+    encoding:
+      codec: json
+
   aristech_out:
     type: kafka
     inputs:
       - aristech_parse_message
-    bootstrap_servers: kafka-1:19092, kafka-2:19093
+    bootstrap_servers: "${KAFKA_BOOTSTRAP_SERVERS}"
     encoding:
       codec: json
-    topic: priv.aristech
+    topic: priv.aristech.v1
 
   prometheus:
     type: prometheus_exporter
