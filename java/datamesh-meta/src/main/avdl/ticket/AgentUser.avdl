@@ -9,24 +9,13 @@ protocol AgentUserProtocol {
 		string lastname;
 		union { null, string } image        = null;
 		union { null, string } image_source = null;
-		array<long>   organization_ids      = [];
-		array<long>   role_ids              = [];
-		array<string> roles                 = [];
-		string  created_at;
-		string  updated_at;
-		string  created_by;
-		string  updated_by;
-		long    created_by_id;
-		long    updated_by_id;
 		boolean active;
 		boolean verified;
 		boolean out_of_office;
 		union { null, string } out_of_office_start_at      = null;
 		union { null, string } out_of_office_end_at        = null;
 		union { null, long }   out_of_office_replacement_id = null;
-		union { null, string } address = null;
-		union { null, string } source  = null;
+		string  created_at;
+		string  updated_at;
 	}
-
-
 }
