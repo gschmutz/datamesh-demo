@@ -3082,7 +3082,7 @@
       POST_GRAPHILE_postgres_database: 'demodb'
       POST_GRAPHILE_postgres_user: 'demo'
       POST_GRAPHILE_postgres_password: 'abc123!'
-      POST_GRAPHILE_schema: 'customer'
+      POST_GRAPHILE_schema: 'ticket'
       POST_GRAPHILE_watch: true
       POST_GRAPHILE_enhance_graphiql: true
       POST_GRAPHILE_dynamic_json: true

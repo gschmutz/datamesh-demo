@@ -569,10 +569,13 @@ Container Port(s) | Internal Port(s)           | Service (alternatives) |
 28144 | 9002 | datahub-frontend |
 28145 | 9091 | datahub-mae-consumer |
 28146 | 9092 | datahub-mce-consumer |
+28147 | 4000 | hive-gateway |
+28148 | 4000 | hive-router |
 28150 | 8888 | druid-router |
 28150 | 8888 | druid-sandbox |
 28151 | 5000 | postgraphile |
 28152 |  |  |
+28153 |  |  |
 28154 | 8080 | penthao |
 28155 | 8080 | hawtio |
 28156 | 8080 | swagger-editor |
@@ -581,6 +584,14 @@ Container Port(s) | Internal Port(s)           | Service (alternatives) |
 28159 | 8081 | quix-backend |
 28160 | 8081 | quix-frontend |
 28161 | 5000 | redash-server |
+28162 | 3001 | hive-yoga-server-1 |
+28163 | 3001 | hive-yoga-server-2 |
+28164 | 3001 | hive-yoga-server-3 |
+28165 | 3001 | hive-yoga-server-4 |
+28166 | 3001 | hive-yoga-server-5 |
+28167 |  |  |
+28168 |  |  |
+28169 |  |  |
 28170 | 80 | stardog-studio |
 28171 | 3030 | smashing |
 28172 | 3030 | tipboard |

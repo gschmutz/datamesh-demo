@@ -401,122 +401,11 @@ services:
       - ./data-transfer:/data-transfer:z
     restart: unless-stopped
     healthcheck:
-      test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:28183/actuator/health]
-      interval: 10s
+      test: [CMD, wget, -Y, off, -q, -O, /dev/null, http://localhost:28183/actuator/health]
+      interval: 15s
       timeout: 5s
-      retries: 5
+      retries: 15
       start_period: 30s
-  #  ================================== NiFi 2 ========================================== #
-  nifi2-1:
-    image: docker.io/apache/nifi:2.12.0
-    container_name: nifi2-1
-    hostname: nifi2-1
-    labels:
-      com.platys.name: nifi2
-      com.platys.description: NiFi Data Integration Engine (V2)
-      com.platys.webui.title: Apache NiFi UI
-      com.platys.webui.url: https://dataplatform:18083/nifi
-      com.platys.restapi.title: Apche NiFi REST API
-      com.platys.restapi.url: https://dataplatform:18083/nifi-api
-      com.platys.password.envvars: PLATYS_NIFI2_PASSWORD
-    ports:
-      # HTTP
-      - 18083:18083
-      # Remote Input Socket
-      - 10015:10015/tcp
-      # Prometheus Port
-      - 1273:1234
-    environment:
-      NIFI_WEB_HTTPS_PORT: '18083'
-      NIFI_WEB_HTTPS_HOST: 0.0.0.0
-      NIFI_WEB_PROXY_HOST: ${PUBLIC_IP:-127.0.0.1}:18083,${DOCKER_HOST_IP:-localhost}:18083
-      NIFI_SECURITY_USER_AUTHORIZER: single-user-authorizer
-      NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER: single-user-provider
-      NIFI_REMOTE_INPUT_SOCKET_PORT: '10015'
-      NIFI_REMOTE_INPUT_HOST: nifi-1
-      NIFI_SENSITIVE_PROPS_KEY: 12345678901234567890A
-      SINGLE_USER_CREDENTIALS_USERNAME: nifi
-      SINGLE_USER_CREDENTIALS_PASSWORD: ${PLATYS_NIFI2_PASSWORD:-abc123abc123!}
-      INITIAL_ADMIN_IDENTITY: nifi
-      # these config settings are custom ones and treated by the pre-start.sh script before the standard start.sh script of the NiFi docker image
-    volumes:
-      - ./data-transfer:/data-transfer:z
-      - ./init/nifi2/pre-start.sh:/tmp/pre-start.sh:z
-      - ./plugins/nifi2/nar_extensions/:/opt/nifi/nifi-current/nar_extensions/:z
-      - ./plugins/nifi2/python_extensions/:/opt/nifi/nifi-current/python_extensions/:z
-      - nifi-config-vol:/opt/nifi/nifi-current/conf:z
-    entrypoint:
-      # We override the entrypoint from the docker image and therefore have to run ../scripts/start.sh from the NiFi docker image
-      - bash
-      - -c
-      - |
-        grep -q 'nifi.security.user.login.identity.provider.expiration' /opt/nifi/nifi-current/conf/nifi.properties \
-          && sed -i 's/nifi.security.user.login.identity.provider.expiration=.*/nifi.security.user.login.identity.provider.expiration=30 days/' /opt/nifi/nifi-current/conf/nifi.properties \
-          || echo 'nifi.security.user.login.identity.provider.expiration=30 days' >> /opt/nifi/nifi-current/conf/nifi.properties  
-           /tmp/pre-start.sh        
-        ../scripts/start.sh
-    restart: unless-stopped
-  #  ================================== Vector ========================================== #
-  vector-1:
-    image: docker.io/timberio/vector:0.58.X-alpine
-    container_name: vector-1
-    hostname: vector-1
-    labels:
-      com.platys.name: vector
-      com.platys.description: High-performance observability data pipeline
-    ports:
-      - 28730:28730        # additional port to be used as a source in the vector config
-      - 28731:28731        # additional port to be used as a source in the vector config
-    volumes:
-      - ./data-transfer:/data-transfer:z
-      - ./conf/vector/vector-1.yaml:/etc/vector/vector.yaml:z
-      - ${PLATYS_DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock:z
-    environment:
-      VECTOR_DANGEROUSLY_ALLOW_ENV_VAR_INTERPOLATION: true
-      VECTOR_ALLOW_EMPTY_CONFIG: true
-      VECTOR_CONFIG: /etc/vector/vector.yaml
-      VECTOR_LOG: info
-      VECTOR_WATCH_CONFIG: true    # Watch for changes in the configuration file and reload accordingly
-      VECTOR_WATCH_CONFIG_POLL_INTERVAL_SECONDS: 30
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
-      KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
-    healthcheck:
-      test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:9598/health]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
-    restart: unless-stopped
-  vector-2:
-    image: docker.io/timberio/vector:0.58.X-alpine
-    container_name: vector-2
-    hostname: vector-2
-    labels:
-      com.platys.name: vector
-      com.platys.description: High-performance observability data pipeline
-    ports:
-      - 28733:28733        # additional port to be used as a source in the vector config
-      - 28734:28734        # additional port to be used as a source in the vector config
-    volumes:
-      - ./data-transfer:/data-transfer:z
-      - ./conf/vector/vector-2.yaml:/etc/vector/vector.yaml:z
-      - ${PLATYS_DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock:z
-    environment:
-      VECTOR_DANGEROUSLY_ALLOW_ENV_VAR_INTERPOLATION: true
-      VECTOR_ALLOW_EMPTY_CONFIG: true
-      VECTOR_CONFIG: /etc/vector/vector.yaml
-      VECTOR_LOG: info
-      VECTOR_WATCH_CONFIG: true    # Watch for changes in the configuration file and reload accordingly
-      VECTOR_WATCH_CONFIG_POLL_INTERVAL_SECONDS: 30
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
-      KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
-    healthcheck:
-      test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:9598/health]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
-    restart: unless-stopped
   #  ================================== Redpanda Connect ========================================== #
   redpanda-connect:
     image: docker.redpanda.com/redpandadata/connect:4
@@ -543,7 +432,7 @@ services:
     command: streams --bind-http -o /connect.yaml -r /resources.yaml --watcher  /connect/streams/*.yaml
     restart: unless-stopped
     healthcheck:
-      test: [CMD, wget, --no-proxy, -q, -O, /dev/null, http://localhost:4195/ping]
+      test: [CMD, wget, -Y, off, -q, -O, /dev/null, http://localhost:4195/ping]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -593,7 +482,7 @@ services:
       - ./init/clickhouse:/docker-entrypoint-initdb.d:z
     restart: unless-stopped
     healthcheck:
-      test: [CMD, wget, --no-proxy, --spider, -q, http://localhost:8123/ping]
+      test: [CMD, wget, -Y, off, --spider, -q, http://localhost:8123/ping]
       interval: 5s
       timeout: 5s
       retries: 6
@@ -617,7 +506,6 @@ services:
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./conf/prometheus/prometheus-config/prometheus.yml:/etc/prometheus/prometheus.yml:z
-      - ./security/nifi2/nifi_token:/etc/prometheus/nifi_token:ro
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
@@ -754,7 +642,7 @@ services:
       - --connection
       - postgres://demo:${PLATYS_POSTGRESQL_PASSWORD:-abc123!}@postgresql:5432/demodb
       - --schema
-      - customer
+      - ticket
       - --host
       - 0.0.0.0
       - --port
@@ -792,7 +680,6 @@ services:
       POSTGRES_PASSWORD: ${PLATYS_POSTGRESQL_PASSWORD:-abc123!}
       REDIS_HOST: redis-1
       REDIS_PORT: 6379
-      REDIS_PASSWORD: None
       CLICKHOUSE_PROTOCOL: http
       CLICKHOUSE_HOST: clickhouse
       CLICKHOUSE_PORT: '8123'
@@ -832,8 +719,7 @@ services:
       SERVER_HOST_IPV6_ONLY: '0'
       REDIS_HOST: redis-1
       REDIS_PORT: 6379
-      REDIS_PASSWORD: None
-      ENCRYPTION_SECRET: wywyryf9p225kuvarygyb8pyszwkrecx
+      ENCRYPTION_SECRET: ff8ad626a0c7c48d99dd2f107cfe3dbe
       LOG_LEVEL: debug
     restart: unless-stopped
   hive-console-server:
@@ -870,10 +756,9 @@ services:
       CLICKHOUSE_PASSWORD: ${PLATYS_CLICKHOUSE_PASSWORD:-abc123!}
       REDIS_HOST: redis-1
       REDIS_PORT: 6379
-      REDIS_PASSWORD: None
       SCHEMA_ENDPOINT: http://hive-console-schema:3002
       SCHEMA_POLICY_ENDPOINT: http://hive-console-policy:3012
-      ENCRYPTION_SECRET: wywyryf9p225kuvarygyb8pyszwkrecx
+      ENCRYPTION_SECRET: ff8ad626a0c7c48d99dd2f107cfe3dbe
       WEB_APP_URL: http://${PUBLIC_IP:-localhost}:28107
       PORT: 3001
       SERVER_HOST: 0.0.0.0
@@ -886,15 +771,16 @@ services:
       S3_AUDIT_LOG_ACCESS_KEY_ID: ${PLATYS_AWS_ACCESS_KEY:-admin}
       S3_AUDIT_LOG_SECRET_ACCESS_KEY: ${PLATYS_AWS_SECRET_ACCESS_KEY:-abc123abc123!}
       S3_AUDIT_LOG_BUCKET_NAME: audit-logs
-      CDN_AUTH_PRIVATE_KEY: kglbtqvqfvncuujxqdfqcscghfxkbrgy
+      CDN_AUTH_PRIVATE_KEY: 8e2b80755b79e0701d0b4757d0196db398e1c31b40e01a7b80dde2d434bccfde
       CDN_API: '1'
       CDN_API_BASE_URL: http://${PUBLIC_IP:-localhost}:28108
       LOG_LEVEL: debug
       AUTH_ORGANIZATION_OIDC: '1'
       AUTH_REQUIRE_EMAIL_VERIFICATION: '0'
       GRAPHQL_PUBLIC_ORIGIN: http://${PUBLIC_IP:-localhost}:28108
-      SUPERTOKENS_REFRESH_TOKEN_KEY: qhhhcepkvllbvdvccenbyfcganxoscxt
-      SUPERTOKENS_ACCESS_TOKEN_KEY: qhhhcepkvllbvdvccenbyfcganxoscxt
+      SUPERTOKENS_REFRESH_TOKEN_KEY: 1000:47da759dbee230c499f08107d5360052324031bb06a284ef3cd41ba09ea26ccda846557ff8d342d427cf2f88fa2bae8cf41f901b40070bbb488003d96219645f:56b17b9f7b1a95cbbc1e437873481ea15992d196af6c9b298703e43268535ac2d8631dfa274321e44986c0e4f9e73d1bd983a92650e07277d6fd673e86ce6dee
+      SUPERTOKENS_ACCESS_TOKEN_KEY: 
+        qhhhce8e323689e0abf4274e35d9f3f2024e2b|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
     restart: unless-stopped
   hive-console-workflows:
     image: ghcr.io/graphql-hive/workflows:latest
@@ -926,8 +812,7 @@ services:
       WEB_APP_URL: http://${PUBLIC_IP:-localhost}:28107
       REDIS_HOST: redis-1
       REDIS_PORT: 6379
-      REDIS_PASSWORD: None
-      ENCRYPTION_SECRET: wywyryf9p225kuvarygyb8pyszwkrecx
+      ENCRYPTION_SECRET: ff8ad626a0c7c48d99dd2f107cfe3dbe
     restart: unless-stopped
   hive-console-usage:
     image: ghcr.io/graphql-hive/usage:latest
@@ -958,7 +843,6 @@ services:
       POSTGRES_PASSWORD: ${PLATYS_POSTGRESQL_PASSWORD:-abc123!}
       REDIS_HOST: redis-1
       REDIS_PORT: 6379
-      REDIS_PASSWORD: None
       PORT: 3006
       SERVER_HOST: 0.0.0.0
       SERVER_HOST_IPV6_ONLY: '0'
@@ -1015,6 +899,124 @@ services:
       AUTH_ORGANIZATION_OIDC: '1'
       LOG_LEVEL: debug
     restart: unless-stopped
+  #  ================================== GraphQL Hive Gateway ========================================== #
+  hive-gateway:
+    image: ghcr.io/graphql-hive/gateway:2.15
+    container_name: hive-gateway
+    hostname: hive-gateway
+    labels:
+      com.platys.name: hive-gateway
+      com.platys.description: GraphQL Hive Gateway (federation gateway)
+      com.platys.restapi.title: Hive Gateway GraphQL endpoint
+      com.platys.restapi.url: http://dataplatform:28147/graphql
+    ports:
+      - 28147:4000
+    command:
+      - supergraph
+      - /gateway/supergraph.graphql
+      - --host
+      - 0.0.0.0
+      - --port
+      - '4000'
+    environment:
+      LOG_LEVEL: info
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./custom-conf/hive-gateway/supergraph.graphql:/gateway/supergraph.graphql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, wget, --no-proxy, --spider, -q, http://localhost:4000/healthcheck]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+  #  ================================== GraphQL Hive Router ========================================== #
+  hive-router:
+    image: ghcr.io/graphql-hive/router:latest
+    container_name: hive-router
+    hostname: hive-router
+    labels:
+      com.platys.name: hive-router
+      com.platys.description: GraphQL Hive Router (Rust federation router)
+      com.platys.restapi.title: Hive Router GraphQL endpoint
+      com.platys.restapi.url: http://dataplatform:28148/graphql
+    ports:
+      - 28148:4000
+    environment:
+      LOG_LEVEL: info
+      LOG_FORMAT: text
+      LABORATORY_ENABLED: true
+      PORT: 4000
+      HOST: 0.0.0.0
+      SUPERGRAPH_FILE_PATH: /app/supergraph.graphql
+      HIVE_CDN_ENDPOINT:
+      HIVE_CDN_KEY:
+      HIVE_CDN_POLL_INTERVAL: 10s
+      APOLLO_GRAPH_REF:
+      APOLLO_KEY:
+      APOLLO_UPLINK_ENDPOINTS:
+      SUBSCRIPTIONS_ENABLED: false
+      WEBSOCKET_ENABLED: false
+      # TELEMETRY_TRACING_SAMPLING_RATE: 
+      DISABLE_SUBGRAPH_ERROR_MASKING: false
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./custom-conf/hive-router/supergraph.graphql:/app/supergraph.graphql:ro
+    restart: unless-stopped
+    # The hive-router image is distroless (only the /app/hive_router binary, no
+    # shell, wget or curl), so no in-container healthcheck command can run.
+    # Disable it rather than reference tools that don't exist in the image.
+    healthcheck:
+      test: [NONE]
+  #  ================================== GraphQL Hive Yoga ========================================== #
+  hive-yoga-server-1:
+    build:
+      context: ./init/hive-yoga-server
+      dockerfile: Dockerfile
+    container_name: hive-yoga-server-1
+    hostname: hive-yoga-server-1
+    labels:
+      com.platys.name: hive-yoga-server
+      com.platys.description: GraphQL Yoga subgraph server
+      com.platys.restapi.title: Hive Yoga 1 GraphQL endpoint
+      com.platys.restapi.url: http://dataplatform:28162/graphql
+    ports:
+      - 28162:3001       # only the first 5 nodes get a host port (28162-28166) reserved in port-mapping
+    environment:
+      PORT: 3001
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./scripts/hive-yoga-server/server-1.mjs:/app/server.mjs:ro
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, wget, -Y, off, -q, -O, /dev/null, http://127.0.0.1:3001/graphql?query=%7B__typename%7D]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  hive-yoga-server-2:
+    build:
+      context: ./init/hive-yoga-server
+      dockerfile: Dockerfile
+    container_name: hive-yoga-server-2
+    hostname: hive-yoga-server-2
+    labels:
+      com.platys.name: hive-yoga-server
+      com.platys.description: GraphQL Yoga subgraph server
+      com.platys.restapi.title: Hive Yoga 2 GraphQL endpoint
+      com.platys.restapi.url: http://dataplatform:28163/graphql
+    ports:
+      - 28163:3001       # only the first 5 nodes get a host port (28162-28166) reserved in port-mapping
+    environment:
+      PORT: 3001
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./scripts/hive-yoga-server/server-2.mjs:/app/server.mjs:ro
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, wget, -Y, off, -q, -O, /dev/null, http://127.0.0.1:3001/graphql?query=%7B__typename%7D]
+      interval: 10s
+      timeout: 3s
+      retries: 5
   #  ================================== Versity S3 Gateway ========================================== #
   versitygw:
     image: ghcr.io/versity/versitygw:v1.10.0
@@ -1375,9 +1377,7 @@ services:
       - ./scripts/grafana/dashboards/kafka/OTel_kafkametrics.json:/etc/grafana/provisioning/dashboards/kafka/OTel_kafkametrics.json:z
       - ./scripts/grafana/dashboards/redis:/etc/grafana/provisioning/dashboards/redis:z
       - ./scripts/grafana/dashboards/postgresql:/etc/grafana/provisioning/dashboards/postgresql:z
-      - ./scripts/grafana/dashboards/nifi2:/etc/grafana/provisioning/dashboards/nifi2:z
       - ./scripts/grafana/dashboards/zammad:/etc/grafana/provisioning/dashboards/zammad:z
-      - ./scripts/grafana/dashboards/vector:/etc/grafana/provisioning/dashboards/vector:z
       - ./scripts/grafana/dashboards/redpanda-connect:/etc/grafana/provisioning/dashboards/redpanda-connect:z
       - ./scripts/grafana/datasources/prometheus-datasource.yml:/etc/grafana/provisioning/datasources/prometheus-datasource.yml:z
       - ./scripts/grafana/datasources/zammad-elasticsearch.yml:/etc/grafana/provisioning/datasources/zammad-elasticsearch.yml:z
@@ -1460,4 +1460,3 @@ services:
 volumes:
   data-transfer-vol:
     name: data_transfer_vol
-  nifi-config-vol:
