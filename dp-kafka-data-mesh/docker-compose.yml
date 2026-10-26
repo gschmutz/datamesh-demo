@@ -596,7 +596,7 @@ services:
       # The name of which database schema to expose to REST clients
       - PGRST_DB_SCHEMA=ticket
       # The database role to use when no client authentication is provided
-      - PGRST_DB_ANON_ROLE=anon
+      #- PGRST_DB_ANON_ROLE=anon
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./init/postgresql:/docker-entrypoint-initdb.d/:z
