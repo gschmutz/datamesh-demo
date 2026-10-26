@@ -17,7 +17,6 @@ CREATE TABLE agent_user (
     lastname                    VARCHAR(128),
     image                       VARCHAR(64),        -- md5 hash ref
     image_source                TEXT,
-    source                      VARCHAR(128),
     active                      BOOLEAN NOT NULL DEFAULT TRUE,
     verified                    BOOLEAN NOT NULL DEFAULT FALSE,
     out_of_office               BOOLEAN NOT NULL DEFAULT FALSE,
@@ -25,9 +24,7 @@ CREATE TABLE agent_user (
     out_of_office_end_at        TIMESTAMP WITH TIME ZONE,
     out_of_office_replacement_id BIGINT REFERENCES agent_user(id),
     created_at                  TIMESTAMP WITH TIME ZONE NOT NULL,
-    updated_at                  TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id               BIGINT REFERENCES agent_user(id),
-    updated_by_id               BIGINT REFERENCES agent_user(id)
+    updated_at                  TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 -- -------------------------------------------------------
