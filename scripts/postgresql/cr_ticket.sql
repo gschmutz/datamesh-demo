@@ -6,25 +6,6 @@ CREATE SCHEMA IF NOT EXISTS ticket;
 SET search_path TO ticket;
 
 -- -------------------------------------------------------
--- Lookup / reference tables
--- -------------------------------------------------------
-
-CREATE TABLE role (
-    id      BIGINT PRIMARY KEY,
-    name    VARCHAR(64) NOT NULL UNIQUE
-);
-
-CREATE TABLE article_type (
-    id      BIGINT PRIMARY KEY,
-    name    VARCHAR(64) NOT NULL UNIQUE   -- email, phone, web, note, sms, chat, fax
-);
-
-CREATE TABLE article_sender (
-    id      BIGINT PRIMARY KEY,
-    name    VARCHAR(64) NOT NULL UNIQUE   -- Customer, Agent, System
-);
-
--- -------------------------------------------------------
 -- User (renamed to avoid collision with pg reserved word)
 -- -------------------------------------------------------
 
@@ -47,34 +28,6 @@ CREATE TABLE agent_user (
     updated_at                  TIMESTAMP WITH TIME ZONE NOT NULL,
     created_by_id               BIGINT REFERENCES agent_user(id),
     updated_by_id               BIGINT REFERENCES agent_user(id)
-);
-
--- -------------------------------------------------------
--- User ↔ Role  (M:N)
--- -------------------------------------------------------
-
-CREATE TABLE agent_user_role (
-    agent_user_id       BIGINT NOT NULL REFERENCES agent_user(id) ON DELETE CASCADE,
-    role_id             BIGINT NOT NULL REFERENCES role(id) ON DELETE CASCADE,
-    PRIMARY KEY (agent_user_id, role_id)
-);
-
--- -------------------------------------------------------
--- Priority
--- -------------------------------------------------------
-
-CREATE TABLE priority (
-    id              BIGINT PRIMARY KEY,
-    name            VARCHAR(64) NOT NULL UNIQUE,
-    note            TEXT,
-    ui_color        VARCHAR(32),
-    ui_icon         VARCHAR(64),
-    default_create  BOOLEAN NOT NULL DEFAULT FALSE,
-    active          BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at      TIMESTAMP WITH TIME ZONE NOT NULL,
-    updated_at      TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by_id   BIGINT REFERENCES agent_user(id),
-    updated_by_id   BIGINT REFERENCES agent_user(id)
 );
 
 -- -------------------------------------------------------
@@ -115,11 +68,12 @@ CREATE TABLE ticket (
     title                           VARCHAR(255) NOT NULL,
     state                           VARCHAR(64) NOT NULL,
     group_id                        BIGINT NOT NULL REFERENCES ticket_group(id),
-    priority_id                     BIGINT NOT NULL REFERENCES priority(id),
+    priority_name                   VARCHAR(64) NOT NULL,
+    priority_note                   TEXT,
     owner_id                        BIGINT NOT NULL REFERENCES agent_user(id),
     customer_id                     BIGINT,
-    create_article_type_id          BIGINT REFERENCES article_type(id),
-    create_article_sender_id        BIGINT REFERENCES article_sender(id),
+    create_article_type             VARCHAR(64) NOT NULL,
+    create_article_sender           VARCHAR(64) NOT NULL,
     ai_agent_running                BOOLEAN NOT NULL DEFAULT FALSE,
     checklist_id                    BIGINT,
     note                            TEXT,
