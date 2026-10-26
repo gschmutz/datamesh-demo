@@ -114,8 +114,8 @@ CREATE TABLE ticket (
 CREATE TABLE article (
     id                  BIGINT PRIMARY KEY,
     ticket_id           BIGINT NOT NULL REFERENCES ticket(id) ON DELETE CASCADE,
-    type_id             BIGINT NOT NULL REFERENCES article_type(id),
-    sender_id           BIGINT NOT NULL REFERENCES article_sender(id),
+    article_type        VARCHAR(64) NOT NULL,
+    article_sender      VARCHAR(64) NOT NULL,
     body                TEXT NOT NULL,
     content_type        VARCHAR(32) NOT NULL DEFAULT 'text/html'
                             CHECK (content_type IN ('text/html', 'text/plain')),
@@ -149,7 +149,5 @@ CREATE INDEX idx_ticket_customer     ON ticket(customer_id);
 CREATE INDEX idx_ticket_owner        ON ticket(owner_id);
 CREATE INDEX idx_ticket_priority     ON ticket(priority_id);
 CREATE INDEX idx_article_ticket      ON article(ticket_id);
-CREATE INDEX idx_article_type        ON article(type_id);
-CREATE INDEX idx_article_sender      ON article(sender_id);
 CREATE INDEX idx_article_created_by  ON article(created_by_id);
 CREATE INDEX idx_user_email          ON agent_user(email);
