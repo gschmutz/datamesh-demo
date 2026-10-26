@@ -1,7 +1,7 @@
 @namespace("ch.admin.zammad.avro")
-protocol UserProtocol {
+protocol AgentUserProtocol {
 
-	record User {
+	record AgentUser {
 		long   id;
 		string login;
 		string email;
@@ -9,8 +9,6 @@ protocol UserProtocol {
 		string lastname;
 		union { null, string } image        = null;
 		union { null, string } image_source = null;
-		union { null, string } department   = null;
-		union { null, string } organization_id = null;
 		array<long>   organization_ids      = [];
 		array<long>   role_ids              = [];
 		array<string> roles                 = [];
@@ -22,20 +20,10 @@ protocol UserProtocol {
 		long    updated_by_id;
 		boolean active;
 		boolean verified;
-		boolean vip;
 		boolean out_of_office;
 		union { null, string } out_of_office_start_at      = null;
 		union { null, string } out_of_office_end_at        = null;
 		union { null, long }   out_of_office_replacement_id = null;
-		string phone   = "";
-		string mobile  = "";
-		string fax     = "";
-		string web     = "";
-		string street  = "";
-		string city    = "";
-		string zip     = "";
-		string country = "";
-		string note    = "";
 		union { null, string } address = null;
 		union { null, string } source  = null;
 	}

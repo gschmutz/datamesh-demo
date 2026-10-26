@@ -1,7 +1,7 @@
 @namespace("ch.admin.zammad.avro")
 protocol ArticleProtocol {
 
-	import idl "User.avdl";
+	import idl "AgentUser.avdl";
 
 	enum SenderType {
 		Customer, Agent, System
@@ -35,9 +35,9 @@ protocol ArticleProtocol {
 		union { null, string } detected_language = null;
 		union { null, string } time_unit        = null;
 		double accounted_time                   = 0.0;
-		User   created_by;
+		AgentUser   created_by;
 		long   created_by_id;
-		User   updated_by;
+		AgentUser   updated_by;
 		long   updated_by_id;
 		string created_at;
 		string updated_at;

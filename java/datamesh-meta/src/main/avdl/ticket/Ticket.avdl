@@ -1,6 +1,6 @@
 @namespace("ch.admin.zammad.avro")
 protocol TicketProtocol {
-	import idl "User.avdl";
+	import idl "AgentUser.avdl";
 	import idl "Group.avdl";
 	import idl "Priority.avdl";
 	
@@ -9,15 +9,10 @@ protocol TicketProtocol {
 		string number;
 		string title;
 		string state;
-		long   state_id;
-		long   group_id;
 		Group  group;
-		long   priority_id;
 		Priority priority;
-		long   owner_id;
-		User   owner;
+		AgentUser   owner;
 		long   customer_id;
-		union { null, long }   organization_id = null;
 		long   create_article_sender_id;
 		string create_article_sender;
 		long   create_article_type_id;
@@ -49,9 +44,9 @@ protocol TicketProtocol {
 		boolean ai_agent_running                           = false;
 		string  created_at;
 		string  updated_at;
-		User    created_by;
+		AgentUser    created_by;
 		long    created_by_id;
-		User    updated_by;
+		AgentUser    updated_by;
 		long    updated_by_id;
 		array<string> ai_stored_result_ids = [];
 	}
