@@ -122,32 +122,6 @@ def persist_action(cur, action: dict) -> None:
     def fk_user(uid):
         return uid if uid in known_user_ids else None
 
-    # --- lookup tables: article_type, article_sender, role ---------------- #
-    type_pairs = {
-        (ticket["create_article_type_id"], ticket["create_article_type"]),
-    }
-    if article:
-        type_pairs.add((article["type_id"], article["type"]))
-    for tid, name in type_pairs:
-        if tid is not None and name is not None:
-            upsert(cur, "article_type", {"id": tid, "name": name}, ["id"])
-
-    sender_pairs = {
-        (ticket["create_article_sender_id"], ticket["create_article_sender"]),
-    }
-    if article:
-        sender_pairs.add((article["sender_id"], article["sender"]))
-    for sid, name in sender_pairs:
-        if sid is not None and name is not None:
-            upsert(cur, "article_sender", {"id": sid, "name": name}, ["id"])
-
-    roles: dict[int, str] = {}
-    for u in users.values():
-        for rid, rname in zip(u.get("role_ids", []), u.get("roles", [])):
-            roles[rid] = rname
-    for rid, rname in roles.items():
-        upsert(cur, "role", {"id": rid, "name": rname}, ["id"])
-
     # --- users, phase A (no self-FKs) ------------------------------------- #
     for u in users.values():
         upsert(cur, "agent_user", _user_row(u), ["id"])
@@ -165,38 +139,7 @@ def persist_action(cur, action: dict) -> None:
             ),
         )
 
-    # --- user_role (replace current set per user) ------------------------- #
-    for u in users.values():
-        cur.execute("DELETE FROM agent_user_role WHERE agent_user_id = %s", (u["id"],))
-        for rid in u.get("role_ids", []):
-            if rid in roles:
-                upsert(
-                    cur,
-                    "agent_user_role",
-                    {"agent_user_id": u["id"], "role_id": rid},
-                    ["agent_user_id", "role_id"],
-                )
-
-    # --- priority --------------------------------------------------------- #
     p = ticket["priority"]
-    upsert(
-        cur,
-        "priority",
-        {
-            "id": p["id"],
-            "name": p["name"],
-            "note": p.get("note"),
-            "ui_color": p.get("ui_color"),
-            "ui_icon": p.get("ui_icon"),
-            "default_create": p.get("default_create", False),
-            "active": p.get("active", True),
-            "created_at": ts(p["created_at"]),
-            "updated_at": ts(p["updated_at"]),
-            "created_by_id": fk_user(p.get("created_by_id")),
-            "updated_by_id": fk_user(p.get("updated_by_id")),
-        },
-        ["id"],
-    )
 
     # --- ticket_group ----------------------------------------------------- #
     g = ticket["group"]
@@ -231,7 +174,8 @@ def persist_action(cur, action: dict) -> None:
 
     # --- ticket ----------------------------------------------------------- #
     # The Avro Ticket embeds group/priority/owner records instead of carrying
-    # group_id/priority_id/owner_id, so the FK ids are taken from those records.
+    # group_id/owner_id, so the FK ids are taken from those records. Priority
+    # and article type/sender are stored by name (no lookup tables).
     upsert(
         cur,
         "ticket",
@@ -241,11 +185,12 @@ def persist_action(cur, action: dict) -> None:
             "title": ticket["title"],
             "state": ticket["state"],
             "group_id": g["id"],
-            "priority_id": p["id"],
+            "priority_name": p["name"],
+            "priority_note": p.get("note"),
             "owner_id": ticket["owner"]["id"],
             "customer_id": ticket["customer_id"],
-            "create_article_type_id": ticket.get("create_article_type_id"),
-            "create_article_sender_id": ticket.get("create_article_sender_id"),
+            "create_article_type": ticket["create_article_type"],
+            "create_article_sender": ticket["create_article_sender"],
             "ai_agent_running": ticket.get("ai_agent_running", False),
             "checklist_id": ticket.get("checklist_id"),
             "note": ticket.get("note"),
@@ -285,8 +230,8 @@ def persist_action(cur, action: dict) -> None:
         {
             "id": article["id"],
             "ticket_id": article["ticket_id"],
-            "type_id": article["type_id"],
-            "sender_id": article["sender_id"],
+            "article_type": article["type"],
+            "article_sender": article["sender"],
             "body": article.get("body", ""),
             "content_type": article.get("content_type", "text/html"),
             "from_address": article.get("from"),

@@ -14,11 +14,9 @@ updated message is idempotent.
 | Source (Avro) | Target table(s) |
 |---------------|-----------------|
 | `ticket.owner`, `.created_by`, `.updated_by`, `article.created_by`, `.updated_by` | `agent_user` |
-| user `role_ids` + `roles` | `role`, `agent_user_role` |
-| `ticket.priority` | `priority` |
 | `ticket.group` | `ticket_group` |
-| `ticket` | `ticket` |
-| `article` (+ `type`/`sender` enums, `create_article_*` on ticket) | `article`, `article_type`, `article_sender` |
+| `ticket` (+ `priority.name`/`note` as `priority_name`/`priority_note`, `create_article_type`/`_sender` names) | `ticket` |
+| `article` (`type`/`sender` stored by name as `article_type`/`article_sender`) | `article` |
 
 Foreign-key safety:
 
@@ -28,8 +26,8 @@ Foreign-key safety:
   exists.
 - Any user/group FK pointing at an id not received as a full record is written
   as **NULL** instead of violating the constraint.
-- `ticket.group_id`, `priority_id` and `owner_id` are taken from the embedded
-  `group`, `priority` and `owner` records; `customer_id` is a plain id (no customer
+- `ticket.group_id` and `owner_id` are taken from the embedded
+  `group` and `owner` records; `customer_id` is a plain id (no customer
   record in the Avro schema, no FK).
 - `article.from` / `article.to` map to `from_address` / `to_address`
   (the SQL columns, avoiding reserved words).
