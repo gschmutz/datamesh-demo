@@ -536,7 +536,7 @@ services:
       - POSTGRES_MULTIPLE_DATABASES=demodb
       - POSTGRES_MULTIPLE_USERS=demo
       - POSTGRES_MULTIPLE_PASSWORDS=${PLATYS_POSTGRESQL_MULTIPLE_PASSWORD:-abc123!}
-      - POSTGRES_MULTIPLE_ADDL_ROLES=
+      - POSTGRES_MULTIPLE_ADDL_ROLES=anon
       - PGDATA=/var/lib/postgresql/data/pgdata
       - DB_SCHEMA=demo
       - DB_ANON_ROLE=anon
@@ -596,7 +596,7 @@ services:
       # The name of which database schema to expose to REST clients
       - PGRST_DB_SCHEMA=ticket
       # The database role to use when no client authentication is provided
-      #- PGRST_DB_ANON_ROLE=anon
+      - PGRST_DB_ANON_ROLE=anon
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./init/postgresql:/docker-entrypoint-initdb.d/:z
