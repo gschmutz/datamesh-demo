@@ -592,9 +592,9 @@ services:
     environment:
       # The standard connection URI format, documented at
       # https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
-      - PGRST_DB_URI=postgres://postgres:abc123!@postgresql:5432/postgres
+      - PGRST_DB_URI=postgres://demo:abc123!@postgresql:5432/demodb
       # The name of which database schema to expose to REST clients
-      - PGRST_DB_SCHEMA=demo
+      - PGRST_DB_SCHEMA=ticket
       # The database role to use when no client authentication is provided
       - PGRST_DB_ANON_ROLE=anon
     volumes:

@@ -138,6 +138,12 @@ sinks:
     address: 0.0.0.0:9090      
 ```
 
+Retrieving tags for ticket
+
+```bash
+curl -H "Authorization: Token token=$ZAMMAD_TOKEN" "http://localhost:28425/api/v1/tags?object=Ticket&o_id=15"
+```
+
 ```avdl
 @namespace("ch.admin.zammad")
 protocol ZammadTicketProtocol {
