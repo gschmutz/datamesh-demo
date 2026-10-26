@@ -147,7 +147,6 @@ CREATE TABLE article (
 CREATE INDEX idx_ticket_group        ON ticket(group_id);
 CREATE INDEX idx_ticket_customer     ON ticket(customer_id);
 CREATE INDEX idx_ticket_owner        ON ticket(owner_id);
-CREATE INDEX idx_ticket_priority     ON ticket(priority_id);
 CREATE INDEX idx_article_ticket      ON article(ticket_id);
 CREATE INDEX idx_article_created_by  ON article(created_by_id);
 CREATE INDEX idx_user_email          ON agent_user(email);
