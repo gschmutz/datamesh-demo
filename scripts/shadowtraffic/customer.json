@@ -1,0 +1,146 @@
+{
+    "generators": [
+        {
+            "name": "genCustomers",
+            "connection": "customerWebhook",
+            "vars": {
+                "id": {
+                    "_gen": "uuid"
+                }
+            },
+            "url": "http://datamesh-customer-app:8082/api/customers",
+            "method": "POST",
+            "data": {
+                "id": {
+                    "_gen": "var",
+                    "var": "id"
+                },
+                "firstName": {
+                    "_gen": "string",
+                    "expr": "#{Name.firstName}"
+                },
+                "lastName": {
+                    "_gen": "string",
+                    "expr": "#{Name.lastName}"
+                },
+                "emailAddress": {
+                    "_gen": "string",
+                    "expr": "#{Internet.emailAddress}"
+                },
+                "phoneNumber": {
+                    "_gen": "string",
+                    "expr": "#{PhoneNumber.cellPhoneInternational}"
+                },
+                "preferredContact": {
+                    "_gen": "oneOf",
+                    "choices": [
+                        "email",
+                        "phone"
+                    ]
+                },
+                "avgTransactionAmount": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 19,
+                            "value": {
+                                "_gen": "uniformDistribution",
+                                "bounds": [
+                                    1,
+                                    1000
+                                ],
+                                "decimals": 0
+                            }
+                        },
+                        {
+                            "weight": 1,
+                            "value": {
+                                "_gen": "normalDistribution",
+                                "mean": 3000,
+                                "sd": 500,
+                                "decimals": 0
+                            }
+                        }
+                    ]
+                },
+                "segment": {
+                    "_gen": "oneOf",
+                    "choices": [
+                        "bronze",
+                        "silver",
+                        "gold",
+                        "platinum"
+                    ]
+                },
+                "addresses": {
+                    "_gen": "repeatedly",
+                    "n": {
+                        "_gen": "uniformDistribution",
+                        "bounds": [
+                            1,
+                            5
+                        ],
+                        "decimals": 0
+                    },
+                    "target": {
+                        "street": {
+                            "_gen": "string",
+                            "expr": "#{Address.streetName}"
+                        },
+                        "zipCode": {
+                            "_gen": "string",
+                            "expr": "#{Address.zipCode}"
+                        },
+                        "city": {
+                            "_gen": "string",
+                            "expr": "#{Address.city}"
+                        },
+                        "state": {
+                            "_gen": "string",
+                            "expr": "#{Team.state}"
+                        }
+                    }
+                },
+                "onboardedDate": {
+                    "_gen": "now"
+                }
+            },
+            "localConfigs": {
+                "throttleMs": {
+                    "_gen": "uniformDistribution",
+                    "bounds": [
+                        40000,
+                        120000
+                    ]
+                }
+            }
+        }
+    ],
+    "schedule": {
+        "stages": [
+            {
+                "generators": [
+                    "genCustomers"
+                ],
+                "overrides": {
+                    "genCustomers": {
+                        "localConfigs": {
+                            "maxEvents": 300,
+                            "throttleMs": 0
+                        }
+                    }
+                }
+            },
+            {
+                "generators": [
+                    "genCustomers"
+                ]
+            }
+        ]
+    },
+    "connections": {
+        "customerWebhook": {
+            "kind": "webhook"
+        }
+    }
+}
