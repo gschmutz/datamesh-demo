@@ -1,8 +1,8 @@
-@namespace("ch.admin.customer.avro")
+@namespace("com.lhbank.customer.avro")
 protocol CustomerStateProtocol {
 	import idl "../Customer.avdl";
 
-  	record CustomerState {
-    	Customer customer;
-  	}
+	record CustomerState {
+		Customer customer;
+	}
 }
