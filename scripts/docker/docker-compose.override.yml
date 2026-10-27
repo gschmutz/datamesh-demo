@@ -16,7 +16,7 @@ services:
     environment:
       SERVER_PORT: 8082
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/demodb
-      SPRING_DATASOURCE_USERNAME: customer
+      SPRING_DATASOURCE_USERNAME: demo
       SPRING_DATASOURCE_PASSWORD: abc123!
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
     ports:
