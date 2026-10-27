@@ -30,7 +30,7 @@ MAPPINGS=(
   "jikkou:scripts/jikkou"
   "redpanda-connect/streams:custom-conf/redpanda-connect/streams"
   "redpanda-connect:custom-conf/redpanda-connect"
-  "shadow-traffic:scripts/shadow-traffic"
+  "shadowtraffic:scripts/shadowtraffic"
 )
 
 DRY_RUN=false
