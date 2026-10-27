@@ -31,7 +31,7 @@ MAPPINGS=(
   "redpanda-connect/streams:custom-conf/redpanda-connect/streams"
   "redpanda-connect:custom-conf/redpanda-connect"
   "shadowtraffic:scripts/shadowtraffic"
-  "docker/docker-compose.override.yml:docker-compose.override.yml"
+  "docker:."
 )
 
 DRY_RUN=false
