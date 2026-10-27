@@ -5,8 +5,7 @@
             "connection": "customerWebhook",
             "vars": {
                 "id": {
-                    "_gen": "sequentialInteger",
-                    "startingFrom": 1
+                    "_gen": "uuid"
                 }
             },
             "url": "http://datamesh-customer-app:8082/api/organizations",

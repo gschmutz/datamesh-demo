@@ -21,13 +21,13 @@ public class OrganizationController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Organization> getOrganizationById(@PathVariable Long id) {
+    public ResponseEntity<Organization> getOrganizationById(@PathVariable String id) {
         return ResponseEntity.of(organizationService.getOrganization(id));
     }
 
     @PostMapping
     public ResponseEntity<?> createOrganization(@RequestBody OrganizationDTO organization) {
-        Long id = organizationService.createOrganization(organization);
+        String id = organizationService.createOrganization(organization);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();

@@ -13,7 +13,7 @@ Content-Type: application/json
   "phoneNumber": "+1 413-925-9346",
   "preferredContact": "phone",
   "segment": "gold",
-  "organizationId": 1,
+  "organizationId": "3f2b8c1e-5a47-4d9e-9b0a-7c1d2e6f8a10",
   "addresses": [
     {
       "street": "Sharda Corners",

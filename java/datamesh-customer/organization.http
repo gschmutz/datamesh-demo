@@ -2,7 +2,7 @@ POST localhost:8082/api/organizations
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": "3f2b8c1e-5a47-4d9e-9b0a-7c1d2e6f8a10",
   "name": "Acme Corp",
   "shared": false,
   "domain": "acme.com",
@@ -15,4 +15,4 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8082/api/organizations/1
+GET localhost:8082/api/organizations/3f2b8c1e-5a47-4d9e-9b0a-7c1d2e6f8a10

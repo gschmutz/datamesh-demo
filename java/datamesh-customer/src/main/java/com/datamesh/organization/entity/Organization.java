@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class Organization extends Auditable {
 
     @Id
-    private Long id;
+    private String id;
     private String name;
     private boolean shared;
     private String domain = "";
@@ -37,11 +37,11 @@ public class Organization extends Auditable {
     @Column(name = "member_id")
     private List<Long> secondaryMemberIds = new ArrayList<>();
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

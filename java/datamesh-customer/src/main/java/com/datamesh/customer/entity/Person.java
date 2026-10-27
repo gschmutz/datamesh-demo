@@ -21,7 +21,7 @@ public class Person extends Auditable {
     private String phoneNumber;
     private String preferredContact;
     private String segment;
-    private Long organizationId;
+    private String organizationId;
 
     @Column(nullable = false, updatable = false)
     private Instant onboardedDate;
@@ -121,11 +121,11 @@ public class Person extends Auditable {
         this.segment = segment;
     }
 
-    public Long getOrganizationId() {
+    public String getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(Long organizationId) {
+    public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
     }
 

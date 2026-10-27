@@ -17,7 +17,7 @@ protocol CustomerProtocol {
 		union { null, string } image        = null;
 		union { null, string } image_source = null;
 		union { null, string } department   = null;
-		union { null, long } organization_id = null;
+		union { null, string } organization_id = null;
 
 		boolean active;
 		boolean verified;

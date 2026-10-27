@@ -2,7 +2,7 @@
 protocol OrganizationProtocol {
 
 	record Organization {
-		long   id;
+		string id;
 		string name;
 		boolean active;
 		boolean vip;

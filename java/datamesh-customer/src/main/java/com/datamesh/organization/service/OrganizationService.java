@@ -31,7 +31,7 @@ public class OrganizationService {
      * @param id The organization id
      * @return The organization if exists
      */
-    public Optional<Organization> getOrganization(Long id) {
+    public Optional<Organization> getOrganization(String id) {
         LOGGER.info("getOrganization({})", id);
 
         return organizationRepository.findById(id);
@@ -43,7 +43,7 @@ public class OrganizationService {
      * @param organizationDTO the organization to save
      * @return the id of the organization
      */
-    public Long createOrganization(OrganizationDTO organizationDTO) {
+    public String createOrganization(OrganizationDTO organizationDTO) {
         LOGGER.info("createOrganization({})", organizationDTO);
 
         var organization = new Organization();
