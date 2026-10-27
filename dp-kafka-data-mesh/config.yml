@@ -735,7 +735,7 @@
       #
       # ===== ShadowTraffic ========
       #
-      SHADOW_TRAFFIC_enable: false
+      SHADOW_TRAFFIC_enable: true
       SHADOW_TRAFFIC_compose_profile:
       SHADOW_TRAFFIC_config_file: config.json
       SHADOW_TRAFFIC_watch_config_file_change: false
@@ -2750,8 +2750,8 @@
       POSTGRESQL_multiple_databases: demodb
       POSTGRESQL_multiple_users: demo
       POSTGRESQL_multiple_passwords: abc123!
-      POSTGRESQL_multiple_addl_roles: ''
-      POSTGRESQL_multiple_schemas: ''
+      POSTGRESQL_multiple_addl_roles: 'anon'
+      POSTGRESQL_multiple_schemas: 'ticket'
       # one of the valid Postgresql wal_levels: "replica", "minimal", "logical". Use logical if you want to work with Debezium.
       POSTGRESQL_wal_level: logical
       POSTGRESQL_anon_role: anon
@@ -2770,6 +2770,11 @@
       # ===== Posgrest ========
       #
       POSTGREST_enable: true
+      POSTGREST_user: demo
+      POSTGREST_password: abc123!
+      POSTGREST_database: demodb
+      POSTGREST_schema: ticket
+      POSTGREST_anon_role: ''
 
       #
       # ===== pREST ========
@@ -3086,6 +3091,7 @@
       POST_GRAPHILE_watch: true
       POST_GRAPHILE_enhance_graphiql: true
       POST_GRAPHILE_dynamic_json: true
+      POST_GRAPHILE_plugins: '@graphile/federation'
 
       #
       # ===== GraphQL Mesh ========

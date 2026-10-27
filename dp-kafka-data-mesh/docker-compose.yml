@@ -406,6 +406,42 @@ services:
       timeout: 5s
       retries: 15
       start_period: 30s
+  #  ================================== ShadowTraffic ========================================== #
+  shadowtraffic:
+    image: docker.io/shadowtraffic/shadowtraffic:latest
+    container_name: shadowtraffic
+    hostname: shadowtraffic
+    profiles: []
+    labels:
+      com.platys.name: shadow-traffic
+      com.platys.description: Simulate production traffic to your backend.
+    depends_on:
+      schema-registry-1:
+        condition: service_healthy
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      - LICENSE_ID=${SHADOW_TRAFFIC_LICENSE_ID:-None}
+      - LICENSE_EMAIL=${SHADOW_TRAFFIC_LICENSE_EMAIL:-None}
+      - LICENSE_ORGANIZATION=${SHADOW_TRAFFIC_LICENSE_ORGANIZATION:-None}
+      - LICENSE_EDITION=${SHADOW_TRAFFIC_LICENSE_EDITION:-None}
+      - LICENSE_EXPIRATION=${SHADOW_TRAFFIC_LICENSE_EXPIRATION:-None}
+      - LICENSE_SIGNATURE=${SHADOW_TRAFFIC_LICENSE_SIGNATURE:-None}
+      - KAFKA_BOOTSTRAP_SERVERS=kafka-1:19092,kafka-2:19093,kafka-3:19094
+      - KAFKA_SCHEMA_REGISTRY_URL=http://schema-registry-1:8081
+      - POSTGRESQL_HOST=postgresql
+      - POSTGRESQL_PORT=5432
+      - POSTGRESQL_DATABASE=postgres
+      - POSTGRESQL_USER=postgres
+      - POSTGRESQL_PASSWORD=abc123!
+    volumes:
+      - ./data-transfer:/data-transfer:z
+      - ./scripts/shadowtraffic:/data:z
+    command: |
+      --config /data/config.json
+      --metrics-port 9400
+      --reload completion
+    restart: unless-stopped
   #  ================================== Redpanda Connect ========================================== #
   redpanda-connect:
     image: docker.redpanda.com/redpandadata/connect:4
@@ -597,8 +633,9 @@ services:
       # The name of which database schema to expose to REST clients
       - PGRST_DB_SCHEMA=ticket
       # The database role to use when no client authentication is provided
-      - PGRST_DB_ANON_ROLE=anon
-      - PGRST_JWT_SECRET=393ab6bfdefdf9430e0d7b2bf9322a4e95cb7c74501d54a2a6062341d22d336d
+    depends_on:
+      postgresql:
+        condition: service_healthy
     volumes:
       - ./data-transfer:/data-transfer:z
       - ./init/postgresql:/docker-entrypoint-initdb.d/:z
@@ -640,6 +677,7 @@ services:
       com.platys.webui.url: http://dataplatform:28151/graphiql
     ports:
       - 28151:5000
+    entrypoint: [sh, -c, npm install --no-save @graphile/federation && exec ./cli.js "$$@", --]
     command:
       - --connection
       - postgres://demo:${PLATYS_POSTGRESQL_PASSWORD:-abc123!}@postgresql:5432/demodb
@@ -652,6 +690,8 @@ services:
       - --watch
       - --enhance-graphiql
       - --dynamic-json
+      - --append-plugins
+      - '@graphile/federation'
     volumes:
       - ./data-transfer:/data-transfer:z
     restart: unless-stopped
