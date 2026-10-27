@@ -1,6 +1,6 @@
 services:
   datamesh-customer-app:
-    image: ghcr.io/gschmutz/datamesh-customer:main
+    image: ghcr.io/gschmutz/datamesh-customer:latest
     container_name: datamesh-customer-app
     hostname: datamesh-customer-app
     labels:
