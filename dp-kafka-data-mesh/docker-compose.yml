@@ -438,9 +438,10 @@ services:
       - ./data-transfer:/data-transfer:z
       - ./scripts/shadowtraffic:/data:z
     command: |
-      --config /data/config.json
+      --config /data/customer.json
       --metrics-port 9400
       --reload completion
+      --watch
     restart: unless-stopped
   #  ================================== Redpanda Connect ========================================== #
   redpanda-connect:

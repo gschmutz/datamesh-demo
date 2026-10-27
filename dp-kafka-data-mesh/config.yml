@@ -737,8 +737,8 @@
       #
       SHADOW_TRAFFIC_enable: true
       SHADOW_TRAFFIC_compose_profile:
-      SHADOW_TRAFFIC_config_file: config.json
-      SHADOW_TRAFFIC_watch_config_file_change: false
+      SHADOW_TRAFFIC_config_file: customer.json
+      SHADOW_TRAFFIC_watch_config_file_change: true
       # either 'completion' or 'immediate'
       SHADOW_TRAFFIC_reload_policy: completion
       SHADOW_TRAFFIC_sample_size:
@@ -746,7 +746,7 @@
       SHADOW_TRAFFIC_to_stdout: false
       SHADOW_TRAFFIC_with_studio: false
       SHADOW_TRAFFIC_report_benchmark: false
-      # to not having to copy the license information into the config file, you can also provide the information as environment variables, using the format PLATYS_SHADOW_TRAFFIC_LICENSE_ID
+      # to not having to copy the license information into the config file, you can also provide the information as environment variables, using the format SHADOW_TRAFFIC_LICENSE_ID
       SHADOW_TRAFFIC_license_id:
       SHADOW_TRAFFIC_license_email:
       SHADOW_TRAFFIC_license_organization:
