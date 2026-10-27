@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-	<groupId>com.lhbank.customer</groupId>
+	<groupId>com.datamesh.customer</groupId>
     <artifactId>datamesh-customer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 

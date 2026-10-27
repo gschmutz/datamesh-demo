@@ -1,6 +1,6 @@
-package com.lhbank.customer.outbox.repository;
+package com.datamesh.customer.outbox.repository;
 
-import com.lhbank.customer.outbox.model.OutboxDO;
+import com.datamesh.customer.outbox.model.OutboxDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

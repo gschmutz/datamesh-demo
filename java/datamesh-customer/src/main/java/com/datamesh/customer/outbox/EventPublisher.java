@@ -1,6 +1,6 @@
-package com.lhbank.customer.outbox;
+package com.datamesh.customer.outbox;
 
-import com.lhbank.customer.outbox.model.OutboxEvent;
+import com.datamesh.customer.outbox.model.OutboxEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;

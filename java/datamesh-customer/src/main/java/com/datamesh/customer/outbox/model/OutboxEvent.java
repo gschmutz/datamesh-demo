@@ -1,4 +1,4 @@
-package com.lhbank.customer.outbox.model;
+package com.datamesh.customer.outbox.model;
 
 /**
  * POJO for holding the OutboxEvent to be published.

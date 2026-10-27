@@ -1,4 +1,4 @@
-package com.lhbank.customer.entity;
+package com.datamesh.customer.entity;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

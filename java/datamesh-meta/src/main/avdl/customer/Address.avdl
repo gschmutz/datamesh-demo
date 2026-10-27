@@ -1,4 +1,4 @@
-@namespace("com.lhbank.customer.avro")
+@namespace("com.datamesh.customer.avro")
 protocol AddressProtocol {
 
 	record Address {

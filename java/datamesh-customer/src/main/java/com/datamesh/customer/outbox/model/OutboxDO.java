@@ -1,4 +1,4 @@
-package com.lhbank.customer.outbox.model;
+package com.datamesh.customer.outbox.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

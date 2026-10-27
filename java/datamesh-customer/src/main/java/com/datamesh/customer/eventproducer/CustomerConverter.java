@@ -1,15 +1,15 @@
-package com.lhbank.customer.eventproducer;
+package com.datamesh.customer.eventproducer;
 
 import java.util.List;
 
-import com.lhbank.customer.avro.CustomerState;
-import com.lhbank.customer.entity.Person;
-import com.lhbank.customer.entity.Address;
+import com.datamesh.customer.avro.CustomerState;
+import com.datamesh.customer.entity.Person;
+import com.datamesh.customer.entity.Address;
 
 public class CustomerConverter {
 
-    private static com.lhbank.customer.avro.Address convertAddress(Address address) {
-        return com.lhbank.customer.avro.Address.newBuilder()
+    private static com.datamesh.customer.avro.Address convertAddress(Address address) {
+        return com.datamesh.customer.avro.Address.newBuilder()
                 .setStreet(address.getStreet())
                 .setZipCode(address.getZipCode())
                 .setCity(address.getCity())
@@ -18,12 +18,12 @@ public class CustomerConverter {
     }
 
     public static CustomerState convert(Person person) {
-        List<com.lhbank.customer.avro.Address> addresses = person.getAddresses().stream()
+        List<com.datamesh.customer.avro.Address> addresses = person.getAddresses().stream()
                 .map(CustomerConverter::convertAddress)
                 .collect(java.util.stream.Collectors.toCollection(() -> new java.util.ArrayList<>()));
 
         return CustomerState.newBuilder()
-                .setCustomer(com.lhbank.customer.avro.Customer.newBuilder()
+                .setCustomer(com.datamesh.customer.avro.Customer.newBuilder()
                         .setId(person.getId())
                         .setFirstName(person.getFirstName())
                         .setLastName(person.getLastName())

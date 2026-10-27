@@ -1,4 +1,4 @@
-package com.lhbank.customer.eventproducer;
+package com.datamesh.customer.eventproducer;
 
 import io.confluent.kafka.schemaregistry.client.CachedSchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.lhbank.customer.avro.CustomerState;
-import com.lhbank.customer.entity.Person;
-import com.lhbank.customer.outbox.EventPublisher;
-import com.lhbank.customer.outbox.model.OutboxEvent;
+import com.datamesh.customer.avro.CustomerState;
+import com.datamesh.customer.entity.Person;
+import com.datamesh.customer.outbox.EventPublisher;
+import com.datamesh.customer.outbox.model.OutboxEvent;
 
 import java.util.HashMap;
 import java.util.Map;

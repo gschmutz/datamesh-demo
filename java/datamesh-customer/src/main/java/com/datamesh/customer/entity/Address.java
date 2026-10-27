@@ -1,4 +1,4 @@
-package com.lhbank.customer.entity;
+package com.datamesh.customer.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

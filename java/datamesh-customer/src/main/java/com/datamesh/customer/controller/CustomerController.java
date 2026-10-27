@@ -1,4 +1,4 @@
-package com.lhbank.customer.controller;
+package com.datamesh.customer.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lhbank.customer.dto.CustomerDTO;
-import com.lhbank.customer.entity.Person;
-import com.lhbank.customer.service.CustomerService;
+import com.datamesh.customer.dto.CustomerDTO;
+import com.datamesh.customer.entity.Person;
+import com.datamesh.customer.service.CustomerService;
 
 import java.net.URI;
 

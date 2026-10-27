@@ -135,7 +135,7 @@ Generate customers according to avro schema
                     "value" : {
                         "type" : "record",
                         "name" : "CustomerState",
-                        "namespace" : "com.lhbank.card.customer.avro",
+                        "namespace" : "com.datamesh.card.customer.avro",
                         "fields" : [
                         {
                             "name" : "customer",

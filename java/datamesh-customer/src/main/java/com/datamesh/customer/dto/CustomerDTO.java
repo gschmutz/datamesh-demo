@@ -1,4 +1,4 @@
-package com.lhbank.customer.dto;
+package com.datamesh.customer.dto;
 
 import java.util.List;
 
