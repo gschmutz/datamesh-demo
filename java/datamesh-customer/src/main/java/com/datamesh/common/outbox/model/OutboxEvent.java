@@ -1,4 +1,4 @@
-package com.datamesh.customer.outbox.model;
+package com.datamesh.common.outbox.model;
 
 /**
  * POJO for holding the OutboxEvent to be published.

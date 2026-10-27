@@ -71,6 +71,7 @@
                     </schemaRegistryUrls>
                     <subjects>
                         <pub.cus.customer.state.v1-value>target/generated-sources/avro/schema/customer/state/CustomerState.avsc</pub.cus.customer.state.v1-value>
+                        <pub.cus.organization.state.v1-value>target/generated-sources/avro/schema/organisation/state/OrganizationState.avsc</pub.cus.organization.state.v1-value>
                         <pub.zammad.ticket.action.v1-value>target/generated-sources/avro/schema/ticket/action/TicketAction.avsc</pub.zammad.ticket.action.v1-value>
                     </subjects>
                 </configuration>

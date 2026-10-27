@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.datamesh.customer.avro.CustomerState;
 import com.datamesh.customer.entity.Person;
-import com.datamesh.customer.outbox.EventPublisher;
-import com.datamesh.customer.outbox.model.OutboxEvent;
+import com.datamesh.common.outbox.EventPublisher;
+import com.datamesh.common.outbox.model.OutboxEvent;
 
 import java.util.HashMap;
 import java.util.Map;

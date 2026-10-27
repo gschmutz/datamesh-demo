@@ -1,4 +1,4 @@
-@namespace("ch.admin.customer.avro")
+@namespace("com.datamesh.organization.avro")
 protocol OrganizationProtocol {
 
 	record Organization {

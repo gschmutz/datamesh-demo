@@ -1,6 +1,6 @@
-package com.datamesh.customer.outbox.repository;
+package com.datamesh.common.outbox.repository;
 
-import com.datamesh.customer.outbox.model.OutboxDO;
+import com.datamesh.common.outbox.model.OutboxDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

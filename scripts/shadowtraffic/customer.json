@@ -1,11 +1,112 @@
 {
     "generators": [
         {
+            "name": "genOrganizations",
+            "connection": "customerWebhook",
+            "vars": {
+                "id": {
+                    "_gen": "sequentialInteger",
+                    "startingFrom": 1
+                }
+            },
+            "url": "http://datamesh-customer-app:8082/api/organizations",
+            "method": "POST",
+            "data": {
+                "id": {
+                    "_gen": "var",
+                    "var": "id"
+                },
+                "name": {
+                    "_gen": "string",
+                    "expr": "#{Company.name}"
+                },
+                "shared": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 3,
+                            "value": true
+                        },
+                        {
+                            "weight": 7,
+                            "value": false
+                        }
+                    ]
+                },
+                "domain": {
+                    "_gen": "string",
+                    "expr": "#{Internet.domainName}"
+                },
+                "domainAssignment": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 5,
+                            "value": true
+                        },
+                        {
+                            "weight": 5,
+                            "value": false
+                        }
+                    ]
+                },
+                "active": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 9,
+                            "value": true
+                        },
+                        {
+                            "weight": 1,
+                            "value": false
+                        }
+                    ]
+                },
+                "vip": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 2,
+                            "value": true
+                        },
+                        {
+                            "weight": 8,
+                            "value": false
+                        }
+                    ]
+                },
+                "note": {
+                    "_gen": "string",
+                    "expr": "#{Lorem.sentence}"
+                },
+                "memberIds": [],
+                "secondaryMemberIds": []
+            },
+            "localConfigs": {
+                "throttleMs": {
+                    "_gen": "uniformDistribution",
+                    "bounds": [
+                        300000,
+                        900000
+                    ]
+                }
+            }
+        },
+        {
             "name": "genCustomers",
             "connection": "customerWebhook",
             "vars": {
                 "id": {
                     "_gen": "uuid"
+                },
+                "organizationId": {
+                    "_gen": "lookup",
+                    "name": "genOrganizations",
+                    "path": [
+                        "data",
+                        "id"
+                    ]
                 }
             },
             "url": "http://datamesh-customer-app:8082/api/customers",
@@ -14,6 +115,53 @@
                 "id": {
                     "_gen": "var",
                     "var": "id"
+                },
+                "organizationId": {
+                    "_gen": "var",
+                    "var": "organizationId"
+                },
+                "login": {
+                    "_gen": "string",
+                    "expr": "#{Name.username}"
+                },
+                "active": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 9,
+                            "value": true
+                        },
+                        {
+                            "weight": 1,
+                            "value": false
+                        }
+                    ]
+                },
+                "verified": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 8,
+                            "value": true
+                        },
+                        {
+                            "weight": 2,
+                            "value": false
+                        }
+                    ]
+                },
+                "vip": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 1,
+                            "value": true
+                        },
+                        {
+                            "weight": 9,
+                            "value": false
+                        }
+                    ]
                 },
                 "firstName": {
                     "_gen": "string",
@@ -36,31 +184,6 @@
                     "choices": [
                         "email",
                         "phone"
-                    ]
-                },
-                "avgTransactionAmount": {
-                    "_gen": "weightedOneOf",
-                    "choices": [
-                        {
-                            "weight": 19,
-                            "value": {
-                                "_gen": "uniformDistribution",
-                                "bounds": [
-                                    1,
-                                    1000
-                                ],
-                                "decimals": 0
-                            }
-                        },
-                        {
-                            "weight": 1,
-                            "value": {
-                                "_gen": "normalDistribution",
-                                "mean": 3000,
-                                "sd": 500,
-                                "decimals": 0
-                            }
-                        }
                     ]
                 },
                 "segment": {
@@ -120,6 +243,19 @@
         "stages": [
             {
                 "generators": [
+                    "genOrganizations"
+                ],
+                "overrides": {
+                    "genOrganizations": {
+                        "localConfigs": {
+                            "maxEvents": 10,
+                            "throttleMs": 0
+                        }
+                    }
+                }
+            },
+            {
+                "generators": [
                     "genCustomers"
                 ],
                 "overrides": {
@@ -133,6 +269,7 @@
             },
             {
                 "generators": [
+                    "genOrganizations",
                     "genCustomers"
                 ]
             }

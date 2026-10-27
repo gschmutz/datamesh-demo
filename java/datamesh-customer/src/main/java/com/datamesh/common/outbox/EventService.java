@@ -1,4 +1,4 @@
-package com.datamesh.customer.outbox;
+package com.datamesh.common.outbox;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import com.datamesh.customer.outbox.model.OutboxDO;
-import com.datamesh.customer.outbox.model.OutboxEvent;
-import com.datamesh.customer.outbox.repository.OutboxRepository;
+import com.datamesh.common.outbox.model.OutboxDO;
+import com.datamesh.common.outbox.model.OutboxEvent;
+import com.datamesh.common.outbox.repository.OutboxRepository;
 
 import java.time.Instant;
 import java.util.UUID;

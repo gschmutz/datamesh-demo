@@ -1,4 +1,4 @@
-package com.datamesh.customer.outbox.model;
+package com.datamesh.common.outbox.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

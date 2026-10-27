@@ -62,14 +62,17 @@ public class CustomerService {
         var person = new Person();
         // assign an id (was previously null which caused Hibernate to error on persist)
         person.setId(customerDTO.id());
+        person.setLogin(customerDTO.login());
+        person.setActive(customerDTO.active());
+        person.setVerified(customerDTO.verified());
+        person.setVip(customerDTO.vip());
         person.setFirstName(customerDTO.firstName());
         person.setLastName(customerDTO.lastName());
         person.setEmailAddress(customerDTO.emailAddress());
         person.setPhoneNumber(customerDTO.phoneNumber());
         person.setPreferredContact(customerDTO.preferredContact());
         person.setSegment(customerDTO.segment());
-
-        person.setAvgTransactionalAmount(customerDTO.avgTransactionAmount());
+        person.setOrganizationId(customerDTO.organizationId());
 
         // attach addresses and ensure the bidirectional relationship is set
         for (var addressDTO : customerDTO.addresses()) {
@@ -79,11 +82,12 @@ public class CustomerService {
 
         person.setOnboardedDate(Instant.now());
 
-        customerRepository.saveAndFlush(person);
+        // use the returned instance, it carries the audit timestamps (save may merge into a copy)
+        var saved = customerRepository.saveAndFlush(person);
 
         //Publish the event
-        customerStateProducer.send(person);
+        customerStateProducer.send(saved);
 
-        return person.getId();
+        return saved.getId();
     }
 }

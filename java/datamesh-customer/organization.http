@@ -1,0 +1,18 @@
+POST localhost:8082/api/organizations
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Acme Corp",
+  "shared": false,
+  "domain": "acme.com",
+  "domainAssignment": true,
+  "active": true,
+  "vip": false,
+  "note": "Key account",
+  "memberIds": [1, 2],
+  "secondaryMemberIds": [3]
+}
+
+###
+GET localhost:8082/api/organizations/1

@@ -1,0 +1,8 @@
+@namespace("com.datamesh.organization.avro")
+protocol OrganizationStateProtocol {
+	import idl "../Organization.avdl";
+
+	record OrganizationState {
+		Organization organization;
+	}
+}

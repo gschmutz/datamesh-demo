@@ -3,13 +3,17 @@ Content-Type: application/json
 
 {
   "id": "cad4e633-d23e-9e95-97bc-909e7fa83e7q",
+  "login": "angelyn.dibbert",
+  "active": true,
+  "verified": true,
+  "vip": false,
   "firstName": "Peter",
   "lastName": "Muster",
   "emailAddress": "cher.turner@hotmail.com",
   "phoneNumber": "+1 413-925-9346",
   "preferredContact": "phone",
   "segment": "gold",
-  "avgTransactionAmount": 175,
+  "organizationId": 1,
   "addresses": [
     {
       "street": "Sharda Corners",

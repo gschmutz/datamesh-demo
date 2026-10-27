@@ -1,0 +1,12 @@
+@namespace("com.datamesh.customer.avro")
+protocol OrganizationProtocol {
+
+	record Organization {
+		long   id;
+		string name;
+		boolean active;
+		boolean vip;
+
+	}
+
+}

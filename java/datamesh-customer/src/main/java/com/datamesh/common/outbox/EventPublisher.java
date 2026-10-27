@@ -1,6 +1,6 @@
-package com.datamesh.customer.outbox;
+package com.datamesh.common.outbox;
 
-import com.datamesh.customer.outbox.model.OutboxEvent;
+import com.datamesh.common.outbox.model.OutboxEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;

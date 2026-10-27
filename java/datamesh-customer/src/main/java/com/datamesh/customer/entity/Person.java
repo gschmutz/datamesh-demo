@@ -11,13 +11,17 @@ public class Person extends Auditable {
 
     @Id
     private String id;
+    private String login;
+    private boolean active;
+    private boolean verified;
+    private boolean vip;
     private String firstName;
     private String lastName;
     private String emailAddress;
     private String phoneNumber;
     private String preferredContact;
     private String segment;
-    private Long avgTransactionalAmount;
+    private Long organizationId;
 
     @Column(nullable = false, updatable = false)
     private Instant onboardedDate;
@@ -35,6 +39,38 @@ public class Person extends Auditable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
     }
 
     public String getFirstName() {
@@ -85,12 +121,12 @@ public class Person extends Auditable {
         this.segment = segment;
     }
 
-    public Long getAvgTransactionalAmount() {
-        return avgTransactionalAmount;
+    public Long getOrganizationId() {
+        return organizationId;
     }
 
-    public void setAvgTransactionalAmount(Long avgTransactionalAmount) {
-        this.avgTransactionalAmount = avgTransactionalAmount;
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
 
     public Instant getOnboardedDate() {
