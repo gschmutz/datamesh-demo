@@ -573,7 +573,7 @@ services:
       - POSTGRES_MULTIPLE_DATABASES=demodb
       - POSTGRES_MULTIPLE_USERS=demo
       - POSTGRES_MULTIPLE_PASSWORDS=${PLATYS_POSTGRESQL_MULTIPLE_PASSWORD:-abc123!}
-      - POSTGRES_MULTIPLE_SCHEMAS=ticket
+      - POSTGRES_MULTIPLE_SCHEMAS=ticket:customer
       - POSTGRES_MULTIPLE_ADDL_ROLES=anon
       - PGDATA=/var/lib/postgresql/data/pgdata
       - DB_SCHEMA=demo

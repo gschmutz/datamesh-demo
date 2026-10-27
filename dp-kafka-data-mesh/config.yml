@@ -2751,7 +2751,7 @@
       POSTGRESQL_multiple_users: demo
       POSTGRESQL_multiple_passwords: abc123!
       POSTGRESQL_multiple_addl_roles: 'anon'
-      POSTGRESQL_multiple_schemas: 'ticket'
+      POSTGRESQL_multiple_schemas: 'ticket:customer'
       # one of the valid Postgresql wal_levels: "replica", "minimal", "logical". Use logical if you want to work with Debezium.
       POSTGRESQL_wal_level: logical
       POSTGRESQL_anon_role: anon
