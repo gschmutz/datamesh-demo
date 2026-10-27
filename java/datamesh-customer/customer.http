@@ -1,0 +1,33 @@
+POST 192.168.1.112:29000/api/customers
+Content-Type: application/json
+
+{
+  "id": "cad4e633-d23e-9e95-97bb-909e7fa82e7d",
+  "firstName": "Angelyn",
+  "lastName": "Dibbert",
+  "emailAddress": "cher.turner@hotmail.com",
+  "phoneNumber": "+1 413-925-9346",
+  "preferredContact": "phone",
+  "segment": "gold",
+  "avgTransactionAmount": 175,
+  "addresses": [
+    {
+      "street": "Sharda Corners",
+      "zipCode": "92666",
+      "city": "Prohaskaside",
+      "state": "Hawaii"
+    },
+    {
+      "street": "Garth Causeway",
+      "zipCode": "79086",
+      "city": "Sumikoberg",
+      "state": "Texas"
+    },
+    {
+      "street": "Taylor Route",
+      "zipCode": "68794",
+      "city": "East Thaddeus",
+      "state": "Arkansas"
+    }
+  ]
+}
