@@ -3885,9 +3885,9 @@
       DATA_MESH_MANAGER_CONNECTOR_DATABRICKS_account_clientsecret:
       
       #
-      # ===== Data Contract Manager ========
+      # ===== Data Contract Manager (CE) ========
       #
-      DATA_CONTRACT_MANAGER_enable: false
+      DATA_CONTRACT_MANAGER_enable: true
       DATA_CONTRACT_MANAGER_volume_map_data: false
       DATA_CONTRACT_MANAGER_postgres_username: data-contract-mgr
       DATA_CONTRACT_MANAGER_postgres_password: abc123!

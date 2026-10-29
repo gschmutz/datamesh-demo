@@ -52,7 +52,7 @@ services:
       KAFKA_TOOLS_LOG4J_LOGLEVEL: INFO
       EXTRA_ARGS: -javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent-1.1.0.jar=1234:/usr/share/jmx-exporter/kafka_broker.yml
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/kafka/jmx-exporter/:/usr/share/jmx-exporter:z
     restart: unless-stopped
     healthcheck:
@@ -102,7 +102,7 @@ services:
       KAFKA_TOOLS_LOG4J_LOGLEVEL: INFO
       EXTRA_ARGS: -javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent-1.1.0.jar=1234:/usr/share/jmx-exporter/kafka_broker.yml
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/kafka/jmx-exporter/:/usr/share/jmx-exporter:z
     restart: unless-stopped
     healthcheck:
@@ -152,7 +152,7 @@ services:
       KAFKA_TOOLS_LOG4J_LOGLEVEL: INFO
       EXTRA_ARGS: -javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent-1.1.0.jar=1234:/usr/share/jmx-exporter/kafka_broker.yml
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/kafka/jmx-exporter/:/usr/share/jmx-exporter:z
     restart: unless-stopped
     healthcheck:
@@ -213,7 +213,7 @@ services:
       CONNECT_CONFIG_PROVIDERS_FILE_CLASS: org.apache.kafka.common.config.provider.FileConfigProvider
       EXTRA_ARGS: -javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent-1.1.0.jar=1234:/usr/share/jmx-exporter/kafka_connect.yml
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./plugins/kafka-connect/connectors:/etc/kafka-connect/addl-plugins:z
       - ./plugins/kafka-connect/jars:/etc/kafka-connect/jars:z
       - ./scripts/kafka/jmx-exporter/:/usr/share/jmx-exporter:z
@@ -271,7 +271,7 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
       EXTRA_ARGS: -javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent-1.1.0.jar=1234:/usr/share/jmx-exporter/confluent_schemaregistry.yml
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/kafka/jmx-exporter/:/usr/share/jmx-exporter:z
     restart: unless-stopped
     healthcheck:
@@ -299,7 +299,7 @@ services:
       VALIDATION_DEFAULT_TOPIC_MIN_NUM_PARTITIONS: 1
       VALIDATION_DEFAULT_TOPIC_MIN_REPLICATION_FACTOR: 1
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/jikkou/:/jikkou:z
       - ./conf/jikkou/application.conf:/appuser/.jikkou/application.conf:z
       - ./conf/jikkou/config:/etc/jikkou/config:z
@@ -353,7 +353,7 @@ services:
                 - name: "connect-1"
                   url: "http://kafka-connect-1:8083"
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
     healthcheck:
       test: [CMD, curl, -f, http://localhost:28081/health]
@@ -398,7 +398,7 @@ services:
       SWAGGER_UI_ENABLED: 'True'
       MCP_ENABLED: 'False'
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
     healthcheck:
       test: [CMD, wget, -Y, off, -q, -O, /dev/null, http://localhost:28183/actuator/health]
@@ -435,7 +435,7 @@ services:
       - POSTGRESQL_USER=postgres
       - POSTGRESQL_PASSWORD=abc123!
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/shadowtraffic:/data:z
     command: |
       --config /data/customer.json
@@ -462,7 +462,7 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
       KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./custom-conf/redpanda-connect/streams:/connect/streams:ro
       - ./custom-conf/redpanda-connect/resources.yaml:/resources.yaml:ro
       - ./custom-conf/redpanda-connect/connect.yaml:/connect.yaml:ro
@@ -490,7 +490,7 @@ services:
       - REDIS_AOF_ENABLED=yes
       - REDIS_RDB_POLICY_DISABLED=yes
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: /opt/bitnami/scripts/redis/run.sh --loglevel notice
     restart: unless-stopped
     healthcheck:
@@ -515,7 +515,7 @@ services:
       - CLICKHOUSE_USER=clickhouse
       - CLICKHOUSE_PASSWORD=${PLATYS_CLICKHOUSE_PASSWORD:-abc123!}
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./init/clickhouse:/docker-entrypoint-initdb.d:z
     restart: unless-stopped
     healthcheck:
@@ -541,7 +541,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./conf/prometheus/prometheus-config/prometheus.yml:/etc/prometheus/prometheus.yml:z
     command:
       - --config.file=/etc/prometheus/prometheus.yml
@@ -579,7 +579,7 @@ services:
       - DB_SCHEMA=demo
       - DB_ANON_ROLE=anon
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./init/postgresql:/docker-entrypoint-initdb.d/:z
     command:
       - postgres
@@ -613,7 +613,7 @@ services:
       DATA_SOURCE_USER: postgres
       DATA_SOURCE_PASS: ${PLATYS_POSTGRESQL_PASSWORD:-abc123!}
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
   #  ================================== PostgREST ========================================== #
   postgrest:
@@ -638,7 +638,7 @@ services:
       postgresql:
         condition: service_healthy
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./init/postgresql:/docker-entrypoint-initdb.d/:z
     restart: unless-stopped
   #  ================================== Hasura ========================================== #
@@ -664,7 +664,7 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_LIVE_QUERIES_MULTIPLEXED_REFETCH_INTERVAL: 1000
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
   #  ================================== PostGraphile ========================================== #
   postgraphile:
@@ -694,7 +694,7 @@ services:
       - --append-plugins
       - '@graphile/federation'
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
   #  ================================== GraphQL Hive Console ========================================== #
   #  Reuses the Platys postgresql, redis-1, clickhouse, kafka and S3 services.
@@ -964,7 +964,7 @@ services:
     environment:
       LOG_LEVEL: info
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./custom-conf/hive-gateway/supergraph.graphql:/gateway/supergraph.graphql:ro
     restart: unless-stopped
     healthcheck:
@@ -1003,7 +1003,7 @@ services:
       # TELEMETRY_TRACING_SAMPLING_RATE: 
       DISABLE_SUBGRAPH_ERROR_MASKING: false
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./custom-conf/hive-router/supergraph.graphql:/app/supergraph.graphql:ro
     restart: unless-stopped
     # The hive-router image is distroless (only the /app/hive_router binary, no
@@ -1013,6 +1013,7 @@ services:
       test: [NONE]
   #  ================================== GraphQL Hive Yoga ========================================== #
   hive-yoga-server-1:
+    image: hive-yoga-server:latest
     build:
       context: ./init/hive-yoga-server
       dockerfile: Dockerfile
@@ -1028,7 +1029,7 @@ services:
     environment:
       PORT: 3001
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/hive-yoga-server/server-1.mjs:/app/server.mjs:ro
     restart: unless-stopped
     healthcheck:
@@ -1037,6 +1038,7 @@ services:
       timeout: 3s
       retries: 5
   hive-yoga-server-2:
+    image: hive-yoga-server:latest
     build:
       context: ./init/hive-yoga-server
       dockerfile: Dockerfile
@@ -1052,7 +1054,7 @@ services:
     environment:
       PORT: 3001
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/hive-yoga-server/server-2.mjs:/app/server.mjs:ro
     restart: unless-stopped
     healthcheck:
@@ -1086,7 +1088,7 @@ services:
       ROOT_ACCESS_KEY: ${PLATYS_AWS_ACCESS_KEY:-admin}
       ROOT_SECRET_KEY: ${PLATYS_AWS_SECRET_ACCESS_KEY:-abc123abc123!}
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
     healthcheck:
       test: [CMD, wget, -q, -O, /dev/null, http://localhost:9000/health]
@@ -1104,7 +1106,7 @@ services:
     environment:
       MC_HOST_versitygw: http://${PLATYS_AWS_ACCESS_KEY:-admin}:${PLATYS_AWS_SECRET_ACCESS_KEY:-abc123abc123!}@versitygw:9000
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/docker/wait-for-it.sh:/usr/src/app/wait-for-it.sh:z
     entrypoint:
       - /bin/sh
@@ -1145,7 +1147,7 @@ services:
       - BACKUP_ON_START=true
       - HOLD_DAYS=10
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: [zammad-railsserver]
     restart: unless-stopped
     healthcheck:
@@ -1181,7 +1183,7 @@ services:
       - BACKUP_ON_START=true
       - HOLD_DAYS=10
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     hostname: zammad-scheduler
     restart: unless-stopped
   zammad-websocket:
@@ -1211,7 +1213,7 @@ services:
       - BACKUP_ON_START=true
       - HOLD_DAYS=10
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: [zammad-websocket]
     restart: unless-stopped
   zammad-nginx:
@@ -1245,7 +1247,7 @@ services:
       - BACKUP_ON_START=true
       - HOLD_DAYS=10
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: [zammad-nginx]
     restart: unless-stopped
   zammad-elasticsearch:
@@ -1259,7 +1261,7 @@ services:
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
   zammad-memcached:
     image: docker.io/memcached:1.6.42-alpine
@@ -1286,7 +1288,7 @@ services:
       - POSTGRES_USER=zammad
       - POSTGRES_PASSWORD=zammad
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
     healthcheck:
       test: [CMD-SHELL, pg_isready -U zammad -d zammad_production]
@@ -1301,7 +1303,7 @@ services:
     labels:
       com.platys.name: zammad
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
     healthcheck:
       test: [CMD, redis-cli, ping]
@@ -1333,10 +1335,47 @@ services:
       - BACKUP_ON_START=true
       - HOLD_DAYS=10
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: [zammad-init]
 #    restart: "no"  # do be podman compatible, it has to be "no" which did not work, but no is default    
     init: true
+  #  ================================== Data Contract Manager ================= #
+  data-contract-manager:
+    image: docker.io/datentropydata/entropy-data-ce:latest
+    container_name: data-contract-manager
+    hostname: data-contract-manager
+    labels:
+      com.platys.name: data-contract-manager
+      com.platys.description: Data Contract Manager
+      com.platys.webui.title: Data Contract Manager UI
+      com.platys.webui.url: http://dataplatform:28382
+    ports:
+      - 28382:8080
+    environment:
+      - APPLICATION_HOST_WEB=http://${PUBLIC_IP:-127.0.0.1}:28382
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://data-contract-manager-postgresql:5432/data_contract_mgr_db
+      - SPRING_DATASOURCE_USERNAME=data-contract-mgr
+      - SPRING_DATASOURCE_PASSWORD=${PLATYS_DATA_CONTRACT_MANAGER_POSTGRESQL_PASSWORD:-abc123!}
+      - SPRING_MAIL_HOST=mailhog
+      - SPRING_MAIL_PORT=25
+    volumes:
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
+    restart: unless-stopped
+  data-contract-manager-postgresql:
+    image: docker.io/pgvector/pgvector:pg16
+    container_name: data-contract-manager-postgresql
+    hostname: data-contract-manager-postgresql
+    labels:
+      com.platys.name: postgresql
+      com.platys.description: Data Contract Manager Postgresql
+      com.platys.password.envvars: PLATYS_DATA_CONTRACT_MANAGER_POSTGRESQL_PASSWORD
+    environment:
+      - POSTGRES_DB=data_contract_mgr_db
+      - POSTGRES_USER=data-contract-mgr
+      - POSTGRES_PASSWORD=${PLATYS_DATA_CONTRACT_MANAGER_POSTGRESQL_PASSWORD:-abc123!}
+    volumes:
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
+    restart: unless-stopped
   #  ================================== Data Contract Editor ================= #
   data-contract-editor:
     image: docker.io/datacontract/editor:latest
@@ -1351,7 +1390,7 @@ services:
     ports:
       - 4173:4173
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
   #  ================================== Data Contract CLI API Server ================= #
   data-contract-api:
@@ -1369,7 +1408,7 @@ services:
     environment:
       - DATACONTRACT_CLI_API_KEY=a079ce4c-af90-45ab-abe5-a8d7697f60d6
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: [api, --host, 0.0.0.0]
     restart: unless-stopped
   #  ================================== Grafana ========================================== #
@@ -1397,7 +1436,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=abc123!
       - GF_USERS_ALLOW_SIGN_UP=false
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ./scripts/grafana/dashboards/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml:z
       - ./scripts/grafana/dashboards/docker/monitor_services.json:/etc/grafana/provisioning/dashboards/docker/monitor_services.json:z
       - ./scripts/grafana/dashboards/kafka/confluent-platform-kraft.json:/etc/grafana/provisioning/dashboards/kafka/confluent-platform-kraft.json:z
@@ -1448,7 +1487,7 @@ services:
       DISABLE_WHATS_NEW: true
       EXPORT_METRICS: false
     volumes:
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
       - ${PLATYS_DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock:z
     restart: unless-stopped
   #  ================================== markdown-viewer ========================================== #
@@ -1466,7 +1505,7 @@ services:
     volumes:
       - ./artefacts:/docs
       - ./conf/markdown-viewer/markdown-madness.yml:/docs/.madness.yml:z
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: server
     restart: unless-stopped
     healthcheck:
@@ -1498,7 +1537,7 @@ services:
       - ./artefacts/templates:/scripts:z
       - .:/variables:z
       - ./artefacts:/output:z
-      - ./data-transfer:/data-transfer:z
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     init: true
 volumes:
   data-transfer-vol:
