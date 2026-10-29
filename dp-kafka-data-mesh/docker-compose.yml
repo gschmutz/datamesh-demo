@@ -1358,6 +1358,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${PLATYS_DATA_CONTRACT_MANAGER_POSTGRESQL_PASSWORD:-abc123!}
       - SPRING_MAIL_HOST=mailhog
       - SPRING_MAIL_PORT=25
+      - APPLICATION_SEMANTICS_ENABLED=true
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
