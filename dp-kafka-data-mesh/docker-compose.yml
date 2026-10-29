@@ -1341,7 +1341,7 @@ services:
     init: true
   #  ================================== Data Contract Manager ================= #
   data-contract-manager:
-    image: docker.io/datentropydata/entropy-data-ce:latest
+    image: docker.io/entropydata/entropy-data-ce:latest
     container_name: data-contract-manager
     hostname: data-contract-manager
     labels:
