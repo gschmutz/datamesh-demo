@@ -469,6 +469,7 @@ services:
       - --addr=0.0.0.0:8181
       - --diagnostic-addr=0.0.0.0:8282
       - --set=decision_logs.console=true
+      - --set=status.prometheus=true
       - /data/policies
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
