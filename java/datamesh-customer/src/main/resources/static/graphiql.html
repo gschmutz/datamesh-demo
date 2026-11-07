@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Customer GraphQL</title>
+    <!-- Self-hosted GraphiQL assets (no CDN) -->
+    <link rel="stylesheet" href="/vendor/graphiql.min.css"/>
+    <style>
+        html, body, #graphiql { height: 100%; margin: 0; overflow: hidden; }
+    </style>
+</head>
+<body>
+<div id="graphiql">Loading…</div>
+<script src="/vendor/react.production.min.js"></script>
+<script src="/vendor/react-dom.production.min.js"></script>
+<script src="/vendor/graphiql.min.js"></script>
+<script>
+    const fetcher = GraphiQL.createFetcher({ url: '/graphql' });
+    const root = ReactDOM.createRoot(document.getElementById('graphiql'));
+    root.render(React.createElement(GraphiQL, { fetcher, defaultEditorToolsVisibility: true }));
+</script>
+</body>
+</html>

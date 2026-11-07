@@ -1,0 +1,99 @@
+scalar DateTime
+scalar Long
+
+type Query {
+    "List customers (default 50)."
+    customers(limit: Int = 50): [Customer!]!
+    "A single customer by id."
+    customerById(id: ID!): Customer
+
+    "List organizations (default 50)."
+    organizations(limit: Int = 50): [Organization!]!
+    "A single organization by id."
+    organizationById(id: ID!): Organization
+}
+
+type Mutation {
+    "Onboard a customer and publish its state event. Returns the saved customer."
+    onboardCustomer(input: CustomerInput!): Customer!
+    "Create (or update) an organization and publish its state event."
+    createOrganization(input: OrganizationInput!): Organization!
+}
+
+type Customer {
+    id: ID!
+    login: String
+    active: Boolean!
+    verified: Boolean!
+    vip: Boolean!
+    firstName: String
+    lastName: String
+    emailAddress: String
+    phoneNumber: String
+    preferredContact: String
+    segment: String
+    organizationId: String
+    "Organization the customer belongs to (may be null)."
+    organization: Organization
+    onboardedDate: DateTime
+    addresses: [Address!]!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type Address {
+    id: ID!
+    street: String
+    zipCode: String
+    city: String
+    state: String
+}
+
+type Organization {
+    id: ID!
+    name: String
+    shared: Boolean!
+    domain: String
+    domainAssignment: Boolean!
+    active: Boolean!
+    vip: Boolean!
+    note: String
+    memberIds: [Long!]!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+input CustomerInput {
+    id: ID!
+    login: String
+    active: Boolean = true
+    verified: Boolean = false
+    vip: Boolean = false
+    firstName: String
+    lastName: String
+    emailAddress: String
+    phoneNumber: String
+    preferredContact: String
+    segment: String
+    organizationId: String
+    addresses: [AddressInput!] = []
+}
+
+input AddressInput {
+    street: String
+    zipCode: String
+    city: String
+    state: String
+}
+
+input OrganizationInput {
+    id: ID!
+    name: String
+    shared: Boolean = false
+    domain: String
+    domainAssignment: Boolean = false
+    active: Boolean = true
+    vip: Boolean = false
+    note: String
+    memberIds: [Long!] = []
+}
