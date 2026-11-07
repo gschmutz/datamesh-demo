@@ -17,7 +17,6 @@ public class OrganizationConverter {
                         .setVip(organization.isVip())
                         .setNote(organization.getNote())
                         .setMemberIds(organization.getMemberIds())
-                        .setSecondaryMemberIds(organization.getSecondaryMemberIds())
                         .setCreatedAt(organization.getCreatedAt().toString())
                         .setUpdatedAt(organization.getModifiedAt().toString())
                         .build())

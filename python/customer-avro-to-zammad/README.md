@@ -1,5 +1,11 @@
 # customer-avro-to-zammad
 
+Two consumers that push data products into Zammad: [`customer_avro_to_zammad.py`](customer_avro_to_zammad.py)
+(customers -> users) and [`organization_avro_to_zammad.py`](organization_avro_to_zammad.py) (organizations, see
+[below](#organizations)). Both share [mapping.py](mapping.py) and run independently.
+
+## Customers
+
 Consumes Avro **`CustomerState`** records from **`pub.cus.customer.state.v1`**
 (Confluent Schema-Registry serialized, conforming to
 [`CustomerState-v1.avdl`](../../java/datamesh-meta/src/main/avdl/customer/state/CustomerState-v1.avdl))
@@ -63,3 +69,39 @@ python customer_avro_to_zammad.py
 | `--dsn` | `PG_DSN` | `postgresql://demo:abc123!@dataplatform:5432/demodb` |
 | `--pg-schema` | `PG_SCHEMA` | `ticket` |
 | `--dry-run` | - | off (skips Zammad and the database) |
+
+## Organizations
+
+[`organization_avro_to_zammad.py`](organization_avro_to_zammad.py) consumes Avro **`OrganizationState`** records from
+**`pub.cus.organization.state.v1`** (conforming to
+[`OrganizationState-v1.avdl`](../../java/datamesh-meta/src/main/avdl/organisation/state/OrganizationState-v1.avdl))
+and creates the organizations in Zammad (`/api/v1/organizations`).
+
+| Avro `Organization` | Zammad organization |
+|---------------------|---------------------|
+| `name` | `name` |
+| `shared`, `domain_assignment`, `active`, `vip` | `shared`, `domain_assignment`, `active`, `vip` |
+| `domain` | `domain` (sent even when empty) |
+| `note` | `note` (omitted when null) |
+
+Not mapped: `member_ids` (Zammad organizations get their members from the users) and `created_at` / `updated_at`.
+
+- **Id mapping**: the Zammad organization id is stored with the Organization `id` (UUID) in
+  `organization_id_mapping` (schema `ticket`, same script `cr_id_mapping.sql`).
+- **Upsert**: the Zammad id is looked up in the mapping table first, so a renamed organization is updated instead of
+  duplicated. Without a mapping row it is matched by name, then created if missing.
+- Same delivery guarantee, retries and `--dry-run` as the customer consumer.
+
+```bash
+python organization_avro_to_zammad.py
+```
+
+Flags and environment variables are the same as in the table above, except:
+
+| Flag | Env | Default |
+|------|-----|---------|
+| `--input-topic` | `INPUT_TOPIC` | `pub.cus.organization.state.v1` |
+| `--group-id` | `GROUP_ID` | `organization-avro-to-zammad` |
+
+The customer consumer does not link users to these organizations yet. The mapping table now has what it needs for that:
+`customer.organization_id` (UUID) -> `organization_id_mapping` -> Zammad organization id.

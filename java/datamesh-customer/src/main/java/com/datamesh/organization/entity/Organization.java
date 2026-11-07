@@ -32,11 +32,6 @@ public class Organization extends Auditable {
     @Column(name = "member_id")
     private List<Long> memberIds = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "organization_secondary_member", joinColumns = @JoinColumn(name = "organization_id"))
-    @Column(name = "member_id")
-    private List<Long> secondaryMemberIds = new ArrayList<>();
-
     public String getId() {
         return id;
     }
@@ -107,13 +102,5 @@ public class Organization extends Auditable {
 
     public void setMemberIds(List<Long> memberIds) {
         this.memberIds = memberIds;
-    }
-
-    public List<Long> getSecondaryMemberIds() {
-        return secondaryMemberIds;
-    }
-
-    public void setSecondaryMemberIds(List<Long> secondaryMemberIds) {
-        this.secondaryMemberIds = secondaryMemberIds;
     }
 }

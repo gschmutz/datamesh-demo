@@ -11,7 +11,6 @@ protocol OrganizationProtocol {
 		boolean vip;
 		union { null, string } note = null;
 		array<long> member_ids           = [];
-		array<long> secondary_member_ids = [];
 		string created_at;
 		string updated_at;
 	}

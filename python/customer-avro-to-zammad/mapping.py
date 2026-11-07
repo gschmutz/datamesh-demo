@@ -1,9 +1,12 @@
-"""Map a deserialized ``CustomerState`` Avro record onto a Zammad user and push
-it through the Zammad REST API.
+"""Map deserialized ``CustomerState`` / ``OrganizationState`` Avro records onto
+Zammad users / organizations and push them through the Zammad REST API.
 
 The Zammad user is upserted on ``login``: it is looked up first and updated
 (``PUT``) if found, created (``POST``) otherwise. So re-consuming the same (or
 an updated) state message is idempotent.
+
+The Zammad organization is looked up by the id stored in ``organization_id_mapping``
+(falling back to its name) and updated if found, created otherwise.
 
 New users get the ``Customer`` role. The role list is not sent on updates, so a
 user that already exists keeps whatever roles it has.
@@ -55,6 +58,22 @@ def to_zammad_user(customer: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in ((k, _clean(v)) for k, v in payload.items()) if v is not None}
 
 
+def to_zammad_organization(organization: dict[str, Any]) -> dict[str, Any]:
+    """Build the Zammad organization payload from the Avro ``Organization``."""
+    payload: dict[str, Any] = {
+        "name": organization["name"],
+        "shared": organization["shared"],
+        "domain": organization.get("domain") or "",
+        "domain_assignment": organization["domain_assignment"],
+        "active": organization["active"],
+        "vip": organization["vip"],
+    }
+    note = _clean(organization.get("note"))
+    if note is not None:
+        payload["note"] = note
+    return payload
+
+
 # Remember which Zammad user belongs to which Customer id (UUID). A customer that
 # is re-created in Zammad (new login -> new user id) replaces its stale mapping.
 DELETE_STALE_MAPPING_SQL = """
@@ -74,6 +93,36 @@ def save_customer_mapping(cur, zammad_user_id: int, customer_id: str) -> None:
     params = {"zammad_user_id": zammad_user_id, "customer_id": customer_id}
     cur.execute(DELETE_STALE_MAPPING_SQL, params)
     cur.execute(UPSERT_MAPPING_SQL, params)
+
+
+DELETE_STALE_ORG_MAPPING_SQL = """
+DELETE FROM organization_id_mapping
+WHERE organization_id = %(organization_id)s AND zammad_organization_id <> %(zammad_organization_id)s
+"""
+
+UPSERT_ORG_MAPPING_SQL = """
+INSERT INTO organization_id_mapping (zammad_organization_id, organization_id)
+VALUES (%(zammad_organization_id)s, %(organization_id)s)
+ON CONFLICT (zammad_organization_id) DO UPDATE SET organization_id = EXCLUDED.organization_id
+"""
+
+SELECT_ORG_MAPPING_SQL = """
+SELECT zammad_organization_id FROM organization_id_mapping WHERE organization_id = %(organization_id)s
+"""
+
+
+def find_zammad_organization_id(cur, organization_id: str) -> int | None:
+    """Zammad organization id already mapped to this Organization id (UUID), if any."""
+    cur.execute(SELECT_ORG_MAPPING_SQL, {"organization_id": organization_id})
+    row = cur.fetchone()
+    return row[0] if row else None
+
+
+def save_organization_mapping(cur, zammad_organization_id: int, organization_id: str) -> None:
+    """Upsert ``zammad_organization_id -> organization_id`` into ``organization_id_mapping`` (idempotent)."""
+    params = {"zammad_organization_id": zammad_organization_id, "organization_id": organization_id}
+    cur.execute(DELETE_STALE_ORG_MAPPING_SQL, params)
+    cur.execute(UPSERT_ORG_MAPPING_SQL, params)
 
 
 class ZammadClient:
@@ -100,6 +149,33 @@ class ZammadClient:
         )
         resp.raise_for_status()
         return next((u for u in resp.json() if u.get("login") == login), None)
+
+    def find_organization_by_name(self, name: str) -> dict[str, Any] | None:
+        # The search is fuzzy, so filter for the exact name on the result.
+        resp = self.session.get(
+            self._url("organizations/search"), params={"query": f'name:"{name}"', "limit": 10}, timeout=self.timeout
+        )
+        resp.raise_for_status()
+        return next((o for o in resp.json() if o.get("name") == name), None)
+
+    def upsert_organization(self, payload: dict[str, Any], known_id: int | None = None) -> tuple[str, int]:
+        """Create or update the organization; returns ``("created"|"updated", zammad_id)``.
+
+        ``known_id`` is the Zammad id from the mapping table. Without it the organization is matched by name.
+        """
+        zammad_id = known_id
+        if zammad_id is None:
+            existing = self.find_organization_by_name(payload["name"])
+            zammad_id = existing["id"] if existing else None
+        if zammad_id is not None:
+            resp = self.session.put(self._url(f"organizations/{zammad_id}"), json=payload, timeout=self.timeout)
+            action = "updated"
+        else:
+            resp = self.session.post(self._url("organizations"), json=payload, timeout=self.timeout)
+            action = "created"
+        if not resp.ok:
+            raise RuntimeError(f"Zammad {resp.request.method} {resp.url} -> {resp.status_code}: {resp.text[:300]}")
+        return action, resp.json()["id"]
 
     def upsert_customer(self, payload: dict[str, Any]) -> tuple[str, int]:
         """Create or update the user; returns ``("created"|"updated", zammad_id)``."""

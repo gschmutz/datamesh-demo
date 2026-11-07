@@ -56,7 +56,6 @@ public class OrganizationService {
         organization.setVip(organizationDTO.vip());
         organization.setNote(organizationDTO.note());
         organization.setMemberIds(organizationDTO.memberIds() != null ? new ArrayList<>(organizationDTO.memberIds()) : new ArrayList<>());
-        organization.setSecondaryMemberIds(organizationDTO.secondaryMemberIds() != null ? new ArrayList<>(organizationDTO.secondaryMemberIds()) : new ArrayList<>());
 
         // use the returned instance, it carries the audit timestamps
         var saved = organizationRepository.saveAndFlush(organization);

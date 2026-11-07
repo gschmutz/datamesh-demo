@@ -10,8 +10,7 @@ Content-Type: application/json
   "active": true,
   "vip": false,
   "note": "Key account",
-  "memberIds": [1, 2],
-  "secondaryMemberIds": [3]
+  "memberIds": [1, 2]
 }
 
 ###

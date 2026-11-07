@@ -79,8 +79,7 @@
                     "_gen": "string",
                     "expr": "#{Lorem.sentence}"
                 },
-                "memberIds": [],
-                "secondaryMemberIds": []
+                "memberIds": []
             },
             "localConfigs": {
                 "throttleMs": {
