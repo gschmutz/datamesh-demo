@@ -450,7 +450,7 @@ services:
     restart: unless-stopped
   #  ================================== Open Policy Agent (opa) ========================================== #
   opa:
-    image: docker.io/openpolicyagent/opa:1.17.0
+    image: docker.io/openpolicyagent/opa:1.22.2
     container_name: opa
     hostname: opa
     labels:
