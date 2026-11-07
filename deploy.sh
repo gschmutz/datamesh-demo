@@ -31,6 +31,7 @@ MAPPINGS=(
   "redpanda-connect/streams:custom-conf/redpanda-connect/streams"
   "redpanda-connect:custom-conf/redpanda-connect"
   "shadowtraffic:scripts/shadowtraffic"
+  "opa:security/opa"
   "docker:."
 )
 
