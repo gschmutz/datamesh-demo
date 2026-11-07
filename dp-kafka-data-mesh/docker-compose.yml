@@ -323,6 +323,11 @@ services:
       com.platys.restapi.title: AKHQ API
       com.platys.restapi.url: http://dataplatform:28345/api
       com.platys.password.envvars: PLATYS_AKHQ_ADMIN_PASSWORD,PLATYS_AKHQ_READER_PASSWORD
+    depends_on:
+      kafka-1:
+        condition: service_healthy
+      schema-registry-1:
+        condition: service_healthy
     ports:
       - 28345:8080
       - 28320:28081
@@ -442,6 +447,34 @@ services:
       --metrics-port 9400
       --reload completion
       --watch
+    restart: unless-stopped
+  #  ================================== Open Policy Agent (opa) ========================================== #
+  opa:
+    image: docker.io/openpolicyagent/opa:1.17.0
+    container_name: opa
+    hostname: opa
+    labels:
+      com.platys.name: opa
+      com.platys.description: Open Policy Agent Server
+      com.platys.restapi.title: Open Policy Agent (OPA) REST API
+      com.platys.restapi.url: http://dataplatform:28332/v1/policies
+    ports:
+      - 28332:8181
+    command:
+      - run
+      - --server
+      - --watch
+      - --format=pretty
+      - --log-level=info
+      - --log-format=json-pretty
+      - --addr=0.0.0.0:8181
+      - --set=decision_logs.console=true
+      - --config-file
+      - /data/policies/config.yaml
+      - /data/policies
+    volumes:
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
+      - ./security/opa/policies:/data/policies:z
     restart: unless-stopped
   #  ================================== Redpanda Connect ========================================== #
   redpanda-connect:
@@ -1358,7 +1391,14 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${PLATYS_DATA_CONTRACT_MANAGER_POSTGRESQL_PASSWORD:-abc123!}
       - SPRING_MAIL_HOST=mailhog
       - SPRING_MAIL_PORT=25
+      - APPLICATION_SEARCH_ENABLED=true
       - APPLICATION_SEMANTICS_ENABLED=true
+      - APPLICATION_BULKSEMANTICSUGGEST_ENABLED=true
+      - APPLICATION_ACCESSREQUEST_AI_ENABLED=true
+      - APPLICATION_COMPROMISEDPASSWORDCHECKER_ENABLED=false
+      - APPLICATION_FEATURES_ORGANIZATIONS_ADD_ENABLED=true
+      - APPLICATION_STUDIO_ENABLED=true
+      - APPLICATION_CUSTOMSCHEMA_ENABLED
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
@@ -1390,6 +1430,10 @@ services:
       com.platys.webui.url: http://dataplatform:4173
     ports:
       - 4173:4173
+    environment:
+      - AI_ENABLED=false
+      - AI_ENDPOINT=http://ollama:11434/v1/chat/completions
+      - AI_API_KEY=ollama
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
@@ -1408,9 +1452,14 @@ services:
       - 4242:4242
     environment:
       - DATACONTRACT_CLI_API_KEY=a079ce4c-af90-45ab-abe5-a8d7697f60d6
+      - DATACONTRACT_POSTGRES_HOST=postgresql
+      - DATACONTRACT_POSTGRES_PORT=5432
+      - DATACONTRACT_POSTGRES_DATABASE=workshop
+      - DATACONTRACT_POSTGRES_USERNAME=workshop
+      - DATACONTRACT_POSTGRES_PASSWORD=workshop
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    command: [api, --host, 0.0.0.0]
+    command: [api, --host, 0.0.0.0, --reload, --port, '4242', --debug]
     restart: unless-stopped
   #  ================================== Grafana ========================================== #
   grafana:

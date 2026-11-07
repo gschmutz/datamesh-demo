@@ -1004,7 +1004,7 @@
       #
       # ===== Open Policy Agent (OPA) ========
       #
-      OPA_enable: false
+      OPA_enable: true
       OPA_log_level: INFO
       OPA_log_format: json-pretty
       
