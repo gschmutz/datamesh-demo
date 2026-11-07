@@ -1005,9 +1005,9 @@
       # ===== Open Policy Agent (OPA) ========
       #
       OPA_enable: true
+      OPA_volume_map_config_file: false      
       OPA_log_level: INFO
-      OPA_log_format: json-pretty
-      OPA_config_filename: ''
+      OPA_log_format: json
       
       #
       # ===== Moat ========

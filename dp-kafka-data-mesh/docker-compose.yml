@@ -464,10 +464,10 @@ services:
       - run
       - --server
       - --watch
-      - --format=pretty
       - --log-level=info
-      - --log-format=json-pretty
+      - --log-format=json
       - --addr=0.0.0.0:8181
+      - --diagnostic-addr=0.0.0.0:8282
       - --set=decision_logs.console=true
       - /data/policies
     volumes:
@@ -1509,6 +1509,7 @@ services:
       - ./scripts/grafana/dashboards/postgresql:/etc/grafana/provisioning/dashboards/postgresql:z
       - ./scripts/grafana/dashboards/zammad:/etc/grafana/provisioning/dashboards/zammad:z
       - ./scripts/grafana/dashboards/redpanda-connect:/etc/grafana/provisioning/dashboards/redpanda-connect:z
+      - ./scripts/grafana/dashboards/opa:/etc/grafana/provisioning/dashboards/opa:z
       - ./scripts/grafana/datasources/prometheus-datasource.yml:/etc/grafana/provisioning/datasources/prometheus-datasource.yml:z
       - ./scripts/grafana/datasources/zammad-elasticsearch.yml:/etc/grafana/provisioning/datasources/zammad-elasticsearch.yml:z
 #        restart: unless-stopped
