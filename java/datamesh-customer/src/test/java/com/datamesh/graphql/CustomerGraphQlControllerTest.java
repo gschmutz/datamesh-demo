@@ -7,8 +7,8 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.graphql.test.autoconfigure.GraphQlTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
@@ -24,10 +24,10 @@ import com.datamesh.organization.service.OrganizationService;
 class CustomerGraphQlControllerTest {
 
     @Autowired GraphQlTester tester;
-    @MockBean CustomerRepository customers;
-    @MockBean OrganizationRepository organizations;
-    @MockBean CustomerService customerService;
-    @MockBean OrganizationService organizationService;
+    @MockitoBean CustomerRepository customers;
+    @MockitoBean OrganizationRepository organizations;
+    @MockitoBean CustomerService customerService;
+    @MockitoBean OrganizationService organizationService;
 
     @Test
     void customerByIdResolvesOrganization() {
