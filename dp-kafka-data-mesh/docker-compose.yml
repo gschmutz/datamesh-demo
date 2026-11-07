@@ -460,6 +460,7 @@ services:
       com.platys.restapi.url: http://dataplatform:28332/v1/policies
     ports:
       - 28332:8181
+      - 28333:8181
     command:
       - run
       - --server
