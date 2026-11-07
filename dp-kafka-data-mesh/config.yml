@@ -1007,7 +1007,7 @@
       OPA_enable: true
       OPA_log_level: INFO
       OPA_log_format: json-pretty
-      OPA_config_filename: 'pii.rego'
+      OPA_config_filename: ''
       
       #
       # ===== Moat ========

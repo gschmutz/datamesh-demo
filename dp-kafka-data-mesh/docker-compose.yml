@@ -469,8 +469,6 @@ services:
       - --log-format=json-pretty
       - --addr=0.0.0.0:8181
       - --set=decision_logs.console=true
-      - --config-file
-      - /data/policies/pii.rego
       - /data/policies
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
