@@ -1,0 +1,28 @@
+/** Describes the JSON event emitted by the Aristech AI-Suite for each handled customer call (caller identification state plus the captured request details). */
+protocol CallEventProtocol {
+    record userData {
+        /** Free-text or classified reason for the call. */
+        string anliegen;
+        /** Flag indicating that a threat was detected or reported in the call. */
+        boolean bedrohung;
+        /** Customer number as stated by or resolved for the caller. Alphanumeric. */
+        union { null, string } kundennummer = null;
+        /** Postal code of the caller. Kept as string to preserve leading zeros. */
+        union { null, string } plz = null;
+        /** Priority assigned to the call, transmitted as a numeric string. Scale and direction TBC. */
+        string prio;
+        /** Boolean flag with unknown meaning (TBC with producer). */
+        boolean socL;
+    }
+    /** One event per call handled by the Aristech AI-Suite. */
+    record CallEvent {
+        /** Identifier of the call as assigned by the Aristech AI-Suite. */
+        string callID;
+        /** Whether the caller was successfully authenticated during the call. */
+        boolean isAuthenticated;
+        /** Whether the caller could be matched to a known customer. */
+        boolean isIdentified;
+        /** Data captured from the caller during the call. */
+        userData userData;
+    }
+}
