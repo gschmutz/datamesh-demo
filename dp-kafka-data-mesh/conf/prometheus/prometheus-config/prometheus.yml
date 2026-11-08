@@ -262,7 +262,7 @@ scrape_configs:
       - targets: ['opa:8282']
         labels:
           namespace: platys      # any value; this is what shows in the $namespace dropdown
-          container: opa       
+          container: opa      
     metrics_path: '/metrics'
 
   - job_name: 'opal-server'

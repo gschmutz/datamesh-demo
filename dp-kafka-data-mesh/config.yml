@@ -3084,15 +3084,15 @@
       #
       # ===== PostGraphile ========
       #
-      POST_GRAPHILE_enable: true
-      POST_GRAPHILE_postgres_database: 'demodb'
-      POST_GRAPHILE_postgres_user: 'demo'
-      POST_GRAPHILE_postgres_password: 'abc123!'
-      POST_GRAPHILE_schema: 'ticket'
-      POST_GRAPHILE_watch: true
-      POST_GRAPHILE_enhance_graphiql: true
-      POST_GRAPHILE_dynamic_json: true
-      POST_GRAPHILE_plugins: '@graphile/federation'
+      POSTGRAPHILE_enable: true
+      POSTGRAPHILE_postgres_database: 'demodb'
+      POSTGRAPHILE_postgres_user: 'demo'
+      POSTGRAPHILE_postgres_password: 'abc123!'
+      POSTGRAPHILE_schema: 'ticket'
+      POSTGRAPHILE_watch: true
+      POSTGRAPHILE_enhance_graphiql: true
+      POSTGRAPHILE_dynamic_json: true
+      POSTGRAPHILE_plugins: '@graphile/federation'
 
       #
       # ===== GraphQL Mesh ========
