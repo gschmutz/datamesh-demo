@@ -2372,8 +2372,16 @@
       #
       # ===== Puppy Graph ========
       #
-      PUPPYGRAPH_enable: false
-      
+      PUPPYGRAPH_enable: true
+      PUPPYGRAPH_volume_map_data: false
+      PUPPYGRAPH_ai_enabled: false
+      PUPPYGRAPH_ai_api_structure: 'anthropic_style'
+      PUPPYGRAPH_ai_base_url: ''
+      PUPPYGRAPH_ai_api_key: ''
+      PUPPYGRAPH_ai_models: ''
+      PUPPYGRAPH_ai_max_tokens: 64000
+      PUPPYGRAPH_metrics_enabled: true
+            
       #
       # ===== Memgraph ========
       #
@@ -3771,7 +3779,7 @@
       #
       # ===== Zammad ========
       #
-      ZAMMAD_enable: true
+      ZAMMAD_enable: false
       ZAMMAD_backup_enabled: false
       ZAMMAD_db_name: zammad_production
       ZAMMAD_db_user: zammad
@@ -3898,18 +3906,18 @@
       #
       # ===== Data Contract Editor ========
       #
-      DATA_CONTRACT_EDITOR_enable: true
+      DATA_CONTRACT_EDITOR_enable: false
       
       #
       # ===== Data Contract CLI ========
       #
-      DATA_CONTRACT_CLI_enable: false
+      DATA_CONTRACT_CLI_enable: true
       DATA_CONTRACT_CLI_home_dir: ${PWD}
       
       #
       # ===== Data Contract CLI API ========
       #
-      DATA_CONTRACT_CLI_API_enable: true
+      DATA_CONTRACT_CLI_API_enable: false
       
       #
       # ===== Microcks ========

@@ -530,6 +530,39 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+  #  ================================== Puppy Graph ========================================== #
+  puppygraph:
+    image: docker.io/puppygraph/puppygraph:1.18.1
+    platform: linux/amd64
+    hostname: puppygraph
+    container_name: puppygraph
+    labels:
+      com.platys.name: puppygraph
+      com.platys.description: Relational data as a graph
+      com.platys.webui.title: Puppygraph API
+      com.platys.webui.url: http://dataplatform:28472
+    ports:
+      - 28472:8081
+      - 28473:8182
+      - 28474:7687
+    environment:
+      - PUPPYGRAPH_USERNAME=puppygraph
+      - PUPPYGRAPH_PASSWORD=abc123!
+      - QUERY_TIMEOUT="5m"
+      - STORAGE_PATH_ROOT=/data/storage
+      - METRICS_ENABLED=true
+      - AI_ENABLED=false
+      - AI_API_STRUCTURE=anthropic_style
+      - AI_MAX_TOKENS=64000
+    volumes:
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
+    healthcheck:
+      test: curl -sf -o /dev/null http://localhost:8081/readyz
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
   #  ================================== ClickHouse ========================================== #
   clickhouse:
     image: docker.io/clickhouse/clickhouse-server:26.10-alpine
@@ -1149,228 +1182,6 @@ services:
            #
         while [ 1 -eq 1 ];do sleep 60;done
     restart: unless-stopped
-  #  ================================== Zammad ========================================== #
-  zammad-railsserver:
-    image: ghcr.io/zammad/zammad:7.1
-    container_name: zammad-railsserver
-    hostname: zammad-railsserver
-    labels:
-      com.platys.name: zammad
-    depends_on:
-      zammad-memcached:
-        condition: service_healthy
-      zammad-postgresql:
-        condition: service_healthy
-      zammad-redis:
-        condition: service_healthy
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    environment:
-      - MEMCACHE_SERVERS=zammad-memcached:11211
-      - POSTGRESQL_DB=zammad_production
-      - POSTGRESQL_HOST=zammad-postgresql
-      - POSTGRESQL_USER=zammad
-      - POSTGRESQL_PASS=zammad
-      - POSTGRESQL_PORT=5432
-      - POSTGRESQL_OPTIONS=?pool=50
-      - REDIS_URL=redis://zammad-redis:6379
-      - BACKUP_DIR=/var/tmp/zammad
-      - BACKUP_TIME=03:00
-      - BACKUP_ON_START=true
-      - HOLD_DAYS=10
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    command: [zammad-railsserver]
-    restart: unless-stopped
-    healthcheck:
-      test: [CMD, curl, -sf, http://127.0.0.1:3000]
-      interval: 30s
-      timeout: 5s
-      start_period: 120s
-      retries: 3
-  zammad-scheduler:
-    image: ghcr.io/zammad/zammad:7.1
-    container_name: zammad-scheduler
-    labels:
-      com.platys.name: zammad
-    command: [zammad-scheduler]
-    depends_on:
-      zammad-memcached:
-        condition: service_healthy
-      zammad-postgresql:
-        condition: service_healthy
-      zammad-redis:
-        condition: service_healthy
-    environment:
-      - MEMCACHE_SERVERS=zammad-memcached:11211
-      - POSTGRESQL_DB=zammad_production
-      - POSTGRESQL_HOST=zammad-postgresql
-      - POSTGRESQL_USER=zammad
-      - POSTGRESQL_PASS=zammad
-      - POSTGRESQL_PORT=5432
-      - POSTGRESQL_OPTIONS=?pool=50
-      - REDIS_URL=redis://zammad-redis:6379
-      - BACKUP_DIR=/var/tmp/zammad
-      - BACKUP_TIME=03:00
-      - BACKUP_ON_START=true
-      - HOLD_DAYS=10
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    hostname: zammad-scheduler
-    restart: unless-stopped
-  zammad-websocket:
-    image: ghcr.io/zammad/zammad:7.1
-    container_name: zammad-websocket
-    hostname: zammad-websocket
-    labels:
-      com.platys.name: zammad
-    depends_on:
-      zammad-memcached:
-        condition: service_healthy
-      zammad-postgresql:
-        condition: service_healthy
-      zammad-redis:
-        condition: service_healthy
-    environment:
-      - MEMCACHE_SERVERS=zammad-memcached:11211
-      - POSTGRESQL_DB=zammad_production
-      - POSTGRESQL_HOST=zammad-postgresql
-      - POSTGRESQL_USER=zammad
-      - POSTGRESQL_PASS=zammad
-      - POSTGRESQL_PORT=5432
-      - POSTGRESQL_OPTIONS=?pool=50
-      - REDIS_URL=redis://zammad-redis:6379
-      - BACKUP_DIR=/var/tmp/zammad
-      - BACKUP_TIME=03:00
-      - BACKUP_ON_START=true
-      - HOLD_DAYS=10
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    command: [zammad-websocket]
-    restart: unless-stopped
-  zammad-nginx:
-    image: ghcr.io/zammad/zammad:7.1
-    container_name: zammad-nginx
-    hostname: zammad-nginx
-    labels:
-      com.platys.name: zammad
-      com.platys.webui.title: Zammad UI
-      com.platys.webui.url: http://dataplatform:28425
-    ports:
-      - 28425:8080
-    depends_on:
-      zammad-memcached:
-        condition: service_healthy
-      zammad-postgresql:
-        condition: service_healthy
-      zammad-redis:
-        condition: service_healthy
-    environment:
-      - MEMCACHE_SERVERS=zammad-memcached:11211
-      - POSTGRESQL_DB=zammad_production
-      - POSTGRESQL_HOST=zammad-postgresql
-      - POSTGRESQL_USER=zammad
-      - POSTGRESQL_PASS=zammad
-      - POSTGRESQL_PORT=5432
-      - POSTGRESQL_OPTIONS=?pool=50
-      - REDIS_URL=redis://zammad-redis:6379
-      - BACKUP_DIR=/var/tmp/zammad
-      - BACKUP_TIME=03:00
-      - BACKUP_ON_START=true
-      - HOLD_DAYS=10
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    command: [zammad-nginx]
-    restart: unless-stopped
-  zammad-elasticsearch:
-    image: docker.io/elasticsearch:9.4.2
-    container_name: zammad-elasticsearch
-    hostname: zammad-elasticsearch
-    labels:
-      com.platys.name: zammad
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    restart: unless-stopped
-  zammad-memcached:
-    image: docker.io/memcached:1.6.42-alpine
-    container_name: zammad-memcached
-    hostname: zammad-memcached
-    labels:
-      com.platys.name: zammad
-    command: memcached -m 256M
-    restart: unless-stopped
-    healthcheck:
-      test: [CMD, nc, -z, 127.0.0.1, '11211']
-      interval: 10s
-      timeout: 5s
-      start_period: 10s
-      retries: 5
-  zammad-postgresql:
-    image: docker.io/postgres:17.10-alpine
-    container_name: zammad-postgresql
-    hostname: zammad-postgresql
-    labels:
-      com.platys.name: zammad
-    environment:
-      - POSTGRES_DB=zammad_production
-      - POSTGRES_USER=zammad
-      - POSTGRES_PASSWORD=zammad
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    restart: unless-stopped
-    healthcheck:
-      test: [CMD-SHELL, pg_isready -U zammad -d zammad_production]
-      interval: 10s
-      timeout: 5s
-      start_period: 60s
-      retries: 5
-  zammad-redis:
-    image: docker.io/redis:8.8-alpine
-    container_name: zammad-redis
-    hostname: zammad-redis
-    labels:
-      com.platys.name: zammad
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    restart: unless-stopped
-    healthcheck:
-      test: [CMD, redis-cli, ping]
-      interval: 10s
-      timeout: 5s
-      start_period: 10s
-      retries: 5
-  zammad-init:
-    image: ghcr.io/zammad/zammad:7.1
-    container_name: zammad-init
-    hostname: zammad-init
-    labels:
-      com.platys.name: zammad
-    user: 0:0
-    depends_on:
-      zammad-postgresql:
-        condition: service_healthy
-    environment:
-      - MEMCACHE_SERVERS=zammad-memcached:11211
-      - POSTGRESQL_DB=zammad_production
-      - POSTGRESQL_HOST=zammad-postgresql
-      - POSTGRESQL_USER=zammad
-      - POSTGRESQL_PASS=zammad
-      - POSTGRESQL_PORT=5432
-      - POSTGRESQL_OPTIONS=?pool=50
-      - REDIS_URL=redis://zammad-redis:6379
-      - BACKUP_DIR=/var/tmp/zammad
-      - BACKUP_TIME=03:00
-      - BACKUP_ON_START=true
-      - HOLD_DAYS=10
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    command: [zammad-init]
-#    restart: "no"  # do be podman compatible, it has to be "no" which did not work, but no is default    
-    init: true
   #  ================================== Data Contract Manager ================= #
   data-contract-manager:
     image: docker.io/entropydata/entropy-data-ce:latest
@@ -1416,49 +1227,23 @@ services:
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
-  #  ================================== Data Contract Editor ================= #
-  data-contract-editor:
-    image: docker.io/datacontract/editor:latest
-    container_name: data-contract-editor
-    hostname: data-contract-editor
-    platform: linux/amd64
-    labels:
-      com.platys.name: data-contract-editor
-      com.platys.description: Data Contract Editor
-      com.platys.webui.title: Data Contract Editor UI
-      com.platys.webui.url: http://dataplatform:4173
-    ports:
-      - 4173:4173
-    environment:
-      - AI_ENABLED=false
-      - AI_ENDPOINT=http://ollama:11434/v1/chat/completions
-      - AI_API_KEY=ollama
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    restart: unless-stopped
-  #  ================================== Data Contract CLI API Server ================= #
-  data-contract-api:
+  #  ================================== Data Contract CLI ================= #
+  data-contract-cli:
     image: docker.io/datacontract/cli:latest
-    container_name: data-contract-api
-    hostname: data-contract-api
-    platform: linux/amd64
+    container_name: data-contract-cli
+    hostname: data-contract-cli
     labels:
-      com.platys.name: data-contract-api
-      com.platys.description: Data Contract CLI API Server
-      com.platys.restapi.title: Data Contract API REST API
-      com.platys.restapi.url: http://dataplatform:4242
-    ports:
-      - 4242:4242
-    environment:
-      - DATACONTRACT_CLI_API_KEY=a079ce4c-af90-45ab-abe5-a8d7697f60d6
-      - DATACONTRACT_POSTGRES_HOST=postgresql
-      - DATACONTRACT_POSTGRES_PORT=5432
-      - DATACONTRACT_POSTGRES_DATABASE=workshop
-      - DATACONTRACT_POSTGRES_USERNAME=workshop
-      - DATACONTRACT_POSTGRES_PASSWORD=workshop
+      com.platys.name: data-contract-cli
+      com.platys.description: Data Contract tooling
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    command: [api, --host, 0.0.0.0, --reload, --port, '4242', --debug]
+      - ${PWD}:/home/datacontract:z
+    entrypoint:
+      - python
+      - -c
+      - |
+        import time
+        while True: time.sleep(60)    
     restart: unless-stopped
   #  ================================== Grafana ========================================== #
   grafana:
@@ -1508,11 +1293,9 @@ services:
       - ./scripts/grafana/dashboards/kafka/OTel_kafkametrics.json:/etc/grafana/provisioning/dashboards/kafka/OTel_kafkametrics.json:z
       - ./scripts/grafana/dashboards/redis:/etc/grafana/provisioning/dashboards/redis:z
       - ./scripts/grafana/dashboards/postgresql:/etc/grafana/provisioning/dashboards/postgresql:z
-      - ./scripts/grafana/dashboards/zammad:/etc/grafana/provisioning/dashboards/zammad:z
       - ./scripts/grafana/dashboards/redpanda-connect:/etc/grafana/provisioning/dashboards/redpanda-connect:z
       - ./scripts/grafana/dashboards/opa:/etc/grafana/provisioning/dashboards/opa:z
       - ./scripts/grafana/datasources/prometheus-datasource.yml:/etc/grafana/provisioning/datasources/prometheus-datasource.yml:z
-      - ./scripts/grafana/datasources/zammad-elasticsearch.yml:/etc/grafana/provisioning/datasources/zammad-elasticsearch.yml:z
 #        restart: unless-stopped
     healthcheck:
       test:
