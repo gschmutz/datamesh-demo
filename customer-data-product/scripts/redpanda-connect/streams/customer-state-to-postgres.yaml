@@ -1,0 +1,84 @@
+# Redpanda Connect STREAM: customer state -> PostgreSQL (schema customer_dp_v1)
+#
+# Loaded in streams mode, so only stream-level fields (input / pipeline / output)
+# are allowed; shared config comes from connect.yaml / resources.yaml.
+#
+# Flow:
+#   pub.cus.customer.state.v1 (Avro, CustomerState-v1.avdl)
+#     -> schema_registry_decode
+#     -> one SQL statement per message that upserts customer and replaces its
+#        address / phone rows (atomic, idempotent: replays converge on the same state)
+#
+# Avro logical types are decoded as plain integers (default), so the SQL converts
+#   date_of_birth  : days since 1970-01-01  -> DATE
+#   onboarded_date : epoch milliseconds     -> TIMESTAMPTZ
+#
+# See https://docs.redpanda.com/redpanda-connect/ for all options.
+
+input:
+  kafka_franz:
+    seed_brokers: [ "${KAFKA_BOOTSTRAP_SERVERS}" ]
+    topics: [ "pub.cus.customer.state.v1" ]
+    consumer_group: customer-state-to-postgres
+    start_from_oldest: true
+
+pipeline:
+  processors:
+    - schema_registry_decode:
+        url: "${KAFKA_SCHEMA_REGISTRY_URL}"
+        avro:
+          raw_unions: true     # unions as plain values (null / "x") instead of {"string": "x"}
+
+output:
+  sql_raw:
+    driver: postgres
+    dsn: "postgres://demo:abc123!@postgresql:5432/demodb?sslmode=disable"
+    query: |
+      WITH p AS (
+        SELECT $1::jsonb -> 'customer' AS c
+      ),
+      upsert AS (
+        INSERT INTO customer_dp_v1.customer (
+          id, login, email_address, first_name, last_name, preferred_contact, segment,
+          date_of_birth, preferred_language, marketing_consent, lifecycle_status,
+          image, image_source, department, active, verified, vip, web, note, address,
+          onboarded_date, modified_at)
+        SELECT
+          c->>'id', c->>'login', c->>'email_address', c->>'first_name', c->>'last_name',
+          c->>'preferred_contact', c->>'segment',
+          CASE WHEN c->>'date_of_birth' IS NULL THEN NULL
+               ELSE DATE '1970-01-01' + (c->>'date_of_birth')::int END,
+          c->>'preferred_language',
+          COALESCE((c->>'marketing_consent')::boolean, false),
+          c->>'lifecycle_status', c->>'image', c->>'image_source', c->>'department',
+          (c->>'active')::boolean, (c->>'verified')::boolean, (c->>'vip')::boolean,
+          COALESCE(c->>'web', ''), COALESCE(c->>'note', ''), c->>'address',
+          to_timestamp((c->>'onboarded_date')::bigint / 1000.0), now()
+        FROM p
+        ON CONFLICT (id) DO UPDATE SET
+          login = EXCLUDED.login, email_address = EXCLUDED.email_address,
+          first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name,
+          preferred_contact = EXCLUDED.preferred_contact, segment = EXCLUDED.segment,
+          date_of_birth = EXCLUDED.date_of_birth, preferred_language = EXCLUDED.preferred_language,
+          marketing_consent = EXCLUDED.marketing_consent, lifecycle_status = EXCLUDED.lifecycle_status,
+          image = EXCLUDED.image, image_source = EXCLUDED.image_source, department = EXCLUDED.department,
+          active = EXCLUDED.active, verified = EXCLUDED.verified, vip = EXCLUDED.vip,
+          web = EXCLUDED.web, note = EXCLUDED.note, address = EXCLUDED.address,
+          onboarded_date = EXCLUDED.onboarded_date, modified_at = now()
+        RETURNING id
+      ),
+      del_addr AS (
+        DELETE FROM customer_dp_v1.address WHERE customer_id IN (SELECT id FROM upsert)
+      ),
+      del_phone AS (
+        DELETE FROM customer_dp_v1.phone WHERE customer_id IN (SELECT id FROM upsert)
+      ),
+      ins_addr AS (
+        INSERT INTO customer_dp_v1.address (customer_id, street, zip_code, city, state, country, type)
+        SELECT u.id, a->>'street', a->>'zip_code', a->>'city', a->>'state', a->>'country', a->>'type'
+        FROM upsert u, p, jsonb_array_elements(COALESCE(p.c->'addresses', '[]'::jsonb)) a
+      )
+      INSERT INTO customer_dp_v1.phone (customer_id, number, type, availability)
+      SELECT u.id, ph->>'number', ph->>'type', ph->>'availability'
+      FROM upsert u, p, jsonb_array_elements(COALESCE(p.c->'phones', '[]'::jsonb)) ph
+    args_mapping: 'root = [ content().string() ]'
