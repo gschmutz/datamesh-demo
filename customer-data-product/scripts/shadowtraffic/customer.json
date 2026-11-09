@@ -621,7 +621,7 @@
         },
         "customerDb": {
             "kind": "postgres",
-            "tablePolicy": "manual",
+            "tablePolicy": "create",
             "connectionConfigs": {
                 "host": "postgresql",
                 "port": 5432,
