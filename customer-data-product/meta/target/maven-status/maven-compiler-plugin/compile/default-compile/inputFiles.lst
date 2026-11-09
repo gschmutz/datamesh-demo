@@ -4,3 +4,5 @@
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/meta/target/generated-sources/avro/com/datamesh/customer/avro/CustomerProtocol.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/meta/target/generated-sources/avro/com/datamesh/customer/avro/CustomerState.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/meta/target/generated-sources/avro/com/datamesh/customer/avro/CustomerStateProtocol.java
+/Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/meta/target/generated-sources/avro/com/datamesh/customer/avro/Phone.java
+/Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/meta/target/generated-sources/avro/com/datamesh/customer/avro/PhoneProtocol.java

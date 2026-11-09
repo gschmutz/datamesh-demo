@@ -13,10 +13,10 @@ import org.apache.avro.message.SchemaStore;
 import java.util.Optional;
 @org.apache.avro.specific.AvroGenerated
 public class Customer extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 1919535648851617416L;
+  private static final long serialVersionUID = 4405306028279461652L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Customer\",\"namespace\":\"com.datamesh.customer.avro\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"login\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email_address\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"first_name\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"last_name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"phone_number\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"preferred_contact\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"segment\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"date_of_birth\",\"type\":[\"null\",{\"type\":\"int\",\"logicalType\":\"date\"}],\"default\":null},{\"name\":\"preferred_language\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"marketing_consent\",\"type\":\"boolean\",\"default\":false},{\"name\":\"lifecycle_status\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"image\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"image_source\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"department\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"active\",\"type\":\"boolean\"},{\"name\":\"verified\",\"type\":\"boolean\"},{\"name\":\"vip\",\"type\":\"boolean\"},{\"name\":\"mobile\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"fax\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"web\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"note\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"address\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"addresses\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"Address\",\"fields\":[{\"name\":\"street\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"zip_code\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"state\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"country\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"type\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null}]}}},{\"name\":\"onboarded_date\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Customer\",\"namespace\":\"com.datamesh.customer.avro\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"login\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email_address\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"first_name\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"last_name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"preferred_contact\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"segment\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"date_of_birth\",\"type\":[\"null\",{\"type\":\"int\",\"logicalType\":\"date\"}],\"default\":null},{\"name\":\"preferred_language\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"marketing_consent\",\"type\":\"boolean\",\"default\":false},{\"name\":\"lifecycle_status\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"image\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"image_source\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"department\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"active\",\"type\":\"boolean\"},{\"name\":\"verified\",\"type\":\"boolean\"},{\"name\":\"vip\",\"type\":\"boolean\"},{\"name\":\"web\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"note\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"address\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"addresses\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"Address\",\"fields\":[{\"name\":\"street\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"zip_code\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"state\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"country\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"type\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null}]}}},{\"name\":\"phones\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"Phone\",\"fields\":[{\"name\":\"number\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"type\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null}]}},\"default\":[]},{\"name\":\"onboarded_date\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -81,7 +81,6 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
   private java.lang.String email_address;
   private java.lang.String first_name;
   private java.lang.String last_name;
-  private java.lang.String phone_number;
   private java.lang.String preferred_contact;
   private java.lang.String segment;
   private java.time.LocalDate date_of_birth;
@@ -94,12 +93,11 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
   private boolean active;
   private boolean verified;
   private boolean vip;
-  private java.lang.String mobile;
-  private java.lang.String fax;
   private java.lang.String web;
   private java.lang.String note;
   private java.lang.String address;
   private java.util.List<com.datamesh.customer.avro.Address> addresses;
+  private java.util.List<com.datamesh.customer.avro.Phone> phones;
   private java.time.Instant onboarded_date;
 
   /**
@@ -116,7 +114,6 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
    * @param email_address The new value for email_address
    * @param first_name The new value for first_name
    * @param last_name The new value for last_name
-   * @param phone_number The new value for phone_number
    * @param preferred_contact The new value for preferred_contact
    * @param segment The new value for segment
    * @param date_of_birth The new value for date_of_birth
@@ -129,21 +126,19 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
    * @param active The new value for active
    * @param verified The new value for verified
    * @param vip The new value for vip
-   * @param mobile The new value for mobile
-   * @param fax The new value for fax
    * @param web The new value for web
    * @param note The new value for note
    * @param address The new value for address
    * @param addresses The new value for addresses
+   * @param phones The new value for phones
    * @param onboarded_date The new value for onboarded_date
    */
-  public Customer(java.lang.String id, java.lang.String login, java.lang.String email_address, java.lang.String first_name, java.lang.String last_name, java.lang.String phone_number, java.lang.String preferred_contact, java.lang.String segment, java.time.LocalDate date_of_birth, java.lang.String preferred_language, java.lang.Boolean marketing_consent, java.lang.String lifecycle_status, java.lang.String image, java.lang.String image_source, java.lang.String department, java.lang.Boolean active, java.lang.Boolean verified, java.lang.Boolean vip, java.lang.String mobile, java.lang.String fax, java.lang.String web, java.lang.String note, java.lang.String address, java.util.List<com.datamesh.customer.avro.Address> addresses, java.time.Instant onboarded_date) {
+  public Customer(java.lang.String id, java.lang.String login, java.lang.String email_address, java.lang.String first_name, java.lang.String last_name, java.lang.String preferred_contact, java.lang.String segment, java.time.LocalDate date_of_birth, java.lang.String preferred_language, java.lang.Boolean marketing_consent, java.lang.String lifecycle_status, java.lang.String image, java.lang.String image_source, java.lang.String department, java.lang.Boolean active, java.lang.Boolean verified, java.lang.Boolean vip, java.lang.String web, java.lang.String note, java.lang.String address, java.util.List<com.datamesh.customer.avro.Address> addresses, java.util.List<com.datamesh.customer.avro.Phone> phones, java.time.Instant onboarded_date) {
     this.id = id;
     this.login = login;
     this.email_address = email_address;
     this.first_name = first_name;
     this.last_name = last_name;
-    this.phone_number = phone_number;
     this.preferred_contact = preferred_contact;
     this.segment = segment;
     this.date_of_birth = date_of_birth;
@@ -156,12 +151,11 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
     this.active = active;
     this.verified = verified;
     this.vip = vip;
-    this.mobile = mobile;
-    this.fax = fax;
     this.web = web;
     this.note = note;
     this.address = address;
     this.addresses = addresses;
+    this.phones = phones;
     this.onboarded_date = onboarded_date.truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
   }
 
@@ -180,34 +174,30 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
     case 2: return email_address;
     case 3: return first_name;
     case 4: return last_name;
-    case 5: return phone_number;
-    case 6: return preferred_contact;
-    case 7: return segment;
-    case 8: return date_of_birth;
-    case 9: return preferred_language;
-    case 10: return marketing_consent;
-    case 11: return lifecycle_status;
-    case 12: return image;
-    case 13: return image_source;
-    case 14: return department;
-    case 15: return active;
-    case 16: return verified;
-    case 17: return vip;
-    case 18: return mobile;
-    case 19: return fax;
-    case 20: return web;
-    case 21: return note;
-    case 22: return address;
-    case 23: return addresses;
-    case 24: return onboarded_date;
+    case 5: return preferred_contact;
+    case 6: return segment;
+    case 7: return date_of_birth;
+    case 8: return preferred_language;
+    case 9: return marketing_consent;
+    case 10: return lifecycle_status;
+    case 11: return image;
+    case 12: return image_source;
+    case 13: return department;
+    case 14: return active;
+    case 15: return verified;
+    case 16: return vip;
+    case 17: return web;
+    case 18: return note;
+    case 19: return address;
+    case 20: return addresses;
+    case 21: return phones;
+    case 22: return onboarded_date;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
   private static final org.apache.avro.Conversion<?>[] conversions =
       new org.apache.avro.Conversion<?>[] {
-      null,
-      null,
       null,
       null,
       null,
@@ -249,26 +239,24 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
     case 2: email_address = value$ != null ? value$.toString() : null; break;
     case 3: first_name = value$ != null ? value$.toString() : null; break;
     case 4: last_name = value$ != null ? value$.toString() : null; break;
-    case 5: phone_number = value$ != null ? value$.toString() : null; break;
-    case 6: preferred_contact = value$ != null ? value$.toString() : null; break;
-    case 7: segment = value$ != null ? value$.toString() : null; break;
-    case 8: date_of_birth = (java.time.LocalDate)value$; break;
-    case 9: preferred_language = value$ != null ? value$.toString() : null; break;
-    case 10: marketing_consent = (java.lang.Boolean)value$; break;
-    case 11: lifecycle_status = value$ != null ? value$.toString() : null; break;
-    case 12: image = value$ != null ? value$.toString() : null; break;
-    case 13: image_source = value$ != null ? value$.toString() : null; break;
-    case 14: department = value$ != null ? value$.toString() : null; break;
-    case 15: active = (java.lang.Boolean)value$; break;
-    case 16: verified = (java.lang.Boolean)value$; break;
-    case 17: vip = (java.lang.Boolean)value$; break;
-    case 18: mobile = value$ != null ? value$.toString() : null; break;
-    case 19: fax = value$ != null ? value$.toString() : null; break;
-    case 20: web = value$ != null ? value$.toString() : null; break;
-    case 21: note = value$ != null ? value$.toString() : null; break;
-    case 22: address = value$ != null ? value$.toString() : null; break;
-    case 23: addresses = (java.util.List<com.datamesh.customer.avro.Address>)value$; break;
-    case 24: onboarded_date = (java.time.Instant)value$; break;
+    case 5: preferred_contact = value$ != null ? value$.toString() : null; break;
+    case 6: segment = value$ != null ? value$.toString() : null; break;
+    case 7: date_of_birth = (java.time.LocalDate)value$; break;
+    case 8: preferred_language = value$ != null ? value$.toString() : null; break;
+    case 9: marketing_consent = (java.lang.Boolean)value$; break;
+    case 10: lifecycle_status = value$ != null ? value$.toString() : null; break;
+    case 11: image = value$ != null ? value$.toString() : null; break;
+    case 12: image_source = value$ != null ? value$.toString() : null; break;
+    case 13: department = value$ != null ? value$.toString() : null; break;
+    case 14: active = (java.lang.Boolean)value$; break;
+    case 15: verified = (java.lang.Boolean)value$; break;
+    case 16: vip = (java.lang.Boolean)value$; break;
+    case 17: web = value$ != null ? value$.toString() : null; break;
+    case 18: note = value$ != null ? value$.toString() : null; break;
+    case 19: address = value$ != null ? value$.toString() : null; break;
+    case 20: addresses = (java.util.List<com.datamesh.customer.avro.Address>)value$; break;
+    case 21: phones = (java.util.List<com.datamesh.customer.avro.Phone>)value$; break;
+    case 22: onboarded_date = (java.time.Instant)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -355,23 +343,6 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
    */
   public Optional<java.lang.String> getOptionalLastName() {
     return Optional.<java.lang.String>ofNullable(last_name);
-  }
-
-
-  /**
-   * Gets the value of the 'phone_number' field.
-   * @return The value of the 'phone_number' field.
-   */
-  public java.lang.String getPhoneNumber() {
-    return phone_number;
-  }
-
-  /**
-   * Gets the value of the 'phone_number' field as an Optional&lt;java.lang.String&gt;.
-   * @return The value wrapped in an Optional&lt;java.lang.String&gt;.
-   */
-  public Optional<java.lang.String> getOptionalPhoneNumber() {
-    return Optional.<java.lang.String>ofNullable(phone_number);
   }
 
 
@@ -580,40 +551,6 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
 
 
   /**
-   * Gets the value of the 'mobile' field.
-   * @return The value of the 'mobile' field.
-   */
-  public java.lang.String getMobile() {
-    return mobile;
-  }
-
-  /**
-   * Gets the value of the 'mobile' field as an Optional&lt;java.lang.String&gt;.
-   * @return The value wrapped in an Optional&lt;java.lang.String&gt;.
-   */
-  public Optional<java.lang.String> getOptionalMobile() {
-    return Optional.<java.lang.String>ofNullable(mobile);
-  }
-
-
-  /**
-   * Gets the value of the 'fax' field.
-   * @return The value of the 'fax' field.
-   */
-  public java.lang.String getFax() {
-    return fax;
-  }
-
-  /**
-   * Gets the value of the 'fax' field as an Optional&lt;java.lang.String&gt;.
-   * @return The value wrapped in an Optional&lt;java.lang.String&gt;.
-   */
-  public Optional<java.lang.String> getOptionalFax() {
-    return Optional.<java.lang.String>ofNullable(fax);
-  }
-
-
-  /**
    * Gets the value of the 'web' field.
    * @return The value of the 'web' field.
    */
@@ -682,6 +619,23 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
 
 
   /**
+   * Gets the value of the 'phones' field.
+   * @return The value of the 'phones' field.
+   */
+  public java.util.List<com.datamesh.customer.avro.Phone> getPhones() {
+    return phones;
+  }
+
+  /**
+   * Gets the value of the 'phones' field as an Optional&lt;java.util.List&lt;com.datamesh.customer.avro.Phone&gt;&gt;.
+   * @return The value wrapped in an Optional&lt;java.util.List&lt;com.datamesh.customer.avro.Phone&gt;&gt;.
+   */
+  public Optional<java.util.List<com.datamesh.customer.avro.Phone>> getOptionalPhones() {
+    return Optional.<java.util.List<com.datamesh.customer.avro.Phone>>ofNullable(phones);
+  }
+
+
+  /**
    * Gets the value of the 'onboarded_date' field.
    * @return The value of the 'onboarded_date' field.
    */
@@ -744,7 +698,6 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
     private java.lang.String email_address;
     private java.lang.String first_name;
     private java.lang.String last_name;
-    private java.lang.String phone_number;
     private java.lang.String preferred_contact;
     private java.lang.String segment;
     private java.time.LocalDate date_of_birth;
@@ -757,12 +710,11 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
     private boolean active;
     private boolean verified;
     private boolean vip;
-    private java.lang.String mobile;
-    private java.lang.String fax;
     private java.lang.String web;
     private java.lang.String note;
     private java.lang.String address;
     private java.util.List<com.datamesh.customer.avro.Address> addresses;
+    private java.util.List<com.datamesh.customer.avro.Phone> phones;
     private java.time.Instant onboarded_date;
 
     /** Creates a new Builder */
@@ -796,85 +748,77 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
         this.last_name = data().deepCopy(fields()[4].schema(), other.last_name);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
-      if (isValidValue(fields()[5], other.phone_number)) {
-        this.phone_number = data().deepCopy(fields()[5].schema(), other.phone_number);
+      if (isValidValue(fields()[5], other.preferred_contact)) {
+        this.preferred_contact = data().deepCopy(fields()[5].schema(), other.preferred_contact);
         fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
-      if (isValidValue(fields()[6], other.preferred_contact)) {
-        this.preferred_contact = data().deepCopy(fields()[6].schema(), other.preferred_contact);
+      if (isValidValue(fields()[6], other.segment)) {
+        this.segment = data().deepCopy(fields()[6].schema(), other.segment);
         fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
-      if (isValidValue(fields()[7], other.segment)) {
-        this.segment = data().deepCopy(fields()[7].schema(), other.segment);
+      if (isValidValue(fields()[7], other.date_of_birth)) {
+        this.date_of_birth = data().deepCopy(fields()[7].schema(), other.date_of_birth);
         fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
-      if (isValidValue(fields()[8], other.date_of_birth)) {
-        this.date_of_birth = data().deepCopy(fields()[8].schema(), other.date_of_birth);
+      if (isValidValue(fields()[8], other.preferred_language)) {
+        this.preferred_language = data().deepCopy(fields()[8].schema(), other.preferred_language);
         fieldSetFlags()[8] = other.fieldSetFlags()[8];
       }
-      if (isValidValue(fields()[9], other.preferred_language)) {
-        this.preferred_language = data().deepCopy(fields()[9].schema(), other.preferred_language);
+      if (isValidValue(fields()[9], other.marketing_consent)) {
+        this.marketing_consent = data().deepCopy(fields()[9].schema(), other.marketing_consent);
         fieldSetFlags()[9] = other.fieldSetFlags()[9];
       }
-      if (isValidValue(fields()[10], other.marketing_consent)) {
-        this.marketing_consent = data().deepCopy(fields()[10].schema(), other.marketing_consent);
+      if (isValidValue(fields()[10], other.lifecycle_status)) {
+        this.lifecycle_status = data().deepCopy(fields()[10].schema(), other.lifecycle_status);
         fieldSetFlags()[10] = other.fieldSetFlags()[10];
       }
-      if (isValidValue(fields()[11], other.lifecycle_status)) {
-        this.lifecycle_status = data().deepCopy(fields()[11].schema(), other.lifecycle_status);
+      if (isValidValue(fields()[11], other.image)) {
+        this.image = data().deepCopy(fields()[11].schema(), other.image);
         fieldSetFlags()[11] = other.fieldSetFlags()[11];
       }
-      if (isValidValue(fields()[12], other.image)) {
-        this.image = data().deepCopy(fields()[12].schema(), other.image);
+      if (isValidValue(fields()[12], other.image_source)) {
+        this.image_source = data().deepCopy(fields()[12].schema(), other.image_source);
         fieldSetFlags()[12] = other.fieldSetFlags()[12];
       }
-      if (isValidValue(fields()[13], other.image_source)) {
-        this.image_source = data().deepCopy(fields()[13].schema(), other.image_source);
+      if (isValidValue(fields()[13], other.department)) {
+        this.department = data().deepCopy(fields()[13].schema(), other.department);
         fieldSetFlags()[13] = other.fieldSetFlags()[13];
       }
-      if (isValidValue(fields()[14], other.department)) {
-        this.department = data().deepCopy(fields()[14].schema(), other.department);
+      if (isValidValue(fields()[14], other.active)) {
+        this.active = data().deepCopy(fields()[14].schema(), other.active);
         fieldSetFlags()[14] = other.fieldSetFlags()[14];
       }
-      if (isValidValue(fields()[15], other.active)) {
-        this.active = data().deepCopy(fields()[15].schema(), other.active);
+      if (isValidValue(fields()[15], other.verified)) {
+        this.verified = data().deepCopy(fields()[15].schema(), other.verified);
         fieldSetFlags()[15] = other.fieldSetFlags()[15];
       }
-      if (isValidValue(fields()[16], other.verified)) {
-        this.verified = data().deepCopy(fields()[16].schema(), other.verified);
+      if (isValidValue(fields()[16], other.vip)) {
+        this.vip = data().deepCopy(fields()[16].schema(), other.vip);
         fieldSetFlags()[16] = other.fieldSetFlags()[16];
       }
-      if (isValidValue(fields()[17], other.vip)) {
-        this.vip = data().deepCopy(fields()[17].schema(), other.vip);
+      if (isValidValue(fields()[17], other.web)) {
+        this.web = data().deepCopy(fields()[17].schema(), other.web);
         fieldSetFlags()[17] = other.fieldSetFlags()[17];
       }
-      if (isValidValue(fields()[18], other.mobile)) {
-        this.mobile = data().deepCopy(fields()[18].schema(), other.mobile);
+      if (isValidValue(fields()[18], other.note)) {
+        this.note = data().deepCopy(fields()[18].schema(), other.note);
         fieldSetFlags()[18] = other.fieldSetFlags()[18];
       }
-      if (isValidValue(fields()[19], other.fax)) {
-        this.fax = data().deepCopy(fields()[19].schema(), other.fax);
+      if (isValidValue(fields()[19], other.address)) {
+        this.address = data().deepCopy(fields()[19].schema(), other.address);
         fieldSetFlags()[19] = other.fieldSetFlags()[19];
       }
-      if (isValidValue(fields()[20], other.web)) {
-        this.web = data().deepCopy(fields()[20].schema(), other.web);
+      if (isValidValue(fields()[20], other.addresses)) {
+        this.addresses = data().deepCopy(fields()[20].schema(), other.addresses);
         fieldSetFlags()[20] = other.fieldSetFlags()[20];
       }
-      if (isValidValue(fields()[21], other.note)) {
-        this.note = data().deepCopy(fields()[21].schema(), other.note);
+      if (isValidValue(fields()[21], other.phones)) {
+        this.phones = data().deepCopy(fields()[21].schema(), other.phones);
         fieldSetFlags()[21] = other.fieldSetFlags()[21];
       }
-      if (isValidValue(fields()[22], other.address)) {
-        this.address = data().deepCopy(fields()[22].schema(), other.address);
+      if (isValidValue(fields()[22], other.onboarded_date)) {
+        this.onboarded_date = data().deepCopy(fields()[22].schema(), other.onboarded_date);
         fieldSetFlags()[22] = other.fieldSetFlags()[22];
-      }
-      if (isValidValue(fields()[23], other.addresses)) {
-        this.addresses = data().deepCopy(fields()[23].schema(), other.addresses);
-        fieldSetFlags()[23] = other.fieldSetFlags()[23];
-      }
-      if (isValidValue(fields()[24], other.onboarded_date)) {
-        this.onboarded_date = data().deepCopy(fields()[24].schema(), other.onboarded_date);
-        fieldSetFlags()[24] = other.fieldSetFlags()[24];
       }
     }
 
@@ -904,85 +848,77 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
         this.last_name = data().deepCopy(fields()[4].schema(), other.last_name);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.phone_number)) {
-        this.phone_number = data().deepCopy(fields()[5].schema(), other.phone_number);
+      if (isValidValue(fields()[5], other.preferred_contact)) {
+        this.preferred_contact = data().deepCopy(fields()[5].schema(), other.preferred_contact);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.preferred_contact)) {
-        this.preferred_contact = data().deepCopy(fields()[6].schema(), other.preferred_contact);
+      if (isValidValue(fields()[6], other.segment)) {
+        this.segment = data().deepCopy(fields()[6].schema(), other.segment);
         fieldSetFlags()[6] = true;
       }
-      if (isValidValue(fields()[7], other.segment)) {
-        this.segment = data().deepCopy(fields()[7].schema(), other.segment);
+      if (isValidValue(fields()[7], other.date_of_birth)) {
+        this.date_of_birth = data().deepCopy(fields()[7].schema(), other.date_of_birth);
         fieldSetFlags()[7] = true;
       }
-      if (isValidValue(fields()[8], other.date_of_birth)) {
-        this.date_of_birth = data().deepCopy(fields()[8].schema(), other.date_of_birth);
+      if (isValidValue(fields()[8], other.preferred_language)) {
+        this.preferred_language = data().deepCopy(fields()[8].schema(), other.preferred_language);
         fieldSetFlags()[8] = true;
       }
-      if (isValidValue(fields()[9], other.preferred_language)) {
-        this.preferred_language = data().deepCopy(fields()[9].schema(), other.preferred_language);
+      if (isValidValue(fields()[9], other.marketing_consent)) {
+        this.marketing_consent = data().deepCopy(fields()[9].schema(), other.marketing_consent);
         fieldSetFlags()[9] = true;
       }
-      if (isValidValue(fields()[10], other.marketing_consent)) {
-        this.marketing_consent = data().deepCopy(fields()[10].schema(), other.marketing_consent);
+      if (isValidValue(fields()[10], other.lifecycle_status)) {
+        this.lifecycle_status = data().deepCopy(fields()[10].schema(), other.lifecycle_status);
         fieldSetFlags()[10] = true;
       }
-      if (isValidValue(fields()[11], other.lifecycle_status)) {
-        this.lifecycle_status = data().deepCopy(fields()[11].schema(), other.lifecycle_status);
+      if (isValidValue(fields()[11], other.image)) {
+        this.image = data().deepCopy(fields()[11].schema(), other.image);
         fieldSetFlags()[11] = true;
       }
-      if (isValidValue(fields()[12], other.image)) {
-        this.image = data().deepCopy(fields()[12].schema(), other.image);
+      if (isValidValue(fields()[12], other.image_source)) {
+        this.image_source = data().deepCopy(fields()[12].schema(), other.image_source);
         fieldSetFlags()[12] = true;
       }
-      if (isValidValue(fields()[13], other.image_source)) {
-        this.image_source = data().deepCopy(fields()[13].schema(), other.image_source);
+      if (isValidValue(fields()[13], other.department)) {
+        this.department = data().deepCopy(fields()[13].schema(), other.department);
         fieldSetFlags()[13] = true;
       }
-      if (isValidValue(fields()[14], other.department)) {
-        this.department = data().deepCopy(fields()[14].schema(), other.department);
+      if (isValidValue(fields()[14], other.active)) {
+        this.active = data().deepCopy(fields()[14].schema(), other.active);
         fieldSetFlags()[14] = true;
       }
-      if (isValidValue(fields()[15], other.active)) {
-        this.active = data().deepCopy(fields()[15].schema(), other.active);
+      if (isValidValue(fields()[15], other.verified)) {
+        this.verified = data().deepCopy(fields()[15].schema(), other.verified);
         fieldSetFlags()[15] = true;
       }
-      if (isValidValue(fields()[16], other.verified)) {
-        this.verified = data().deepCopy(fields()[16].schema(), other.verified);
+      if (isValidValue(fields()[16], other.vip)) {
+        this.vip = data().deepCopy(fields()[16].schema(), other.vip);
         fieldSetFlags()[16] = true;
       }
-      if (isValidValue(fields()[17], other.vip)) {
-        this.vip = data().deepCopy(fields()[17].schema(), other.vip);
+      if (isValidValue(fields()[17], other.web)) {
+        this.web = data().deepCopy(fields()[17].schema(), other.web);
         fieldSetFlags()[17] = true;
       }
-      if (isValidValue(fields()[18], other.mobile)) {
-        this.mobile = data().deepCopy(fields()[18].schema(), other.mobile);
+      if (isValidValue(fields()[18], other.note)) {
+        this.note = data().deepCopy(fields()[18].schema(), other.note);
         fieldSetFlags()[18] = true;
       }
-      if (isValidValue(fields()[19], other.fax)) {
-        this.fax = data().deepCopy(fields()[19].schema(), other.fax);
+      if (isValidValue(fields()[19], other.address)) {
+        this.address = data().deepCopy(fields()[19].schema(), other.address);
         fieldSetFlags()[19] = true;
       }
-      if (isValidValue(fields()[20], other.web)) {
-        this.web = data().deepCopy(fields()[20].schema(), other.web);
+      if (isValidValue(fields()[20], other.addresses)) {
+        this.addresses = data().deepCopy(fields()[20].schema(), other.addresses);
         fieldSetFlags()[20] = true;
       }
-      if (isValidValue(fields()[21], other.note)) {
-        this.note = data().deepCopy(fields()[21].schema(), other.note);
+      if (isValidValue(fields()[21], other.phones)) {
+        this.phones = data().deepCopy(fields()[21].schema(), other.phones);
         fieldSetFlags()[21] = true;
       }
-      if (isValidValue(fields()[22], other.address)) {
-        this.address = data().deepCopy(fields()[22].schema(), other.address);
+      if (isValidValue(fields()[22], other.onboarded_date)) {
+        this.onboarded_date = data().deepCopy(fields()[22].schema(), other.onboarded_date);
         fieldSetFlags()[22] = true;
-      }
-      if (isValidValue(fields()[23], other.addresses)) {
-        this.addresses = data().deepCopy(fields()[23].schema(), other.addresses);
-        fieldSetFlags()[23] = true;
-      }
-      if (isValidValue(fields()[24], other.onboarded_date)) {
-        this.onboarded_date = data().deepCopy(fields()[24].schema(), other.onboarded_date);
-        fieldSetFlags()[24] = true;
       }
     }
 
@@ -1222,53 +1158,6 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
     }
 
     /**
-      * Gets the value of the 'phone_number' field.
-      * @return The value.
-      */
-    public java.lang.String getPhoneNumber() {
-      return phone_number;
-    }
-
-    /**
-      * Gets the value of the 'phone_number' field as an Optional&lt;java.lang.String&gt;.
-      * @return The value wrapped in an Optional&lt;java.lang.String&gt;.
-      */
-    public Optional<java.lang.String> getOptionalPhoneNumber() {
-      return Optional.<java.lang.String>ofNullable(phone_number);
-    }
-
-    /**
-      * Sets the value of the 'phone_number' field.
-      * @param value The value of 'phone_number'.
-      * @return This builder.
-      */
-    public com.datamesh.customer.avro.Customer.Builder setPhoneNumber(java.lang.String value) {
-      validate(fields()[5], value);
-      this.phone_number = value;
-      fieldSetFlags()[5] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'phone_number' field has been set.
-      * @return True if the 'phone_number' field has been set, false otherwise.
-      */
-    public boolean hasPhoneNumber() {
-      return fieldSetFlags()[5];
-    }
-
-
-    /**
-      * Clears the value of the 'phone_number' field.
-      * @return This builder.
-      */
-    public com.datamesh.customer.avro.Customer.Builder clearPhoneNumber() {
-      phone_number = null;
-      fieldSetFlags()[5] = false;
-      return this;
-    }
-
-    /**
       * Gets the value of the 'preferred_contact' field.
       * @return The value.
       */
@@ -1290,9 +1179,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setPreferredContact(java.lang.String value) {
-      validate(fields()[6], value);
+      validate(fields()[5], value);
       this.preferred_contact = value;
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[5] = true;
       return this;
     }
 
@@ -1301,7 +1190,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'preferred_contact' field has been set, false otherwise.
       */
     public boolean hasPreferredContact() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[5];
     }
 
 
@@ -1311,7 +1200,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearPreferredContact() {
       preferred_contact = null;
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -1337,9 +1226,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setSegment(java.lang.String value) {
-      validate(fields()[7], value);
+      validate(fields()[6], value);
       this.segment = value;
-      fieldSetFlags()[7] = true;
+      fieldSetFlags()[6] = true;
       return this;
     }
 
@@ -1348,7 +1237,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'segment' field has been set, false otherwise.
       */
     public boolean hasSegment() {
-      return fieldSetFlags()[7];
+      return fieldSetFlags()[6];
     }
 
 
@@ -1358,7 +1247,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearSegment() {
       segment = null;
-      fieldSetFlags()[7] = false;
+      fieldSetFlags()[6] = false;
       return this;
     }
 
@@ -1384,9 +1273,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setDateOfBirth(java.time.LocalDate value) {
-      validate(fields()[8], value);
+      validate(fields()[7], value);
       this.date_of_birth = value;
-      fieldSetFlags()[8] = true;
+      fieldSetFlags()[7] = true;
       return this;
     }
 
@@ -1395,7 +1284,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'date_of_birth' field has been set, false otherwise.
       */
     public boolean hasDateOfBirth() {
-      return fieldSetFlags()[8];
+      return fieldSetFlags()[7];
     }
 
 
@@ -1405,7 +1294,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearDateOfBirth() {
       date_of_birth = null;
-      fieldSetFlags()[8] = false;
+      fieldSetFlags()[7] = false;
       return this;
     }
 
@@ -1431,9 +1320,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setPreferredLanguage(java.lang.String value) {
-      validate(fields()[9], value);
+      validate(fields()[8], value);
       this.preferred_language = value;
-      fieldSetFlags()[9] = true;
+      fieldSetFlags()[8] = true;
       return this;
     }
 
@@ -1442,7 +1331,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'preferred_language' field has been set, false otherwise.
       */
     public boolean hasPreferredLanguage() {
-      return fieldSetFlags()[9];
+      return fieldSetFlags()[8];
     }
 
 
@@ -1452,7 +1341,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearPreferredLanguage() {
       preferred_language = null;
-      fieldSetFlags()[9] = false;
+      fieldSetFlags()[8] = false;
       return this;
     }
 
@@ -1478,9 +1367,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setMarketingConsent(boolean value) {
-      validate(fields()[10], value);
+      validate(fields()[9], value);
       this.marketing_consent = value;
-      fieldSetFlags()[10] = true;
+      fieldSetFlags()[9] = true;
       return this;
     }
 
@@ -1489,7 +1378,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'marketing_consent' field has been set, false otherwise.
       */
     public boolean hasMarketingConsent() {
-      return fieldSetFlags()[10];
+      return fieldSetFlags()[9];
     }
 
 
@@ -1498,7 +1387,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder clearMarketingConsent() {
-      fieldSetFlags()[10] = false;
+      fieldSetFlags()[9] = false;
       return this;
     }
 
@@ -1524,9 +1413,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setLifecycleStatus(java.lang.String value) {
-      validate(fields()[11], value);
+      validate(fields()[10], value);
       this.lifecycle_status = value;
-      fieldSetFlags()[11] = true;
+      fieldSetFlags()[10] = true;
       return this;
     }
 
@@ -1535,7 +1424,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'lifecycle_status' field has been set, false otherwise.
       */
     public boolean hasLifecycleStatus() {
-      return fieldSetFlags()[11];
+      return fieldSetFlags()[10];
     }
 
 
@@ -1545,7 +1434,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearLifecycleStatus() {
       lifecycle_status = null;
-      fieldSetFlags()[11] = false;
+      fieldSetFlags()[10] = false;
       return this;
     }
 
@@ -1571,9 +1460,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setImage(java.lang.String value) {
-      validate(fields()[12], value);
+      validate(fields()[11], value);
       this.image = value;
-      fieldSetFlags()[12] = true;
+      fieldSetFlags()[11] = true;
       return this;
     }
 
@@ -1582,7 +1471,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'image' field has been set, false otherwise.
       */
     public boolean hasImage() {
-      return fieldSetFlags()[12];
+      return fieldSetFlags()[11];
     }
 
 
@@ -1592,7 +1481,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearImage() {
       image = null;
-      fieldSetFlags()[12] = false;
+      fieldSetFlags()[11] = false;
       return this;
     }
 
@@ -1618,9 +1507,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setImageSource(java.lang.String value) {
-      validate(fields()[13], value);
+      validate(fields()[12], value);
       this.image_source = value;
-      fieldSetFlags()[13] = true;
+      fieldSetFlags()[12] = true;
       return this;
     }
 
@@ -1629,7 +1518,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'image_source' field has been set, false otherwise.
       */
     public boolean hasImageSource() {
-      return fieldSetFlags()[13];
+      return fieldSetFlags()[12];
     }
 
 
@@ -1639,7 +1528,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearImageSource() {
       image_source = null;
-      fieldSetFlags()[13] = false;
+      fieldSetFlags()[12] = false;
       return this;
     }
 
@@ -1665,9 +1554,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setDepartment(java.lang.String value) {
-      validate(fields()[14], value);
+      validate(fields()[13], value);
       this.department = value;
-      fieldSetFlags()[14] = true;
+      fieldSetFlags()[13] = true;
       return this;
     }
 
@@ -1676,7 +1565,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'department' field has been set, false otherwise.
       */
     public boolean hasDepartment() {
-      return fieldSetFlags()[14];
+      return fieldSetFlags()[13];
     }
 
 
@@ -1686,7 +1575,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearDepartment() {
       department = null;
-      fieldSetFlags()[14] = false;
+      fieldSetFlags()[13] = false;
       return this;
     }
 
@@ -1712,9 +1601,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setActive(boolean value) {
-      validate(fields()[15], value);
+      validate(fields()[14], value);
       this.active = value;
-      fieldSetFlags()[15] = true;
+      fieldSetFlags()[14] = true;
       return this;
     }
 
@@ -1723,7 +1612,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'active' field has been set, false otherwise.
       */
     public boolean hasActive() {
-      return fieldSetFlags()[15];
+      return fieldSetFlags()[14];
     }
 
 
@@ -1732,7 +1621,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder clearActive() {
-      fieldSetFlags()[15] = false;
+      fieldSetFlags()[14] = false;
       return this;
     }
 
@@ -1758,9 +1647,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setVerified(boolean value) {
-      validate(fields()[16], value);
+      validate(fields()[15], value);
       this.verified = value;
-      fieldSetFlags()[16] = true;
+      fieldSetFlags()[15] = true;
       return this;
     }
 
@@ -1769,7 +1658,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'verified' field has been set, false otherwise.
       */
     public boolean hasVerified() {
-      return fieldSetFlags()[16];
+      return fieldSetFlags()[15];
     }
 
 
@@ -1778,7 +1667,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder clearVerified() {
-      fieldSetFlags()[16] = false;
+      fieldSetFlags()[15] = false;
       return this;
     }
 
@@ -1804,9 +1693,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setVip(boolean value) {
-      validate(fields()[17], value);
+      validate(fields()[16], value);
       this.vip = value;
-      fieldSetFlags()[17] = true;
+      fieldSetFlags()[16] = true;
       return this;
     }
 
@@ -1815,7 +1704,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'vip' field has been set, false otherwise.
       */
     public boolean hasVip() {
-      return fieldSetFlags()[17];
+      return fieldSetFlags()[16];
     }
 
 
@@ -1824,101 +1713,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder clearVip() {
-      fieldSetFlags()[17] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'mobile' field.
-      * @return The value.
-      */
-    public java.lang.String getMobile() {
-      return mobile;
-    }
-
-    /**
-      * Gets the value of the 'mobile' field as an Optional&lt;java.lang.String&gt;.
-      * @return The value wrapped in an Optional&lt;java.lang.String&gt;.
-      */
-    public Optional<java.lang.String> getOptionalMobile() {
-      return Optional.<java.lang.String>ofNullable(mobile);
-    }
-
-    /**
-      * Sets the value of the 'mobile' field.
-      * @param value The value of 'mobile'.
-      * @return This builder.
-      */
-    public com.datamesh.customer.avro.Customer.Builder setMobile(java.lang.String value) {
-      validate(fields()[18], value);
-      this.mobile = value;
-      fieldSetFlags()[18] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'mobile' field has been set.
-      * @return True if the 'mobile' field has been set, false otherwise.
-      */
-    public boolean hasMobile() {
-      return fieldSetFlags()[18];
-    }
-
-
-    /**
-      * Clears the value of the 'mobile' field.
-      * @return This builder.
-      */
-    public com.datamesh.customer.avro.Customer.Builder clearMobile() {
-      mobile = null;
-      fieldSetFlags()[18] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'fax' field.
-      * @return The value.
-      */
-    public java.lang.String getFax() {
-      return fax;
-    }
-
-    /**
-      * Gets the value of the 'fax' field as an Optional&lt;java.lang.String&gt;.
-      * @return The value wrapped in an Optional&lt;java.lang.String&gt;.
-      */
-    public Optional<java.lang.String> getOptionalFax() {
-      return Optional.<java.lang.String>ofNullable(fax);
-    }
-
-    /**
-      * Sets the value of the 'fax' field.
-      * @param value The value of 'fax'.
-      * @return This builder.
-      */
-    public com.datamesh.customer.avro.Customer.Builder setFax(java.lang.String value) {
-      validate(fields()[19], value);
-      this.fax = value;
-      fieldSetFlags()[19] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'fax' field has been set.
-      * @return True if the 'fax' field has been set, false otherwise.
-      */
-    public boolean hasFax() {
-      return fieldSetFlags()[19];
-    }
-
-
-    /**
-      * Clears the value of the 'fax' field.
-      * @return This builder.
-      */
-    public com.datamesh.customer.avro.Customer.Builder clearFax() {
-      fax = null;
-      fieldSetFlags()[19] = false;
+      fieldSetFlags()[16] = false;
       return this;
     }
 
@@ -1944,9 +1739,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setWeb(java.lang.String value) {
-      validate(fields()[20], value);
+      validate(fields()[17], value);
       this.web = value;
-      fieldSetFlags()[20] = true;
+      fieldSetFlags()[17] = true;
       return this;
     }
 
@@ -1955,7 +1750,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'web' field has been set, false otherwise.
       */
     public boolean hasWeb() {
-      return fieldSetFlags()[20];
+      return fieldSetFlags()[17];
     }
 
 
@@ -1965,7 +1760,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearWeb() {
       web = null;
-      fieldSetFlags()[20] = false;
+      fieldSetFlags()[17] = false;
       return this;
     }
 
@@ -1991,9 +1786,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setNote(java.lang.String value) {
-      validate(fields()[21], value);
+      validate(fields()[18], value);
       this.note = value;
-      fieldSetFlags()[21] = true;
+      fieldSetFlags()[18] = true;
       return this;
     }
 
@@ -2002,7 +1797,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'note' field has been set, false otherwise.
       */
     public boolean hasNote() {
-      return fieldSetFlags()[21];
+      return fieldSetFlags()[18];
     }
 
 
@@ -2012,7 +1807,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearNote() {
       note = null;
-      fieldSetFlags()[21] = false;
+      fieldSetFlags()[18] = false;
       return this;
     }
 
@@ -2038,9 +1833,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setAddress(java.lang.String value) {
-      validate(fields()[22], value);
+      validate(fields()[19], value);
       this.address = value;
-      fieldSetFlags()[22] = true;
+      fieldSetFlags()[19] = true;
       return this;
     }
 
@@ -2049,7 +1844,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'address' field has been set, false otherwise.
       */
     public boolean hasAddress() {
-      return fieldSetFlags()[22];
+      return fieldSetFlags()[19];
     }
 
 
@@ -2059,7 +1854,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearAddress() {
       address = null;
-      fieldSetFlags()[22] = false;
+      fieldSetFlags()[19] = false;
       return this;
     }
 
@@ -2085,9 +1880,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setAddresses(java.util.List<com.datamesh.customer.avro.Address> value) {
-      validate(fields()[23], value);
+      validate(fields()[20], value);
       this.addresses = value;
-      fieldSetFlags()[23] = true;
+      fieldSetFlags()[20] = true;
       return this;
     }
 
@@ -2096,7 +1891,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'addresses' field has been set, false otherwise.
       */
     public boolean hasAddresses() {
-      return fieldSetFlags()[23];
+      return fieldSetFlags()[20];
     }
 
 
@@ -2106,7 +1901,54 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.datamesh.customer.avro.Customer.Builder clearAddresses() {
       addresses = null;
-      fieldSetFlags()[23] = false;
+      fieldSetFlags()[20] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'phones' field.
+      * @return The value.
+      */
+    public java.util.List<com.datamesh.customer.avro.Phone> getPhones() {
+      return phones;
+    }
+
+    /**
+      * Gets the value of the 'phones' field as an Optional&lt;java.util.List&lt;com.datamesh.customer.avro.Phone&gt;&gt;.
+      * @return The value wrapped in an Optional&lt;java.util.List&lt;com.datamesh.customer.avro.Phone&gt;&gt;.
+      */
+    public Optional<java.util.List<com.datamesh.customer.avro.Phone>> getOptionalPhones() {
+      return Optional.<java.util.List<com.datamesh.customer.avro.Phone>>ofNullable(phones);
+    }
+
+    /**
+      * Sets the value of the 'phones' field.
+      * @param value The value of 'phones'.
+      * @return This builder.
+      */
+    public com.datamesh.customer.avro.Customer.Builder setPhones(java.util.List<com.datamesh.customer.avro.Phone> value) {
+      validate(fields()[21], value);
+      this.phones = value;
+      fieldSetFlags()[21] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'phones' field has been set.
+      * @return True if the 'phones' field has been set, false otherwise.
+      */
+    public boolean hasPhones() {
+      return fieldSetFlags()[21];
+    }
+
+
+    /**
+      * Clears the value of the 'phones' field.
+      * @return This builder.
+      */
+    public com.datamesh.customer.avro.Customer.Builder clearPhones() {
+      phones = null;
+      fieldSetFlags()[21] = false;
       return this;
     }
 
@@ -2132,9 +1974,9 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder setOnboardedDate(java.time.Instant value) {
-      validate(fields()[24], value);
+      validate(fields()[22], value);
       this.onboarded_date = value.truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
-      fieldSetFlags()[24] = true;
+      fieldSetFlags()[22] = true;
       return this;
     }
 
@@ -2143,7 +1985,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'onboarded_date' field has been set, false otherwise.
       */
     public boolean hasOnboardedDate() {
-      return fieldSetFlags()[24];
+      return fieldSetFlags()[22];
     }
 
 
@@ -2152,7 +1994,7 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.datamesh.customer.avro.Customer.Builder clearOnboardedDate() {
-      fieldSetFlags()[24] = false;
+      fieldSetFlags()[22] = false;
       return this;
     }
 
@@ -2166,26 +2008,24 @@ public class Customer extends org.apache.avro.specific.SpecificRecordBase implem
         record.email_address = fieldSetFlags()[2] ? this.email_address : (java.lang.String) defaultValue(fields()[2]);
         record.first_name = fieldSetFlags()[3] ? this.first_name : (java.lang.String) defaultValue(fields()[3]);
         record.last_name = fieldSetFlags()[4] ? this.last_name : (java.lang.String) defaultValue(fields()[4]);
-        record.phone_number = fieldSetFlags()[5] ? this.phone_number : (java.lang.String) defaultValue(fields()[5]);
-        record.preferred_contact = fieldSetFlags()[6] ? this.preferred_contact : (java.lang.String) defaultValue(fields()[6]);
-        record.segment = fieldSetFlags()[7] ? this.segment : (java.lang.String) defaultValue(fields()[7]);
-        record.date_of_birth = fieldSetFlags()[8] ? this.date_of_birth : (java.time.LocalDate) defaultValue(fields()[8]);
-        record.preferred_language = fieldSetFlags()[9] ? this.preferred_language : (java.lang.String) defaultValue(fields()[9]);
-        record.marketing_consent = fieldSetFlags()[10] ? this.marketing_consent : (java.lang.Boolean) defaultValue(fields()[10]);
-        record.lifecycle_status = fieldSetFlags()[11] ? this.lifecycle_status : (java.lang.String) defaultValue(fields()[11]);
-        record.image = fieldSetFlags()[12] ? this.image : (java.lang.String) defaultValue(fields()[12]);
-        record.image_source = fieldSetFlags()[13] ? this.image_source : (java.lang.String) defaultValue(fields()[13]);
-        record.department = fieldSetFlags()[14] ? this.department : (java.lang.String) defaultValue(fields()[14]);
-        record.active = fieldSetFlags()[15] ? this.active : (java.lang.Boolean) defaultValue(fields()[15]);
-        record.verified = fieldSetFlags()[16] ? this.verified : (java.lang.Boolean) defaultValue(fields()[16]);
-        record.vip = fieldSetFlags()[17] ? this.vip : (java.lang.Boolean) defaultValue(fields()[17]);
-        record.mobile = fieldSetFlags()[18] ? this.mobile : (java.lang.String) defaultValue(fields()[18]);
-        record.fax = fieldSetFlags()[19] ? this.fax : (java.lang.String) defaultValue(fields()[19]);
-        record.web = fieldSetFlags()[20] ? this.web : (java.lang.String) defaultValue(fields()[20]);
-        record.note = fieldSetFlags()[21] ? this.note : (java.lang.String) defaultValue(fields()[21]);
-        record.address = fieldSetFlags()[22] ? this.address : (java.lang.String) defaultValue(fields()[22]);
-        record.addresses = fieldSetFlags()[23] ? this.addresses : (java.util.List<com.datamesh.customer.avro.Address>) defaultValue(fields()[23]);
-        record.onboarded_date = fieldSetFlags()[24] ? this.onboarded_date : (java.time.Instant) defaultValue(fields()[24]);
+        record.preferred_contact = fieldSetFlags()[5] ? this.preferred_contact : (java.lang.String) defaultValue(fields()[5]);
+        record.segment = fieldSetFlags()[6] ? this.segment : (java.lang.String) defaultValue(fields()[6]);
+        record.date_of_birth = fieldSetFlags()[7] ? this.date_of_birth : (java.time.LocalDate) defaultValue(fields()[7]);
+        record.preferred_language = fieldSetFlags()[8] ? this.preferred_language : (java.lang.String) defaultValue(fields()[8]);
+        record.marketing_consent = fieldSetFlags()[9] ? this.marketing_consent : (java.lang.Boolean) defaultValue(fields()[9]);
+        record.lifecycle_status = fieldSetFlags()[10] ? this.lifecycle_status : (java.lang.String) defaultValue(fields()[10]);
+        record.image = fieldSetFlags()[11] ? this.image : (java.lang.String) defaultValue(fields()[11]);
+        record.image_source = fieldSetFlags()[12] ? this.image_source : (java.lang.String) defaultValue(fields()[12]);
+        record.department = fieldSetFlags()[13] ? this.department : (java.lang.String) defaultValue(fields()[13]);
+        record.active = fieldSetFlags()[14] ? this.active : (java.lang.Boolean) defaultValue(fields()[14]);
+        record.verified = fieldSetFlags()[15] ? this.verified : (java.lang.Boolean) defaultValue(fields()[15]);
+        record.vip = fieldSetFlags()[16] ? this.vip : (java.lang.Boolean) defaultValue(fields()[16]);
+        record.web = fieldSetFlags()[17] ? this.web : (java.lang.String) defaultValue(fields()[17]);
+        record.note = fieldSetFlags()[18] ? this.note : (java.lang.String) defaultValue(fields()[18]);
+        record.address = fieldSetFlags()[19] ? this.address : (java.lang.String) defaultValue(fields()[19]);
+        record.addresses = fieldSetFlags()[20] ? this.addresses : (java.util.List<com.datamesh.customer.avro.Address>) defaultValue(fields()[20]);
+        record.phones = fieldSetFlags()[21] ? this.phones : (java.util.List<com.datamesh.customer.avro.Phone>) defaultValue(fields()[21]);
+        record.onboarded_date = fieldSetFlags()[22] ? this.onboarded_date : (java.time.Instant) defaultValue(fields()[22]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

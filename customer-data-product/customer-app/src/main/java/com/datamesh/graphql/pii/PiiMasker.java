@@ -8,8 +8,9 @@ public final class PiiMasker {
     /** Fail-closed decision: every PII field the API knows about is redacted. */
     public static final Map<String, Map<String, String>> REDACT_ALL = Map.of(
         "Customer", Map.of("firstName", "redact", "lastName", "redact",
-                           "emailAddress", "redact", "phoneNumber", "redact"),
-        "Address", Map.of("street", "redact", "zipCode", "redact"));
+                           "emailAddress", "redact"),
+        "Address", Map.of("street", "redact", "zipCode", "redact"),
+        "Phone", Map.of("number", "redact"));
 
     private PiiMasker() {}
 

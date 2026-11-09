@@ -10,13 +10,16 @@ Content-Type: application/json
   "firstName": "Angelyn",
   "lastName": "Dibbert",
   "emailAddress": "cher.turner@hotmail.com",
-  "phoneNumber": "+1 413-925-9346",
   "preferredContact": "phone",
   "segment": "gold",
   "dateOfBirth": "1985-04-12",
   "preferredLanguage": "en",
   "marketingConsent": true,
   "lifecycleStatus": "ACTIVE",
+  "phones": [
+    { "type": "MOBILE", "number": "+1 413-925-9346", "availability": "Mon-Sun 18:00-21:00" },
+    { "type": "WORK", "number": "+1 212-555-0143", "availability": "Mon-Fri 09:00-17:00" }
+  ],
   "addresses": [
     {
       "street": "Sharda Corners",

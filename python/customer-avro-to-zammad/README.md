@@ -20,7 +20,7 @@ and creates the customers in **Zammad** as users with the `Customer` role throug
 | `login` | `login` |
 | `email_address` | `email` |
 | `first_name` / `last_name` | `firstname` / `lastname` |
-| `phone_number`, `mobile`, `fax`, `web` | `phone`, `mobile`, `fax`, `web` |
+| `phones` (type WORK/HOME), `phones` (MOBILE), `phones` (FAX), `web` | `phone`, `mobile`, `fax`, `web` |
 | `note`, `department`, `address` | `note`, `department`, `address` |
 | `active`, `verified`, `vip` | `active`, `verified`, `vip` |
 | `addresses[0]` (`street`, `zip_code`, `city`) | `street`, `zip`, `city` (Zammad keeps one address) |

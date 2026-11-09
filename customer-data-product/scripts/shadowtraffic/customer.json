@@ -70,9 +70,40 @@
                     "_gen": "string",
                     "expr": "#{Internet.emailAddress}"
                 },
-                "phoneNumber": {
-                    "_gen": "string",
-                    "expr": "#{PhoneNumber.cellPhoneInternational}"
+                "phones": {
+                    "_gen": "repeatedly",
+                    "n": {
+                        "_gen": "uniformDistribution",
+                        "bounds": [
+                            1,
+                            3
+                        ],
+                        "decimals": 0
+                    },
+                    "target": {
+                        "type": {
+                            "_gen": "oneOf",
+                            "choices": [
+                                "MOBILE",
+                                "HOME",
+                                "WORK",
+                                "FAX"
+                            ]
+                        },
+                        "number": {
+                            "_gen": "string",
+                            "expr": "#{PhoneNumber.cellPhoneInternational}"
+                        },
+                        "availability": {
+                            "_gen": "oneOf",
+                            "choices": [
+                                "Mon-Fri 09:00-17:00",
+                                "Mon-Fri 17:00-21:00",
+                                "Mon-Sun 08:00-20:00",
+                                "Sat-Sun 10:00-16:00"
+                            ]
+                        }
+                    }
                 },
                 "preferredContact": {
                     "_gen": "oneOf",

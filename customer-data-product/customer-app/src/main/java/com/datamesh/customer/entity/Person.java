@@ -19,7 +19,6 @@ public class Person extends Auditable {
     private String firstName;
     private String lastName;
     private String emailAddress;
-    private String phoneNumber;
     private String preferredContact;
     private String segment;
     private LocalDate dateOfBirth;
@@ -36,6 +35,13 @@ public class Person extends Auditable {
         orphanRemoval = true
     )
     private List<Address> addresses = new ArrayList<>();
+
+    @OneToMany(
+        mappedBy = "person",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<Phone> phones = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -99,14 +105,6 @@ public class Person extends Auditable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getPreferredContact() {
@@ -173,6 +171,14 @@ public class Person extends Auditable {
         this.addresses = addresses;
     }
 
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
+
     // helper methods (VERY good practice)
     public void addAddress(Address address) {
         addresses.add(address);
@@ -182,5 +188,15 @@ public class Person extends Auditable {
     public void removeAddress(Address address) {
         addresses.remove(address);
         address.setPerson(null);
+    }
+
+    public void addPhone(Phone phone) {
+        phones.add(phone);
+        phone.setPerson(this);
+    }
+
+    public void removePhone(Phone phone) {
+        phones.remove(phone);
+        phone.setPerson(null);
     }
 }

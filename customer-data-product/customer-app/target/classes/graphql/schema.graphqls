@@ -23,7 +23,6 @@ type Customer {
     firstName: String
     lastName: String
     emailAddress: String
-    phoneNumber: String
     preferredContact: String
     segment: String
     dateOfBirth: Date
@@ -33,6 +32,7 @@ type Customer {
     lifecycleStatus: String
     onboardedDate: DateTime
     addresses: [Address!]!
+    phones: [Phone!]!
     createdAt: DateTime
     updatedAt: DateTime
 }
@@ -57,7 +57,6 @@ input CustomerInput {
     firstName: String
     lastName: String
     emailAddress: String
-    phoneNumber: String
     preferredContact: String
     segment: String
     dateOfBirth: Date
@@ -65,6 +64,22 @@ input CustomerInput {
     marketingConsent: Boolean = false
     lifecycleStatus: String
     addresses: [AddressInput!] = []
+    phones: [PhoneInput!] = []
+}
+
+type Phone {
+    id: ID!
+    "MOBILE, HOME, WORK or FAX."
+    type: String
+    number: String
+    "When the customer is reachable on this number, e.g. Mon-Fri 09:00-17:00."
+    availability: String
+}
+
+input PhoneInput {
+    type: String
+    number: String!
+    availability: String
 }
 
 input AddressInput {

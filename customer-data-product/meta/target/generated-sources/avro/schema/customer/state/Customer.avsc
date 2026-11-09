@@ -19,9 +19,6 @@
     "name" : "last_name",
     "type" : "string"
   }, {
-    "name" : "phone_number",
-    "type" : "string"
-  }, {
     "name" : "preferred_contact",
     "type" : [ "null", "string" ],
     "default" : null
@@ -70,14 +67,6 @@
     "name" : "vip",
     "type" : "boolean"
   }, {
-    "name" : "mobile",
-    "type" : "string",
-    "default" : ""
-  }, {
-    "name" : "fax",
-    "type" : "string",
-    "default" : ""
-  }, {
     "name" : "web",
     "type" : "string",
     "default" : ""
@@ -122,6 +111,28 @@
         } ]
       }
     }
+  }, {
+    "name" : "phones",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "Phone",
+        "fields" : [ {
+          "name" : "number",
+          "type" : "string"
+        }, {
+          "name" : "type",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "availability",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    },
+    "default" : [ ]
   }, {
     "name" : "onboarded_date",
     "type" : {

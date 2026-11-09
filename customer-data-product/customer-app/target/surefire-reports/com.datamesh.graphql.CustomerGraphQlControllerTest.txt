@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.datamesh.graphql.CustomerGraphQlControllerTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.316 s -- in com.datamesh.graphql.CustomerGraphQlControllerTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.981 s -- in com.datamesh.graphql.CustomerGraphQlControllerTest

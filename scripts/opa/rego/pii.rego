@@ -25,7 +25,9 @@ profiles := {
 	"support": {
 		"Customer": {
 			"emailAddress": "partial",
-			"phoneNumber": "partial",
+		},
+		"Phone": {
+			"number": "partial",
 		},
 		"Address": {
 			"street": "redact",
@@ -37,7 +39,9 @@ profiles := {
 			"firstName": "partial",
 			"lastName": "partial",
 			"emailAddress": "redact",
-			"phoneNumber": "redact",
+		},
+		"Phone": {
+			"number": "redact",
 		},
 		"Address": {
 			"street": "redact",

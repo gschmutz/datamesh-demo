@@ -3,6 +3,6 @@ package com.datamesh.customer.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-public record CustomerDTO(String id, String login, boolean active, boolean verified, boolean vip, String firstName, String lastName, String emailAddress, String phoneNumber, String preferredContact, String segment, LocalDate dateOfBirth, String preferredLanguage, boolean marketingConsent, String lifecycleStatus, List<AddressDTO> addresses) {
+public record CustomerDTO(String id, String login, boolean active, boolean verified, boolean vip, String firstName, String lastName, String emailAddress, String preferredContact, String segment, LocalDate dateOfBirth, String preferredLanguage, boolean marketingConsent, String lifecycleStatus, List<AddressDTO> addresses, List<PhoneDTO> phones) {
 }
 

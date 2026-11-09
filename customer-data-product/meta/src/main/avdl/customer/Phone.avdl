@@ -1,0 +1,9 @@
+@namespace("com.datamesh.customer.avro")
+protocol PhoneProtocol {
+
+	record Phone {
+		string number;
+		union { null, string } type = null;
+		union { null, string } availability = null;
+	}
+}

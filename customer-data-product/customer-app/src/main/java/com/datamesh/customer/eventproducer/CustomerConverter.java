@@ -5,6 +5,7 @@ import java.util.List;
 import com.datamesh.customer.avro.CustomerState;
 import com.datamesh.customer.entity.Person;
 import com.datamesh.customer.entity.Address;
+import com.datamesh.customer.entity.Phone;
 
 public class CustomerConverter {
 
@@ -19,9 +20,21 @@ public class CustomerConverter {
                 .build();
     }
 
+    private static com.datamesh.customer.avro.Phone convertPhone(Phone phone) {
+        return com.datamesh.customer.avro.Phone.newBuilder()
+                .setNumber(phone.getNumber())
+                .setType(phone.getType())
+                .setAvailability(phone.getAvailability())
+                .build();
+    }
+
     public static CustomerState convert(Person person) {
         List<com.datamesh.customer.avro.Address> addresses = person.getAddresses().stream()
                 .map(CustomerConverter::convertAddress)
+                .collect(java.util.stream.Collectors.toCollection(() -> new java.util.ArrayList<>()));
+
+        List<com.datamesh.customer.avro.Phone> phones = person.getPhones().stream()
+                .map(CustomerConverter::convertPhone)
                 .collect(java.util.stream.Collectors.toCollection(() -> new java.util.ArrayList<>()));
 
         return CustomerState.newBuilder()
@@ -34,7 +47,6 @@ public class CustomerConverter {
                         .setFirstName(person.getFirstName())
                         .setLastName(person.getLastName())
                         .setEmailAddress(person.getEmailAddress())
-                        .setPhoneNumber(person.getPhoneNumber())
                         .setPreferredContact(person.getPreferredContact())
                         .setSegment(person.getSegment())
                         .setDateOfBirth(person.getDateOfBirth())
@@ -42,6 +54,7 @@ public class CustomerConverter {
                         .setMarketingConsent(person.isMarketingConsent())
                         .setLifecycleStatus(person.getLifecycleStatus())
                         .setAddresses(addresses)
+                        .setPhones(phones)
                         .setOnboardedDate(person.getOnboardedDate())
                         .build())
                 .build();

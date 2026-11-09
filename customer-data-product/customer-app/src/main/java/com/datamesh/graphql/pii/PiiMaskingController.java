@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 
 import com.datamesh.customer.entity.Address;
 import com.datamesh.customer.entity.Person;
+import com.datamesh.customer.entity.Phone;
 
 import graphql.GraphQLContext;
 
@@ -24,14 +25,14 @@ public class PiiMaskingController {
     @SchemaMapping(typeName = "Customer", field = "emailAddress")
     public String emailAddress(Person p, GraphQLContext ctx) { return mask(ctx, "Customer", "emailAddress", p.getEmailAddress()); }
 
-    @SchemaMapping(typeName = "Customer", field = "phoneNumber")
-    public String phoneNumber(Person p, GraphQLContext ctx) { return mask(ctx, "Customer", "phoneNumber", p.getPhoneNumber()); }
-
     @SchemaMapping(typeName = "Address", field = "street")
     public String street(Address a, GraphQLContext ctx) { return mask(ctx, "Address", "street", a.getStreet()); }
 
     @SchemaMapping(typeName = "Address", field = "zipCode")
     public String zipCode(Address a, GraphQLContext ctx) { return mask(ctx, "Address", "zipCode", a.getZipCode()); }
+
+    @SchemaMapping(typeName = "Phone", field = "number")
+    public String phoneNumber(Phone ph, GraphQLContext ctx) { return mask(ctx, "Phone", "number", ph.getNumber()); }
 
     private static String mask(GraphQLContext ctx, String type, String field, String value) {
         PiiAccess access = ctx.get(PiiAccess.CONTEXT_KEY);

@@ -7,10 +7,12 @@
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/controller/CustomerController.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/dto/AddressDTO.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/dto/CustomerDTO.java
+/Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/dto/PhoneDTO.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/entity/Address.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/entity/Auditable.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/entity/JpaConfig.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/entity/Person.java
+/Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/entity/Phone.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/eventproducer/CustomerConverter.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/eventproducer/CustomerStateProducer.java
 /Users/guido.schmutz/Documents/GitHub/gschmutz/datamesh-demo/customer-data-product/customer-app/src/main/java/com/datamesh/customer/repository/CustomerRepository.java

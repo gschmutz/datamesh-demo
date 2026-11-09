@@ -25,5 +25,5 @@ test_unknown_role_is_restricted if {
 
 test_missing_roles_is_restricted if {
 	m := pii.masked with input as {"user": "x"}
-	m.Customer.phoneNumber == "redact"
+	m.Phone.number == "redact"
 }

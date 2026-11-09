@@ -28,6 +28,16 @@ def _clean(value: Any) -> Any:
     return None if value in (None, "") else value
 
 
+def _phone(customer: dict[str, Any], *types: str) -> Any:
+    """First phone number whose type is one of ``types`` (in that preference order)."""
+    phones = customer.get("phones") or []
+    for wanted in types:
+        for phone in phones:
+            if (phone.get("type") or "").upper() == wanted:
+                return _clean(phone.get("number"))
+    return None
+
+
 def to_zammad_user(customer: dict[str, Any]) -> dict[str, Any]:
     """Build the Zammad user payload (without ``roles``) from the Avro ``Customer``."""
     payload: dict[str, Any] = {
@@ -35,9 +45,9 @@ def to_zammad_user(customer: dict[str, Any]) -> dict[str, Any]:
         "email": customer["email_address"],
         "firstname": customer.get("first_name"),
         "lastname": customer["last_name"],
-        "phone": customer.get("phone_number"),
-        "mobile": customer.get("mobile"),
-        "fax": customer.get("fax"),
+        "phone": _phone(customer, "WORK", "HOME"),
+        "mobile": _phone(customer, "MOBILE"),
+        "fax": _phone(customer, "FAX"),
         "web": customer.get("web"),
         "note": customer.get("note"),
         "department": customer.get("department"),

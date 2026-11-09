@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.datamesh.customer.dto.CustomerDTO;
 import com.datamesh.customer.dto.AddressDTO;
+import com.datamesh.customer.dto.PhoneDTO;
+import com.datamesh.customer.entity.Phone;
 import com.datamesh.customer.entity.Address;
 import com.datamesh.customer.entity.Person;
 import com.datamesh.customer.eventproducer.CustomerStateProducer;
@@ -53,6 +55,14 @@ public class CustomerService {
         return address;
     }
 
+    private Phone convert(PhoneDTO phoneDTO) {
+        var phone = new Phone();
+        phone.setType(phoneDTO.type());
+        phone.setNumber(phoneDTO.number());
+        phone.setAvailability(phoneDTO.availability());
+        return phone;
+    }
+
     /**
      * Onboard's a new customer, given by the customerDTO parameter.
      * @param customerDTO       the customer object to add
@@ -71,7 +81,6 @@ public class CustomerService {
         person.setFirstName(customerDTO.firstName());
         person.setLastName(customerDTO.lastName());
         person.setEmailAddress(customerDTO.emailAddress());
-        person.setPhoneNumber(customerDTO.phoneNumber());
         person.setPreferredContact(customerDTO.preferredContact());
         person.setSegment(customerDTO.segment());
         person.setDateOfBirth(customerDTO.dateOfBirth());
@@ -83,6 +92,13 @@ public class CustomerService {
         for (var addressDTO : customerDTO.addresses()) {
             var address = convert(addressDTO);
             person.addAddress(address);
+        }
+
+        // attach phone numbers (optional)
+        if (customerDTO.phones() != null) {
+            for (var phoneDTO : customerDTO.phones()) {
+                person.addPhone(convert(phoneDTO));
+            }
         }
 
         person.setOnboardedDate(Instant.now());
