@@ -70,10 +70,7 @@
                         <param>http://dataplatform:8081</param>
                     </schemaRegistryUrls>
                     <subjects>
-                        <pub.aristech.call.event.v1-value>target/generated-sources/avro/schema/aristech/event/CallEvent.avsc</pub.aristech.call.event.v1-value>
                         <pub.cus.customer.state.v1-value>target/generated-sources/avro/schema/customer/state/CustomerState.avsc</pub.cus.customer.state.v1-value>
-                        <pub.cus.organization.state.v1-value>target/generated-sources/avro/schema/organisation/state/OrganizationState.avsc</pub.cus.organization.state.v1-value>
-                        <pub.zammad.ticket.action.v1-value>target/generated-sources/avro/schema/ticket/action/TicketAction.avsc</pub.zammad.ticket.action.v1-value>
                     </subjects>
                 </configuration>
                 <goals>
