@@ -1,0 +1,133 @@
+apiVersion: v3.0.2
+kind: DataContract
+id: aristech-call-event-kafka
+name: Aristech Call Event (Kafka)
+version: 1.0.0
+status: draft
+domain: customer-service
+dataProduct: customer-interaction
+description:
+  purpose: Describes the Avro event published on Kafka topic pub.aristech.call.event.v1 for each customer call handled by the Aristech AI-Suite (caller identification state plus the captured request details).
+  limitations: Field semantics marked "TBC" must be confirmed with the producer. Schema is generated from meta/src/main/avdl/aristech/event/CallEvent.avdl.
+tags:
+  - callcenter
+  - kafka
+  - avro
+  - pii
+
+servers:
+  - server: kafka-prod
+    type: kafka
+    format: avro
+    host: kafka-1:19092
+    topic: pub.aristech.call.event.v1
+    description: Avro records serialized with Confluent Schema Registry (2 partitions, 3 replicas, cleanup.policy=delete).
+    customProperties:
+      - property: schemaRegistryUrl
+        value: http://schema-registry-1:8081
+      - property: subject
+        value: pub.aristech.call.event.v1-value
+      - property: compatibility
+        value: BACKWARD
+
+schema:
+  - name: CallEvent
+    physicalName: pub.aristech.call.event.v1
+    physicalType: avro
+    businessName: Call Event
+    description: One event per call handled by the Aristech AI-Suite.
+    properties:
+      - name: callID
+        logicalType: string
+        physicalType: string
+        required: true
+        unique: true
+        primaryKey: true
+        primaryKeyPosition: 1
+        description: Identifier of the call as assigned by the Aristech AI-Suite.
+      - name: isAuthenticated
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+        description: Whether the caller was successfully authenticated during the call.
+      - name: isIdentified
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+        description: Whether the caller could be matched to a known customer.
+      - name: userData
+        logicalType: object
+        physicalType: record
+        required: true
+        description: Data captured from the caller during the call.
+        properties:
+          - name: anliegen
+            logicalType: string
+            physicalType: string
+            required: true
+            businessName: Anliegen (Concern)
+            description: Free-text or classified reason for the call.
+            examples:
+              - Allgemeine Frage zur Ortsabwesenheit
+          - name: bedrohung
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+            businessName: Bedrohung (Threat)
+            description: Flag indicating that a threat was detected or reported in the call.
+          - name: kundennummer
+            logicalType: string
+            physicalType: union
+            required: false
+            businessName: Kundennummer (Customer number)
+            description: Customer number as stated by or resolved for the caller. Alphanumeric. Avro union of null and string, default null.
+            classification: confidential
+            criticalDataElement: true
+            tags:
+              - pii
+            examples:
+              - 777A456789
+            logicalTypeOptions:
+              pattern: "^[0-9A-Za-z]+$"
+              minLength: 1
+          - name: plz
+            logicalType: string
+            physicalType: union
+            required: false
+            businessName: Postleitzahl (Postal code)
+            description: Postal code of the caller. Kept as string to preserve leading zeros. Avro union of null and string, default null.
+            classification: confidential
+            tags:
+              - pii
+            examples:
+              - "69115"
+            logicalTypeOptions:
+              pattern: "^[0-9]{4,5}$"
+          - name: prio
+            logicalType: string
+            physicalType: string
+            required: true
+            businessName: Priorität (Priority)
+            description: Priority assigned to the call, transmitted as a numeric string. Scale and direction TBC.
+            examples:
+              - "5"
+            logicalTypeOptions:
+              pattern: "^[0-9]+$"
+          - name: socL
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+            description: Boolean flag with unknown meaning (TBC with producer).
+
+slaProperties:
+  - property: generalAvailability
+    value: TBC
+  - property: retention
+    value: TBC
+    unit: d
+
+team:
+  name: TBC
+  members:
+    - username: guido.schmutz@accenture.com
+      role: owner

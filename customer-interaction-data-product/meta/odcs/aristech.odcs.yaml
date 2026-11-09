@@ -1,0 +1,155 @@
+apiVersion: v3.0.2
+kind: DataContract
+id: aristech-call-event-postgresql
+name: Aristech Call Event (PostgreSQL)
+version: 1.0.0
+status: draft
+domain: customer-service
+dataProduct: customer-interaction
+description:
+  purpose: Describes the PostgreSQL table holding one row per customer call handled by the Aristech AI-Suite (caller identification state plus the captured request details).
+  limitations: Field semantics marked "TBC" must be confirmed with the producer. Table is derived from the CallEvent Avro schema with the nested userData record flattened into columns.
+tags:
+  - callcenter
+  - postgresql
+  - pii
+
+servers:
+  - server: postgresql-demodb
+    type: postgres
+    host: postgresql
+    port: 5432
+    database: demodb
+    schema: aristech
+    environment: dev
+
+schema:
+  - name: call_event
+    physicalName: call_event
+    physicalType: table
+    businessName: Call Event
+    description: One row per call handled by the Aristech AI-Suite.
+    properties:
+      - name: call_id
+        logicalType: string
+        physicalType: TEXT
+        required: true
+        unique: true
+        primaryKey: true
+        primaryKeyPosition: 1
+        description: Identifier of the call as assigned by the Aristech AI-Suite.
+        customProperties:
+          - property: sourceField
+            value: callID
+      - name: is_authenticated
+        logicalType: boolean
+        physicalType: BOOLEAN
+        required: true
+        description: Whether the caller was successfully authenticated during the call.
+        customProperties:
+          - property: sourceField
+            value: isAuthenticated
+      - name: is_identified
+        logicalType: boolean
+        physicalType: BOOLEAN
+        required: true
+        description: Whether the caller could be matched to a known customer.
+        customProperties:
+          - property: sourceField
+            value: isIdentified
+      - name: anliegen
+        logicalType: string
+        physicalType: TEXT
+        required: true
+        businessName: Anliegen (Concern)
+        description: Free-text or classified reason for the call.
+        examples:
+          - Allgemeine Frage zur Ortsabwesenheit
+        customProperties:
+          - property: sourceField
+            value: userData.anliegen
+      - name: bedrohung
+        logicalType: boolean
+        physicalType: BOOLEAN
+        required: true
+        businessName: Bedrohung (Threat)
+        description: Flag indicating that a threat was detected or reported in the call.
+        customProperties:
+          - property: sourceField
+            value: userData.bedrohung
+      - name: kundennummer
+        logicalType: string
+        physicalType: TEXT
+        required: false
+        businessName: Kundennummer (Customer number)
+        description: Customer number as stated by or resolved for the caller. Alphanumeric.
+        classification: confidential
+        criticalDataElement: true
+        tags:
+          - pii
+        examples:
+          - 777A456789
+        logicalTypeOptions:
+          pattern: "^[0-9A-Za-z]+$"
+          minLength: 1
+        customProperties:
+          - property: sourceField
+            value: userData.kundennummer
+      - name: plz
+        logicalType: string
+        physicalType: TEXT
+        required: false
+        businessName: Postleitzahl (Postal code)
+        description: Postal code of the caller. Kept as string to preserve leading zeros.
+        classification: confidential
+        tags:
+          - pii
+        examples:
+          - "69115"
+        logicalTypeOptions:
+          pattern: "^[0-9]{4,5}$"
+        customProperties:
+          - property: sourceField
+            value: userData.plz
+      - name: prio
+        logicalType: string
+        physicalType: TEXT
+        required: true
+        businessName: Priorität (Priority)
+        description: Priority assigned to the call, transmitted as a numeric string. Scale and direction TBC.
+        examples:
+          - "5"
+        logicalTypeOptions:
+          pattern: "^[0-9]+$"
+        customProperties:
+          - property: sourceField
+            value: userData.prio
+      - name: soc_l
+        logicalType: boolean
+        physicalType: BOOLEAN
+        required: true
+        description: Boolean flag with unknown meaning (TBC with producer).
+        customProperties:
+          - property: sourceField
+            value: userData.socL
+      - name: created_at
+        logicalType: timestamp
+        physicalType: TIMESTAMPTZ
+        required: true
+        description: Time the row was inserted (not part of the source event).
+        customProperties:
+          - property: defaultValue
+            value: now()
+
+slaProperties:
+  - property: generalAvailability
+    value: TBC
+  - property: retention
+    value: TBC
+    unit: d
+
+team:
+  name: TBC
+  members:
+    - username: guido.schmutz@accenture.com
+      role: owner

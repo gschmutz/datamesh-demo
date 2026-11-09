@@ -1,0 +1,40 @@
+apiVersion: v1.0.0
+kind: DataProduct
+id: customer-interaction
+name: Customer Interaction
+version: 1.0.0
+status: draft
+domain: customer-service
+tenant: datamesh-demo
+description:
+  purpose: Provides information about customer interactions, currently the calls handled by the Aristech AI-Suite (caller identification state plus the captured request details).
+  limitations: Field semantics marked "TBC" in the contracts must be confirmed with the producer. Contains personal data (customer number, postal code).
+  usage: Consume call events in real time from the Kafka topic, or query them from the PostgreSQL table for analytical and operational lookups.
+tags:
+  - callcenter
+  - customer-interaction
+  - pii
+
+outputPorts:
+  - name: call-event-topic
+    version: 1.0.0
+    description: Call events published to Kafka topic pub.aristech.call.event.v1 as Avro records (Confluent Schema Registry).
+    type: kafka
+    contractId: aristech-call-event-kafka
+    customProperties:
+      - property: contractFile
+        value: ../odcs/aristech-call-event-topic.odcs.yaml
+  - name: call-event-table
+    version: 1.0.0
+    description: Call events stored in PostgreSQL table aristech.call_event, one row per call.
+    type: postgres
+    contractId: aristech-call-event-postgresql
+    customProperties:
+      - property: contractFile
+        value: ../odcs/aristech.odcs.yaml
+
+team:
+  name: TBC
+  members:
+    - username: guido.schmutz@accenture.com
+      role: owner
