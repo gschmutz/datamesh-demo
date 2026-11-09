@@ -92,7 +92,7 @@
                         },
                         "number": {
                             "_gen": "string",
-                            "expr": "#{PhoneNumber.cellPhoneInternational}"
+                            "expr": "+49 #{regexify '1[567][0-9] [0-9]{7,8}'}"
                         },
                         "availability": {
                             "_gen": "oneOf",
