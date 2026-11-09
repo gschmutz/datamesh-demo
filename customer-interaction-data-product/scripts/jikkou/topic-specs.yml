@@ -1,0 +1,22 @@
+apiVersion: "kafka.jikkou.io/v1beta2"
+kind: "KafkaTopicList"
+metadata: {}
+items:
+
+  - metadata:
+      name: 'priv.aristech.v1'
+    spec:
+      partitions: 2
+      replicas: 3
+      configs:
+        cleanup.policy: delete
+        segment.bytes: 104857600
+
+  - metadata:
+      name: 'pub.aristech.call.event.v1'
+    spec:
+      partitions: 2
+      replicas: 3
+      configs:
+        cleanup.policy: delete
+        segment.bytes: 104857600
