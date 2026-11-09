@@ -15,15 +15,15 @@ public class CustomerConverter {
                 .setZipCode(address.getZipCode())
                 .setCity(address.getCity())
                 .setState(address.getState())
-                .setCountry(address.getCountry())
-                .setType(address.getType())
+                .setCountry(address.getCountry() == null ? null : address.getCountry().getCode())
+                .setType(address.getType() == null ? null : address.getType().getName())
                 .build();
     }
 
     private static com.datamesh.customer.avro.Phone convertPhone(Phone phone) {
         return com.datamesh.customer.avro.Phone.newBuilder()
                 .setNumber(phone.getNumber())
-                .setType(phone.getType())
+                .setType(phone.getType() == null ? null : phone.getType().getName())
                 .setAvailability(phone.getAvailability())
                 .build();
     }
@@ -48,7 +48,7 @@ public class CustomerConverter {
                         .setLastName(person.getLastName())
                         .setEmailAddress(person.getEmailAddress())
                         .setPreferredContact(person.getPreferredContact())
-                        .setSegment(person.getSegment())
+                        .setSegment(person.getSegment() == null ? null : person.getSegment().getName())
                         .setDateOfBirth(person.getDateOfBirth())
                         .setPreferredLanguage(person.getPreferredLanguage())
                         .setMarketingConsent(person.isMarketingConsent())

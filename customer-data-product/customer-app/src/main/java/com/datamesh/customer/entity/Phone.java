@@ -15,7 +15,9 @@ public class Phone extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "phone_type_id")
+    private PhoneType type;
     private String number;
     private String availability;
 
@@ -31,11 +33,11 @@ public class Phone extends Auditable {
         this.id = id;
     }
 
-    public String getType() {
+    public PhoneType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PhoneType type) {
         this.type = type;
     }
 

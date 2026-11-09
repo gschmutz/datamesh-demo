@@ -2,3 +2,4 @@
 .DS_Store
 /dp-kafka-data-mesh/node_modules
 /java/datamesh-customer/target
+/customer-data-product/customer-app/target

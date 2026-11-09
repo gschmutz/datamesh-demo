@@ -1,6 +1,248 @@
 {
     "generators": [
         {
+            "name": "genSegments",
+            "connection": "customerDb",
+            "table": "customer.segment",
+            "row": {
+                "id": {
+                    "_gen": "sequentialInteger"
+                },
+                "name": {
+                    "_gen": "loop",
+                    "n": 1,
+                    "over": [
+                        "bronze",
+                        "silver",
+                        "gold",
+                        "platinum"
+                    ]
+                },
+                "created_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                },
+                "modified_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                }
+            },
+            "localConfigs": {
+                "maxEvents": 4,
+                "throttleMs": 0
+            }
+        },
+        {
+            "name": "genPhoneTypes",
+            "connection": "customerDb",
+            "table": "customer.phone_type",
+            "row": {
+                "id": {
+                    "_gen": "sequentialInteger"
+                },
+                "name": {
+                    "_gen": "loop",
+                    "n": 1,
+                    "over": [
+                        "MOBILE",
+                        "HOME",
+                        "WORK",
+                        "FAX"
+                    ]
+                },
+                "created_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                },
+                "modified_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                }
+            },
+            "localConfigs": {
+                "maxEvents": 4,
+                "throttleMs": 0
+            }
+        },
+        {
+            "name": "genAddressTypes",
+            "connection": "customerDb",
+            "table": "customer.address_type",
+            "row": {
+                "id": {
+                    "_gen": "sequentialInteger"
+                },
+                "name": {
+                    "_gen": "loop",
+                    "n": 1,
+                    "over": [
+                        "BILLING",
+                        "SHIPPING",
+                        "HOME"
+                    ]
+                },
+                "created_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                },
+                "modified_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                }
+            },
+            "localConfigs": {
+                "maxEvents": 3,
+                "throttleMs": 0
+            }
+        },
+        {
+            "name": "genCountries",
+            "connection": "customerDb",
+            "table": "customer.country",
+            "row": {
+                "code": {
+                    "_gen": "loop",
+                    "n": 1,
+                    "over": [
+                        "AL",
+                        "AD",
+                        "AT",
+                        "BY",
+                        "BE",
+                        "BA",
+                        "BG",
+                        "HR",
+                        "CY",
+                        "CZ",
+                        "DK",
+                        "EE",
+                        "FI",
+                        "FR",
+                        "DE",
+                        "GR",
+                        "HU",
+                        "IS",
+                        "IE",
+                        "IT",
+                        "XK",
+                        "LV",
+                        "LI",
+                        "LT",
+                        "LU",
+                        "MT",
+                        "MD",
+                        "MC",
+                        "ME",
+                        "NL",
+                        "MK",
+                        "NO",
+                        "PL",
+                        "PT",
+                        "RO",
+                        "RU",
+                        "SM",
+                        "RS",
+                        "SK",
+                        "SI",
+                        "ES",
+                        "SE",
+                        "CH",
+                        "UA",
+                        "GB",
+                        "VA"
+                    ]
+                },
+                "name": {
+                    "_gen": "loop",
+                    "n": 1,
+                    "over": [
+                        "Albania",
+                        "Andorra",
+                        "Austria",
+                        "Belarus",
+                        "Belgium",
+                        "Bosnia and Herzegovina",
+                        "Bulgaria",
+                        "Croatia",
+                        "Cyprus",
+                        "Czechia",
+                        "Denmark",
+                        "Estonia",
+                        "Finland",
+                        "France",
+                        "Germany",
+                        "Greece",
+                        "Hungary",
+                        "Iceland",
+                        "Ireland",
+                        "Italy",
+                        "Kosovo",
+                        "Latvia",
+                        "Liechtenstein",
+                        "Lithuania",
+                        "Luxembourg",
+                        "Malta",
+                        "Moldova",
+                        "Monaco",
+                        "Montenegro",
+                        "Netherlands",
+                        "North Macedonia",
+                        "Norway",
+                        "Poland",
+                        "Portugal",
+                        "Romania",
+                        "Russia",
+                        "San Marino",
+                        "Serbia",
+                        "Slovakia",
+                        "Slovenia",
+                        "Spain",
+                        "Sweden",
+                        "Switzerland",
+                        "Ukraine",
+                        "United Kingdom",
+                        "Vatican City"
+                    ]
+                },
+                "created_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                },
+                "modified_at": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "now"
+                    },
+                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                }
+            },
+            "localConfigs": {
+                "maxEvents": 46,
+                "throttleMs": 0
+            }
+        },
+        {
             "name": "genCustomers",
             "connection": "customerWebhook",
             "vars": {
@@ -81,13 +323,13 @@
                         "decimals": 0
                     },
                     "target": {
-                        "type": {
-                            "_gen": "oneOf",
-                            "choices": [
-                                "MOBILE",
-                                "HOME",
-                                "WORK",
-                                "FAX"
+                        "phoneTypeId": {
+                            "_gen": "lookup",
+                            "connection": "customerDb",
+                            "table": "customer.phone_type",
+                            "path": [
+                                "row",
+                                "id"
                             ]
                         },
                         "number": {
@@ -112,13 +354,13 @@
                         "phone"
                     ]
                 },
-                "segment": {
-                    "_gen": "oneOf",
-                    "choices": [
-                        "bronze",
-                        "silver",
-                        "gold",
-                        "platinum"
+                "segmentId": {
+                    "_gen": "lookup",
+                    "connection": "customerDb",
+                    "table": "customer.segment",
+                    "path": [
+                        "row",
+                        "id"
                     ]
                 },
                 "dateOfBirth": {
@@ -207,16 +449,22 @@
                             "_gen": "string",
                             "expr": "#{Team.state}"
                         },
-                        "country": {
-                            "_gen": "string",
-                            "expr": "#{Address.countryCode}"
+                        "countryCode": {
+                            "_gen": "lookup",
+                            "connection": "customerDb",
+                            "table": "customer.country",
+                            "path": [
+                                "row",
+                                "code"
+                            ]
                         },
-                        "type": {
-                            "_gen": "oneOf",
-                            "choices": [
-                                "BILLING",
-                                "SHIPPING",
-                                "HOME"
+                        "addressTypeId": {
+                            "_gen": "lookup",
+                            "connection": "customerDb",
+                            "table": "customer.address_type",
+                            "path": [
+                                "row",
+                                "id"
                             ]
                         }
                     }
@@ -240,6 +488,14 @@
         "stages": [
             {
                 "generators": [
+                    "genSegments",
+                    "genPhoneTypes",
+                    "genAddressTypes",
+                    "genCountries"
+                ]
+            },
+            {
+                "generators": [
                     "genCustomers"
                 ],
                 "overrides": {
@@ -261,6 +517,18 @@
     "connections": {
         "customerWebhook": {
             "kind": "webhook"
+        },
+        "customerDb": {
+            "kind": "postgres",
+            "tablePolicy": "manual",
+            "connectionConfigs": {
+                "host": "postgresql",
+                "port": 5432,
+                "username": "demo",
+                "password": "abc123!",
+                "schema": "customer",
+                "db": "demodb"
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 package com.datamesh.customer.dto;
 
-public record AddressDTO (String street, String zipCode, String city, String state, String country, String type) {
+public record AddressDTO (String street, String zipCode, String city, String state, String countryCode, Integer addressTypeId) {
 
 }

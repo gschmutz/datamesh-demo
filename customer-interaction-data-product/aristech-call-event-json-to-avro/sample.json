@@ -1,0 +1,13 @@
+{
+  "callID": "Aristech AI-Suite",
+  "isAuthenticated": false,
+  "isIdentified": false,
+  "userData": {
+    "anliegen": "Allgemeine Frage zur Ortsabwesenheit",
+    "bedrohung": false,
+    "kundennummer": "777A456789",
+    "plz": "69115",
+    "prio": "5",
+    "socL": false
+  }
+}

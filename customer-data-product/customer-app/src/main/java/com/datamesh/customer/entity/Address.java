@@ -19,8 +19,12 @@ public class Address extends Auditable {
     private String zipCode;
     private String city;
     private String state;
-    private String country;
-    private String type;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_code")
+    private Country country;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_type_id")
+    private AddressType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
@@ -66,19 +70,19 @@ public class Address extends Auditable {
         this.state = state;
     }
 
-    public String getCountry() {
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
-    public String getType() {
+    public AddressType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(AddressType type) {
         this.type = type;
     }
 

@@ -1,5 +1,5 @@
 package com.datamesh.customer.dto;
 
-public record PhoneDTO (String type, String number, String availability) {
+public record PhoneDTO (Integer phoneTypeId, String number, String availability) {
 
 }

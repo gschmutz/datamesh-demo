@@ -20,7 +20,9 @@ public class Person extends Auditable {
     private String lastName;
     private String emailAddress;
     private String preferredContact;
-    private String segment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "segment_id")
+    private Segment segment;
     private LocalDate dateOfBirth;
     private String preferredLanguage;
     private boolean marketingConsent;
@@ -115,11 +117,11 @@ public class Person extends Auditable {
         this.preferredContact = preferredContact;
     }
 
-    public String getSegment() {
+    public Segment getSegment() {
         return segment;
     }
 
-    public void setSegment(String segment) {
+    public void setSegment(Segment segment) {
         this.segment = segment;
     }
 

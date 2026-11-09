@@ -58,7 +58,7 @@ input CustomerInput {
     lastName: String
     emailAddress: String
     preferredContact: String
-    segment: String
+    segmentId: Int
     dateOfBirth: Date
     preferredLanguage: String
     marketingConsent: Boolean = false
@@ -77,7 +77,7 @@ type Phone {
 }
 
 input PhoneInput {
-    type: String
+    phoneTypeId: Int
     number: String!
     availability: String
 }
@@ -87,7 +87,7 @@ input AddressInput {
     zipCode: String
     city: String
     state: String
-    country: String
+    countryCode: String
     "BILLING, SHIPPING or HOME."
-    type: String
+    addressTypeId: Int
 }

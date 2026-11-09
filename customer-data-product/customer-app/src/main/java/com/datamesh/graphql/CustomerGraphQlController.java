@@ -14,7 +14,9 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import com.datamesh.customer.dto.CustomerDTO;
+import com.datamesh.customer.entity.Address;
 import com.datamesh.customer.entity.Person;
+import com.datamesh.customer.entity.Phone;
 import com.datamesh.customer.repository.CustomerRepository;
 import com.datamesh.customer.service.CustomerService;
 
@@ -63,6 +65,18 @@ public class CustomerGraphQlController {
 
     @SchemaMapping(typeName = "Customer", field = "updatedAt")
     public OffsetDateTime customerUpdatedAt(Person p) { return utc(p.getModifiedAt()); }
+
+    @SchemaMapping(typeName = "Customer", field = "segment")
+    public String segment(Person p) { return p.getSegment() == null ? null : p.getSegment().getName(); }
+
+    @SchemaMapping(typeName = "Address", field = "country")
+    public String country(Address a) { return a.getCountry() == null ? null : a.getCountry().getCode(); }
+
+    @SchemaMapping(typeName = "Address", field = "type")
+    public String addressType(Address a) { return a.getType() == null ? null : a.getType().getName(); }
+
+    @SchemaMapping(typeName = "Phone", field = "type")
+    public String phoneType(Phone p) { return p.getType() == null ? null : p.getType().getName(); }
 
     /** The DateTime scalar works on OffsetDateTime, the entities hold Instants. */
     private static OffsetDateTime utc(Instant i) {
