@@ -35,7 +35,6 @@ public class CustomerConverter {
                         .setPhoneNumber(person.getPhoneNumber())
                         .setPreferredContact(person.getPreferredContact())
                         .setSegment(person.getSegment())
-                        .setOrganizationId(person.getOrganizationId())
                         .setAddresses(addresses)
                         .setOnboardedDate(person.getOnboardedDate())
                         .build())

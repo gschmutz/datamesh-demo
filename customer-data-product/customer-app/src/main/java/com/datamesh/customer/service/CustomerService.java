@@ -72,7 +72,6 @@ public class CustomerService {
         person.setPhoneNumber(customerDTO.phoneNumber());
         person.setPreferredContact(customerDTO.preferredContact());
         person.setSegment(customerDTO.segment());
-        person.setOrganizationId(customerDTO.organizationId());
 
         // attach addresses and ensure the bidirectional relationship is set
         for (var addressDTO : customerDTO.addresses()) {
