@@ -1,0 +1,39 @@
+apiVersion: v1.0.0
+kind: DataProduct
+id: customer
+name: Customer
+version: 1.0.0
+status: active
+domain: customer
+tenant: datamesh
+description:
+  purpose: Provides customer master data (profile, addresses and phone numbers) as the full customer state, event-driven on Kafka and as relational tables in PostgreSQL.
+  limitations: Contains personal data (PII). Access must follow the data protection policy; the GraphQL API masks PII fields through OPA policies. Segment, country and the address and phone types are plain values (no lookup tables).
+  usage: Consume the customer state in real time from the Kafka topic, or query it from the PostgreSQL tables (and the read-only GraphQL API on top of them) for analytical and operational lookups.
+tags:
+  - customer
+  - pii
+
+outputPorts:
+  - name: customer-state-topic
+    version: 1.0.0
+    description: Full customer state published to the compacted Kafka topic pub.cus.customer.state.v1 as Avro records (Confluent Schema Registry), on every customer onboarding or change.
+    type: kafka
+    contractId: customer-state-v1
+    customProperties:
+      - property: contractFile
+        value: ../odcs/customer-state.odcs.yaml
+  - name: customer-tables
+    version: 1.0.0
+    description: Customer state stored in the PostgreSQL schema customer_dp_v1 (tables customer, address and phone), kept up to date from the Kafka topic. Also served by the read-only GraphQL API customer-dp.
+    type: postgres
+    contractId: customer-dp-v1-postgresql
+    customProperties:
+      - property: contractFile
+        value: ../odcs/customer-dp-postgresql.odcs.yaml
+
+team:
+  name: customer-data-product-team
+  members:
+    - username: guido.schmutz@accenture.com
+      role: owner

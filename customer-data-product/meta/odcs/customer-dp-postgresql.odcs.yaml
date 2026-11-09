@@ -1,0 +1,344 @@
+# Open Data Contract Standard (ODCS) v3.0.2
+# PostgreSQL schema customer_dp_v1 (scripts/postgresql/cr_customer-dp_v1.sql)
+# Filled from the Kafka topic pub.cus.customer.state.v1 by the Redpanda Connect stream customer-state-to-postgres.
+apiVersion: v3.0.2
+kind: DataContract
+
+id: customer-dp-v1-postgresql
+name: Customer Data Product - PostgreSQL
+version: 1.0.0
+status: active
+domain: customer
+dataProduct: customer
+tenant: datamesh
+
+description:
+  purpose: Relational, query-friendly copy of the customer state, kept up to date from the customer state topic. Serves the read-only GraphQL API (customer-dp).
+  usage: Read access for analytics and APIs. Do not write to these tables; they are owned by the Redpanda Connect pipeline.
+  limitations: Contains personal data (PII). Segment, country and the address and phone types are plain values (no lookup tables). address and phone rows are deleted and re-inserted on every customer state change, so their ids are not stable.
+
+tags:
+  - customer
+  - postgresql
+  - pii
+
+servers:
+  - server: postgresql-dataplatform
+    type: postgresql
+    environment: dev
+    host: postgresql
+    port: 5432
+    database: demodb
+    schema: customer_dp_v1
+    description: Platys data platform PostgreSQL.
+
+schema:
+  - name: customer
+    physicalName: customer
+    physicalType: table
+    logicalType: object
+    description: One row per customer, mirroring the Customer Avro record (CustomerState.customer).
+    properties:
+      - name: id
+        logicalType: string
+        physicalType: text
+        required: true
+        primaryKey: true
+        primaryKeyPosition: 1
+        unique: true
+        description: 'Unique customer identifier (UUID).'
+        examples:
+          - 'cad4e633-d23e-9e95-97bb-909e7fa82e7d'
+      - name: login
+        logicalType: string
+        physicalType: text
+        required: true
+        description: 'Login name of the customer.'
+      - name: email_address
+        logicalType: string
+        physicalType: text
+        required: true
+        classification: confidential
+        tags: [pii]
+        description: 'Primary e-mail address.'
+      - name: first_name
+        logicalType: string
+        physicalType: text
+        required: false
+        classification: confidential
+        tags: [pii]
+        description: 'First name.'
+      - name: last_name
+        logicalType: string
+        physicalType: text
+        required: true
+        classification: confidential
+        tags: [pii]
+        description: 'Last name.'
+      - name: preferred_contact
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Preferred contact channel.'
+        examples:
+          - 'email'
+          - 'phone'
+      - name: segment
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Customer segment, stored as a plain value.'
+        examples:
+          - 'bronze'
+          - 'silver'
+          - 'gold'
+          - 'platinum'
+      - name: date_of_birth
+        logicalType: date
+        physicalType: date
+        required: false
+        classification: confidential
+        tags: [pii]
+        description: 'Date of birth.'
+      - name: preferred_language
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Preferred language.'
+        examples:
+          - 'en'
+      - name: marketing_consent
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+        description: 'Whether the customer agreed to receive marketing. Defaults to false.'
+      - name: lifecycle_status
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Lifecycle status of the customer.'
+        examples:
+          - 'PROSPECT'
+          - 'ACTIVE'
+          - 'CHURNED'
+      - name: image
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Avatar image reference.'
+      - name: image_source
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Source of the avatar image.'
+      - name: department
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Department of the customer.'
+      - name: active
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+        description: 'Whether the customer is active.'
+      - name: verified
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+        description: 'Whether the customer has been verified.'
+      - name: vip
+        logicalType: boolean
+        physicalType: boolean
+        required: true
+        description: 'Whether the customer is a VIP.'
+      - name: web
+        logicalType: string
+        physicalType: text
+        required: true
+        description: 'Web site of the customer. Defaults to ''''.'
+      - name: note
+        logicalType: string
+        physicalType: text
+        required: true
+        description: 'Free-text note. Defaults to ''''.'
+      - name: address
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Free-text address line kept for compatibility. Structured addresses are in the address table.'
+      - name: onboarded_date
+        logicalType: timestamp
+        physicalType: timestamptz
+        required: true
+        description: 'Time the customer was onboarded.'
+      - name: created_at
+        logicalType: timestamp
+        physicalType: timestamptz
+        required: true
+        description: 'Row insertion time (not part of the source event). Defaults to now().'
+      - name: modified_at
+        logicalType: timestamp
+        physicalType: timestamptz
+        required: true
+        description: 'Time the row was last written (not part of the source event). Defaults to now().'
+  - name: address
+    physicalName: address
+    physicalType: table
+    logicalType: object
+    description: Customer addresses (CustomerState.customer.addresses array), replaced as a whole on every state change.
+    properties:
+      - name: id
+        logicalType: integer
+        physicalType: bigint
+        required: true
+        primaryKey: true
+        primaryKeyPosition: 1
+        unique: true
+        description: 'Surrogate key, generated always as identity.'
+      - name: customer_id
+        logicalType: string
+        physicalType: text
+        required: true
+        description: 'Owning customer. Deleting the customer deletes its addresses.'
+        relationships:
+          - type: foreignKey
+            to: customer.id
+      - name: street
+        logicalType: string
+        physicalType: text
+        required: false
+        classification: confidential
+        tags: [pii]
+        description: 'Street and house number.'
+      - name: zip_code
+        logicalType: string
+        physicalType: text
+        required: false
+        classification: confidential
+        tags: [pii]
+        description: 'Postal code. A string to preserve leading zeros.'
+      - name: city
+        logicalType: string
+        physicalType: text
+        required: true
+        description: 'City.'
+      - name: state
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'State or region.'
+      - name: country
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Country code (ISO 3166-1 alpha-2).'
+        examples:
+          - 'CH'
+          - 'DE'
+      - name: type
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Address type.'
+        examples:
+          - 'BILLING'
+          - 'SHIPPING'
+          - 'HOME'
+      - name: created_at
+        logicalType: timestamp
+        physicalType: timestamptz
+        required: true
+        description: 'Row insertion time. Defaults to now().'
+      - name: modified_at
+        logicalType: timestamp
+        physicalType: timestamptz
+        required: true
+        description: 'Time the row was last written. Defaults to now().'
+  - name: phone
+    physicalName: phone
+    physicalType: table
+    logicalType: object
+    description: Customer phone numbers (CustomerState.customer.phones array), replaced as a whole on every state change.
+    properties:
+      - name: id
+        logicalType: integer
+        physicalType: bigint
+        required: true
+        primaryKey: true
+        primaryKeyPosition: 1
+        unique: true
+        description: 'Surrogate key, generated always as identity.'
+      - name: customer_id
+        logicalType: string
+        physicalType: text
+        required: true
+        description: 'Owning customer. Deleting the customer deletes its phones.'
+        relationships:
+          - type: foreignKey
+            to: customer.id
+      - name: number
+        logicalType: string
+        physicalType: text
+        required: true
+        classification: confidential
+        tags: [pii]
+        description: 'Phone number.'
+        examples:
+          - '+41 79 123 45 67'
+      - name: type
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'Phone type.'
+        examples:
+          - 'MOBILE'
+          - 'HOME'
+          - 'WORK'
+          - 'FAX'
+      - name: availability
+        logicalType: string
+        physicalType: text
+        required: false
+        description: 'When the customer is reachable on this number.'
+        examples:
+          - 'Mon-Fri 09:00-17:00'
+      - name: created_at
+        logicalType: timestamp
+        physicalType: timestamptz
+        required: true
+        description: 'Row insertion time. Defaults to now().'
+      - name: modified_at
+        logicalType: timestamp
+        physicalType: timestamptz
+        required: true
+        description: 'Time the row was last written. Defaults to now().'
+
+slaProperties:
+  - property: generalAvailability
+    value: 2026-01-01
+  - property: latency
+    value: 10
+    unit: s
+    description: Target delay between a message on pub.cus.customer.state.v1 and the data being visible in the tables (TBC).
+  - property: retention
+    value: unlimited
+    description: Latest state per customer; address and phone rows follow their customer.
+
+support:
+  - channel: customer-data-product
+    tool: email
+    url: mailto:guido.schmutz@accenture.com
+
+team:
+  name: Customer Data Product
+  members:
+    - username: guido.schmutz@accenture.com
+      role: owner
+
+customProperties:
+  - property: ddl
+    value: customer-data-product/scripts/postgresql/cr_customer-dp_v1.sql
+  - property: upstreamContract
+    value: customer-state.odcs.yaml
+  - property: loader
+    value: customer-data-product/scripts/redpanda-connect/streams/customer-state-to-postgres.yaml

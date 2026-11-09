@@ -1,0 +1,321 @@
+# Open Data Contract Standard (ODCS) v3.0.2
+# Kafka topic pub.cus.customer.state.v1
+# Derived from src/main/avdl/customer/state/CustomerState-v1.avdl (record com.datamesh.customer.avro.CustomerState)
+apiVersion: v3.0.2
+kind: DataContract
+
+id: customer-state-v1
+name: Customer State
+version: 1.0.0
+status: active
+domain: customer
+dataProduct: customer
+tenant: datamesh
+
+description:
+  purpose: Full state of a customer, published every time a customer is onboarded or changed (state / event-carried state transfer).
+  usage: Consume to build customer views, enrich other data products or keep a local copy of the customer master data. Because the topic is compacted, the latest message per key is the current state of that customer.
+  limitations: Contains personal data (PII). Access must follow the data protection policy; the GraphQL API masks PII fields through OPA policies.
+
+tags:
+  - customer
+  - avro
+  - kafka
+  - pii
+
+servers:
+  - server: kafka-dataplatform
+    type: kafka
+    environment: dev
+    host: kafka-1:19092,kafka-2:19093,kafka-3:19094
+    format: avro
+    description: Platys data platform Kafka cluster. Schemas are registered in the Schema Registry (http://schema-registry-1:8081) under subject pub.cus.customer.state.v1-value.
+    customProperties:
+      - property: topic
+        value: pub.cus.customer.state.v1
+      - property: keyType
+        value: string
+      - property: schemaRegistrySubject
+        value: pub.cus.customer.state.v1-value
+      - property: schemaRegistryCompatibility
+        value: BACKWARD
+      - property: partitions
+        value: 2
+      - property: replicationFactor
+        value: 3
+      - property: cleanup.policy
+        value: compact
+
+# ------------------------------------------------------------------ #
+# Schema
+# ------------------------------------------------------------------ #
+schema:
+  - name: CustomerState
+    physicalName: pub.cus.customer.state.v1
+    physicalType: avro
+    businessName: Customer State
+    logicalType: object
+    description: Message value of the topic. Wraps the complete customer.
+    properties:
+      - name: customer
+        logicalType: object
+        physicalType: record
+        required: true
+        description: The customer with its addresses and phone numbers.
+        properties:
+          - name: id
+            logicalType: string
+            physicalType: string
+            required: true
+            unique: true
+            primaryKey: true
+            primaryKeyPosition: 1
+            description: Unique customer identifier (UUID). Also used as message key.
+            examples:
+              - cad4e633-d23e-9e95-97bb-909e7fa82e7d
+          - name: login
+            logicalType: string
+            physicalType: string
+            required: true
+            description: Login name of the customer.
+            examples:
+              - angelyn.dibbert
+          - name: email_address
+            logicalType: string
+            physicalType: string
+            required: true
+            classification: confidential
+            tags: [pii]
+            description: Primary e-mail address.
+            examples:
+              - angelyn.dibbert@example.com
+          - name: first_name
+            logicalType: string
+            physicalType: string
+            required: false
+            classification: confidential
+            tags: [pii]
+            description: First name.
+          - name: last_name
+            logicalType: string
+            physicalType: string
+            required: true
+            classification: confidential
+            tags: [pii]
+            description: Last name.
+          - name: preferred_contact
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Preferred contact channel.
+            examples:
+              - email
+              - phone
+          - name: segment
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Customer segment.
+            examples:
+              - bronze
+              - silver
+              - gold
+              - platinum
+          - name: date_of_birth
+            logicalType: date
+            physicalType: int
+            required: false
+            classification: confidential
+            tags: [pii]
+            description: Date of birth. Avro logical type date (days since 1970-01-01).
+          - name: preferred_language
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Preferred language of the customer.
+            examples:
+              - en
+          - name: marketing_consent
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+            description: Whether the customer agreed to receive marketing. Defaults to false.
+          - name: lifecycle_status
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Lifecycle status of the customer.
+            examples:
+              - PROSPECT
+              - ACTIVE
+              - CHURNED
+          - name: image
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Avatar image reference.
+          - name: image_source
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Source of the avatar image.
+          - name: department
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Department of the customer.
+          - name: active
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+            description: Whether the customer is active.
+          - name: verified
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+            description: Whether the customer has been verified.
+          - name: vip
+            logicalType: boolean
+            physicalType: boolean
+            required: true
+            description: Whether the customer is a VIP.
+          - name: web
+            logicalType: string
+            physicalType: string
+            required: true
+            description: Web site of the customer. Empty string when not set.
+          - name: note
+            logicalType: string
+            physicalType: string
+            required: true
+            description: Free-text note. Empty string when not set.
+          - name: address
+            logicalType: string
+            physicalType: string
+            required: false
+            description: Free-text address line, kept for compatibility. Structured addresses are in addresses.
+          - name: addresses
+            logicalType: array
+            physicalType: array
+            required: true
+            description: Addresses of the customer. May be empty.
+            items:
+              logicalType: object
+              physicalType: record
+              properties:
+                - name: street
+                  logicalType: string
+                  physicalType: string
+                  required: false
+                  classification: confidential
+                  tags: [pii]
+                  description: Street and house number.
+                - name: zip_code
+                  logicalType: string
+                  physicalType: string
+                  required: false
+                  classification: confidential
+                  tags: [pii]
+                  description: Postal code. A string to preserve leading zeros.
+                - name: city
+                  logicalType: string
+                  physicalType: string
+                  required: true
+                  description: City.
+                - name: state
+                  logicalType: string
+                  physicalType: string
+                  required: false
+                  description: State or region.
+                - name: country
+                  logicalType: string
+                  physicalType: string
+                  required: false
+                  description: Country code (ISO 3166-1 alpha-2).
+                  examples:
+                    - CH
+                    - DE
+                - name: type
+                  logicalType: string
+                  physicalType: string
+                  required: false
+                  description: Address type.
+                  examples:
+                    - BILLING
+                    - SHIPPING
+                    - HOME
+          - name: phones
+            logicalType: array
+            physicalType: array
+            required: true
+            description: Phone numbers of the customer. Defaults to an empty array.
+            items:
+              logicalType: object
+              physicalType: record
+              properties:
+                - name: number
+                  logicalType: string
+                  physicalType: string
+                  required: true
+                  classification: confidential
+                  tags: [pii]
+                  description: Phone number.
+                  examples:
+                    - "+41 79 123 45 67"
+                - name: type
+                  logicalType: string
+                  physicalType: string
+                  required: false
+                  description: Phone type.
+                  examples:
+                    - MOBILE
+                    - HOME
+                    - WORK
+                    - FAX
+                - name: availability
+                  logicalType: string
+                  physicalType: string
+                  required: false
+                  description: When the customer is reachable on this number.
+                  examples:
+                    - Mon-Fri 09:00-17:00
+          - name: onboarded_date
+            logicalType: timestamp
+            physicalType: long
+            required: true
+            description: Time the customer was onboarded. Avro logical type timestamp-millis (UTC).
+    quality:
+      - type: library
+        metric: nullValues
+        mustBe: 0
+        description: The customer record must always be present.
+        unit: rows
+        arguments:
+          column: customer
+
+slaProperties:
+  - property: generalAvailability
+    value: 2026-01-01
+  - property: retention
+    value: unlimited
+    description: Compacted topic - the latest state per customer key is kept indefinitely.
+  - property: frequency
+    value: event-driven
+    description: A message is published on every customer onboarding or change.
+
+support:
+  - channel: customer-data-product
+    tool: email
+    url: mailto:guido.schmutz@accenture.com
+
+team:
+  name: Customer Data Product
+  members:
+    - username: guido.schmutz@accenture.com
+      role: owner
+
+customProperties:
+  - property: avroSource
+    value: customer-data-product/meta/src/main/avdl/customer/state/CustomerState-v1.avdl
+  - property: producer
+    value: datamesh-customer-app (transactional outbox via Debezium)
