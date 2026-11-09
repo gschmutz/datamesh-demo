@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.datamesh.meta</groupId>
-    <artifactId>datamesh-meta</artifactId>
+    <artifactId>meta</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>

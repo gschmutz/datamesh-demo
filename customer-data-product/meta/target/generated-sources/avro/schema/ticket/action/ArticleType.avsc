@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ArticleType",
-  "namespace" : "ch.admin.zammad.avro",
-  "symbols" : [ "email", "phone", "web", "note", "sms", "chat", "fax" ]
-}

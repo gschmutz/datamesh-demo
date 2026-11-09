@@ -2,7 +2,6 @@
 protocol CustomerProtocol {
 
 	import idl "Address.avdl";
-	import idl "Organization.avdl";
 
 	record Customer {
 		string id;
