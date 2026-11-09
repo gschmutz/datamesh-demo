@@ -1,0 +1,18 @@
+# Redpanda Connect MAIN config (observability), loaded via -c in streams mode:
+#   connect -c /connect/connect.yaml -r /connect/resources.yaml streams --bind-http --watcher /connect/streams/*.yaml
+#
+# Only http / logger / metrics / tracer belong here. Shared resources
+# (caches, rate limits) go in resources.yaml and are loaded via -r, because
+# cache_resources placed in this main config are IGNORED in streams mode.
+# This file must NOT live under the streams watcher directory.
+
+http:
+  enabled: true
+  address: 0.0.0.0:4195
+
+logger:
+  level: INFO
+  format: json
+
+metrics:
+  prometheus: {}
