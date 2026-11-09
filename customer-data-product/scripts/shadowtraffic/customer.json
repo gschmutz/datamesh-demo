@@ -19,18 +19,16 @@
                     ]
                 },
                 "created_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 },
                 "modified_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 }
             },
             "localConfigs": {
@@ -57,18 +55,16 @@
                     ]
                 },
                 "created_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 },
                 "modified_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 }
             },
             "localConfigs": {
@@ -94,18 +90,16 @@
                     ]
                 },
                 "created_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 },
                 "modified_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 }
             },
             "localConfigs": {
@@ -324,18 +318,16 @@
                     ]
                 },
                 "created_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 },
                 "modified_at": {
-                    "_gen": "formatDateTime",
+                    "_gen": "toInstant",
                     "ms": {
                         "_gen": "now"
-                    },
-                    "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    }
                 }
             },
             "localConfigs": {
