@@ -41,7 +41,7 @@
         {
             "name": "genPhoneTypes",
             "connection": "customerDb",
-            "table": "customer.phone_type",
+            "table": "phone_type",
             "row": {
                 "id": {
                     "_gen": "sequentialInteger",
@@ -79,7 +79,7 @@
         {
             "name": "genAddressTypes",
             "connection": "customerDb",
-            "table": "customer.address_type",
+            "table": "address_type",
             "row": {
                 "id": {
                     "_gen": "sequentialInteger",
@@ -307,7 +307,7 @@
                 }
             },
             "connection": "customerDb",
-            "table": "customer.country",
+            "table": "country",
             "row": {
                 "code": {
                     "_gen": "var",
@@ -427,7 +427,7 @@
                         "phoneTypeId": {
                             "_gen": "lookup",
                             "connection": "customerDb",
-                            "table": "customer.phone_type",
+                            "table": "phone_type",
                             "path": [
                                 "row",
                                 "id"
@@ -458,7 +458,7 @@
                 "segmentId": {
                     "_gen": "lookup",
                     "connection": "customerDb",
-                    "table": "customer.segment",
+                    "table": "segment",
                     "path": [
                         "row",
                         "id"
@@ -553,7 +553,7 @@
                         "countryCode": {
                             "_gen": "lookup",
                             "connection": "customerDb",
-                            "table": "customer.country",
+                            "table": "country",
                             "path": [
                                 "row",
                                 "code"
@@ -562,7 +562,7 @@
                         "addressTypeId": {
                             "_gen": "lookup",
                             "connection": "customerDb",
-                            "table": "customer.address_type",
+                            "table": "address_type",
                             "path": [
                                 "row",
                                 "id"
