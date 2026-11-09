@@ -1,0 +1,13 @@
+apiVersion: "schemaregistry.jikkou.io/v1beta2"
+kind: "SchemaRegistrySubject"
+metadata:
+  name: "pub.cus.customer.state.v1-value"
+  labels:
+    schemaregistry.jikkou.io/normalize-schema: true
+spec:
+  schemaRegistry:
+    compatibilityLevel: BACKWARD
+  schemaType: AVRO
+  schema:
+    # generated from meta/src/main/avdl/customer/state/CustomerState-v1.avdl; copied here by deploy.sh
+    $ref: file:///jikkou/schemas/CustomerState.avsc

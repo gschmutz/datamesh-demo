@@ -1,0 +1,13 @@
+apiVersion: "schemaregistry.jikkou.io/v1beta2"
+kind: "SchemaRegistrySubject"
+metadata:
+  name: "pub.aristech.call.event.v1-value"
+  labels:
+    schemaregistry.jikkou.io/normalize-schema: true
+spec:
+  schemaRegistry:
+    compatibilityLevel: BACKWARD
+  schemaType: AVRO
+  schema:
+    # generated from meta/src/main/avdl/aristech/event/CallEvent.avdl; copied here by deploy.sh
+    $ref: file:///jikkou/schemas/CallEvent.avsc

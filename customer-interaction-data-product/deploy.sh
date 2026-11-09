@@ -10,6 +10,7 @@
 #   scripts/vector/           -> dp-kafka-data-mesh/conf/vector/      (mounted as /etc/vector/vector.yaml)
 #   scripts/postgresql/       -> dp-kafka-data-mesh/init/postgresql/  (mounted as /docker-entrypoint-initdb.d/)
 #   scripts/jikkou/           -> dp-kafka-data-mesh/scripts/jikkou/   (mounted as /jikkou)
+#   meta/ generated *.avsc    -> dp-kafka-data-mesh/scripts/jikkou/schemas/ (referenced via $ref in schema-specs.yml)
 #   scripts/redpanda-connect/streams/ -> dp-kafka-data-mesh/custom-conf/redpanda-connect/streams/ (streams: input/pipeline/output only)
 #   scripts/redpanda-connect/*.yaml   -> dp-kafka-data-mesh/custom-conf/redpanda-connect/         (connect.yaml via -o, resources.yaml via -r; OUTSIDE streams/)
 #
@@ -35,6 +36,14 @@ MAPPINGS=(
   "docker:."
 )
 
+# Avro schemas generated from the .avdl files in ./meta (avdl2avsc plugin),
+# copied next to the jikkou specs so the container can reference them
+# (schema.$ref: file:///jikkou/schemas/<name>.avsc).
+# generated-schema-path (relative to meta/target/generated-sources/avro/schema)
+SCHEMAS=(
+  "aristech/event/CallEvent.avsc"
+)
+
 DRY_RUN=false
 [[ "${1:-}" == "--dry-run" || "${1:-}" == "-n" ]] && DRY_RUN=true
 
@@ -47,7 +56,27 @@ if [[ ! -d "$DEST_ROOT" ]]; then
   exit 1
 fi
 
+# Generate the .avsc files from the .avdl sources and copy them to the jikkou schemas folder.
+META_SCHEMA_DIR="${ROOT_DIR}/meta/target/generated-sources/avro/schema"
+JIKKOU_SCHEMA_DEST="${DEST_ROOT}/scripts/jikkou/schemas"
+if ! $DRY_RUN; then
+  echo "Generating Avro schemas (mvn generate-sources) ..."
+  mvn -q -f "${ROOT_DIR}/meta/pom.xml" generate-sources
+fi
 copied=0
+for schema in "${SCHEMAS[@]}"; do
+  f="${META_SCHEMA_DIR}/${schema}"
+  if $DRY_RUN; then
+    echo "WOULD COPY  meta/.../${schema}  ->  ${JIKKOU_SCHEMA_DEST#"$ROOT_DIR"/}/$(basename "$schema")"
+  else
+    [[ -f "$f" ]] || { echo "ERROR: generated schema not found: $f" >&2; exit 1; }
+    mkdir -p "$JIKKOU_SCHEMA_DEST"
+    cp -p "$f" "$JIKKOU_SCHEMA_DEST/"
+    echo "COPIED      meta/.../${schema}  ->  ${JIKKOU_SCHEMA_DEST#"$ROOT_DIR"/}/$(basename "$schema")"
+  fi
+  copied=$((copied + 1))
+done
+
 for map in "${MAPPINGS[@]}"; do
   src="${SRC_ROOT}/${map%%:*}"
   dest="${DEST_ROOT}/${map##*:}"
