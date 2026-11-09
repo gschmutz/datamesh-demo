@@ -1,6 +1,7 @@
 package com.datamesh.customer.entity;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,10 @@ public class Person extends Auditable {
     private String phoneNumber;
     private String preferredContact;
     private String segment;
+    private LocalDate dateOfBirth;
+    private String preferredLanguage;
+    private boolean marketingConsent;
+    private String lifecycleStatus;
 
     @Column(nullable = false, updatable = false)
     private Instant onboardedDate;
@@ -118,6 +123,38 @@ public class Person extends Auditable {
 
     public void setSegment(String segment) {
         this.segment = segment;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPreferredLanguage() {
+        return preferredLanguage;
+    }
+
+    public void setPreferredLanguage(String preferredLanguage) {
+        this.preferredLanguage = preferredLanguage;
+    }
+
+    public boolean isMarketingConsent() {
+        return marketingConsent;
+    }
+
+    public void setMarketingConsent(boolean marketingConsent) {
+        this.marketingConsent = marketingConsent;
+    }
+
+    public String getLifecycleStatus() {
+        return lifecycleStatus;
+    }
+
+    public void setLifecycleStatus(String lifecycleStatus) {
+        this.lifecycleStatus = lifecycleStatus;
     }
 
     public Instant getOnboardedDate() {

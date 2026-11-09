@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "SenderType",
+  "namespace" : "ch.admin.zammad.avro",
+  "symbols" : [ "Customer", "Agent", "System" ]
+}

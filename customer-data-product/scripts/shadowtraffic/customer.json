@@ -90,6 +90,65 @@
                         "platinum"
                     ]
                 },
+                "dateOfBirth": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "subtract",
+                        "args": [
+                            {
+                                "_gen": "now"
+                            },
+                            {
+                                "_gen": "uniformDistribution",
+                                "bounds": [
+                                    568080000000,
+                                    2524608000000
+                                ],
+                                "decimals": 0
+                            }
+                        ]
+                    },
+                    "format": "yyyy-MM-dd"
+                },
+                "preferredLanguage": {
+                    "_gen": "oneOf",
+                    "choices": [
+                        "en",
+                        "de",
+                        "fr",
+                        "it"
+                    ]
+                },
+                "marketingConsent": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 6,
+                            "value": true
+                        },
+                        {
+                            "weight": 4,
+                            "value": false
+                        }
+                    ]
+                },
+                "lifecycleStatus": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 1,
+                            "value": "PROSPECT"
+                        },
+                        {
+                            "weight": 7,
+                            "value": "ACTIVE"
+                        },
+                        {
+                            "weight": 2,
+                            "value": "CHURNED"
+                        }
+                    ]
+                },
                 "addresses": {
                     "_gen": "repeatedly",
                     "n": {
@@ -116,6 +175,18 @@
                         "state": {
                             "_gen": "string",
                             "expr": "#{Team.state}"
+                        },
+                        "country": {
+                            "_gen": "string",
+                            "expr": "#{Address.countryCode}"
+                        },
+                        "type": {
+                            "_gen": "oneOf",
+                            "choices": [
+                                "BILLING",
+                                "SHIPPING",
+                                "HOME"
+                            ]
                         }
                     }
                 },

@@ -13,24 +13,34 @@ Content-Type: application/json
   "phoneNumber": "+1 413-925-9346",
   "preferredContact": "phone",
   "segment": "gold",
+  "dateOfBirth": "1985-04-12",
+  "preferredLanguage": "en",
+  "marketingConsent": true,
+  "lifecycleStatus": "ACTIVE",
   "addresses": [
     {
       "street": "Sharda Corners",
       "zipCode": "92666",
       "city": "Prohaskaside",
-      "state": "Hawaii"
+      "state": "Hawaii",
+      "country": "US",
+      "type": "HOME"
     },
     {
       "street": "Garth Causeway",
       "zipCode": "79086",
       "city": "Sumikoberg",
-      "state": "Texas"
+      "state": "Texas",
+      "country": "US",
+      "type": "HOME"
     },
     {
       "street": "Taylor Route",
       "zipCode": "68794",
       "city": "East Thaddeus",
-      "state": "Arkansas"
+      "state": "Arkansas",
+      "country": "US",
+      "type": "HOME"
     }
   ]
 }

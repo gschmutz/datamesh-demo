@@ -1,0 +1,29 @@
+{
+  "type" : "record",
+  "name" : "Address",
+  "namespace" : "com.datamesh.customer.avro",
+  "fields" : [ {
+    "name" : "street",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "zip_code",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "city",
+    "type" : "string"
+  }, {
+    "name" : "state",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "country",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "type",
+    "type" : [ "null", "string" ],
+    "default" : null
+  } ]
+}

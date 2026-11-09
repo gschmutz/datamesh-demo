@@ -1,0 +1,9 @@
+classpath:/Users/guido.schmutz/.m2/repository/org/apache/avro/avro/1.12.0/avro-1.12.0.jar	713436:1721983444000
+classpath:/Users/guido.schmutz/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.2/jackson-core-2.17.2.jar	581927:1720199024000
+classpath:/Users/guido.schmutz/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.2/jackson-databind-2.17.2.jar	1649454:1720199754000
+classpath:/Users/guido.schmutz/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar	78492:1720198258000
+classpath:/Users/guido.schmutz/.m2/repository/org/apache/commons/commons-compress/1.26.2/commons-compress-1.26.2.jar	1083634:1716046659000
+classpath:/Users/guido.schmutz/.m2/repository/commons-codec/commons-codec/1.17.0/commons-codec-1.17.0.jar	372608:1713636714000
+classpath:/Users/guido.schmutz/.m2/repository/commons-io/commons-io/2.16.1/commons-io-2.16.1.jar	508826:1712280333000
+classpath:/Users/guido.schmutz/.m2/repository/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar	657952:1700319806000
+classpath:/Users/guido.schmutz/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar	68605:1712931843000

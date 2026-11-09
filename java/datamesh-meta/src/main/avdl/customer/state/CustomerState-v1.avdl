@@ -1,8 +1,0 @@
-@namespace("com.datamesh.customer.avro")
-protocol CustomerStateProtocol {
-	import idl "../Customer.avdl";
-
-	record CustomerState {
-		Customer customer;
-	}
-}

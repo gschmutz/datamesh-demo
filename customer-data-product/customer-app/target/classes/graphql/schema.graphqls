@@ -1,4 +1,5 @@
 scalar DateTime
+scalar Date
 scalar Long
 
 type Query {
@@ -6,18 +7,11 @@ type Query {
     customers(limit: Int = 50): [Customer!]!
     "A single customer by id."
     customerById(id: ID!): Customer
-
-    "List organizations (default 50)."
-    organizations(limit: Int = 50): [Organization!]!
-    "A single organization by id."
-    organizationById(id: ID!): Organization
 }
 
 type Mutation {
     "Onboard a customer and publish its state event. Returns the saved customer."
     onboardCustomer(input: CustomerInput!): Customer!
-    "Create (or update) an organization and publish its state event."
-    createOrganization(input: OrganizationInput!): Organization!
 }
 
 type Customer {
@@ -32,9 +26,11 @@ type Customer {
     phoneNumber: String
     preferredContact: String
     segment: String
-    organizationId: String
-    "Organization the customer belongs to (may be null)."
-    organization: Organization
+    dateOfBirth: Date
+    preferredLanguage: String
+    marketingConsent: Boolean!
+    "PROSPECT, ACTIVE or CHURNED."
+    lifecycleStatus: String
     onboardedDate: DateTime
     addresses: [Address!]!
     createdAt: DateTime
@@ -47,20 +43,9 @@ type Address {
     zipCode: String
     city: String
     state: String
-}
-
-type Organization {
-    id: ID!
-    name: String
-    shared: Boolean!
-    domain: String
-    domainAssignment: Boolean!
-    active: Boolean!
-    vip: Boolean!
-    note: String
-    memberIds: [Long!]!
-    createdAt: DateTime
-    updatedAt: DateTime
+    country: String
+    "BILLING, SHIPPING or HOME."
+    type: String
 }
 
 input CustomerInput {
@@ -75,7 +60,10 @@ input CustomerInput {
     phoneNumber: String
     preferredContact: String
     segment: String
-    organizationId: String
+    dateOfBirth: Date
+    preferredLanguage: String
+    marketingConsent: Boolean = false
+    lifecycleStatus: String
     addresses: [AddressInput!] = []
 }
 
@@ -84,16 +72,7 @@ input AddressInput {
     zipCode: String
     city: String
     state: String
-}
-
-input OrganizationInput {
-    id: ID!
-    name: String
-    shared: Boolean = false
-    domain: String
-    domainAssignment: Boolean = false
-    active: Boolean = true
-    vip: Boolean = false
-    note: String
-    memberIds: [Long!] = []
+    country: String
+    "BILLING, SHIPPING or HOME."
+    type: String
 }

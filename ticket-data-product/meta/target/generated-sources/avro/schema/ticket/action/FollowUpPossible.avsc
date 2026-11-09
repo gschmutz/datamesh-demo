@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "FollowUpPossible",
+  "namespace" : "ch.admin.zammad.avro",
+  "symbols" : [ "yes", "no", "new_ticket" ]
+}

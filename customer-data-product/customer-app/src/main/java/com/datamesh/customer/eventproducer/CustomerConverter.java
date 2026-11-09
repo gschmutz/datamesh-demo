@@ -14,6 +14,8 @@ public class CustomerConverter {
                 .setZipCode(address.getZipCode())
                 .setCity(address.getCity())
                 .setState(address.getState())
+                .setCountry(address.getCountry())
+                .setType(address.getType())
                 .build();
     }
 
@@ -35,6 +37,10 @@ public class CustomerConverter {
                         .setPhoneNumber(person.getPhoneNumber())
                         .setPreferredContact(person.getPreferredContact())
                         .setSegment(person.getSegment())
+                        .setDateOfBirth(person.getDateOfBirth())
+                        .setPreferredLanguage(person.getPreferredLanguage())
+                        .setMarketingConsent(person.isMarketingConsent())
+                        .setLifecycleStatus(person.getLifecycleStatus())
                         .setAddresses(addresses)
                         .setOnboardedDate(person.getOnboardedDate())
                         .build())

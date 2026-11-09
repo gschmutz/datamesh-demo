@@ -48,6 +48,8 @@ public class CustomerService {
         address.setZipCode(addressDTO.zipCode());
         address.setCity(addressDTO.city());
         address.setState(addressDTO.state());
+        address.setCountry(addressDTO.country());
+        address.setType(addressDTO.type());
         return address;
     }
 
@@ -72,6 +74,10 @@ public class CustomerService {
         person.setPhoneNumber(customerDTO.phoneNumber());
         person.setPreferredContact(customerDTO.preferredContact());
         person.setSegment(customerDTO.segment());
+        person.setDateOfBirth(customerDTO.dateOfBirth());
+        person.setPreferredLanguage(customerDTO.preferredLanguage());
+        person.setMarketingConsent(customerDTO.marketingConsent());
+        person.setLifecycleStatus(customerDTO.lifecycleStatus());
 
         // attach addresses and ensure the bidirectional relationship is set
         for (var addressDTO : customerDTO.addresses()) {

@@ -6,5 +6,7 @@ protocol AddressProtocol {
 		union { null, string } zip_code = null;
 		string city;
 		union { null, string } state = null;
+		union { null, string } country = null;
+		union { null, string } type = null;
 	}
 }

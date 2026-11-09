@@ -1,0 +1,96 @@
+{
+  "type" : "record",
+  "name" : "Group",
+  "namespace" : "ch.admin.zammad.avro",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "long"
+  }, {
+    "name" : "name",
+    "type" : "string"
+  }, {
+    "name" : "name_last",
+    "type" : "string"
+  }, {
+    "name" : "note",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "email_address_id",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "parent_id",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "assignment_timeout",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "reopen_time_in_days",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "active",
+    "type" : "boolean"
+  }, {
+    "name" : "follow_up_assignment",
+    "type" : "boolean"
+  }, {
+    "name" : "follow_up_possible",
+    "type" : {
+      "type" : "enum",
+      "name" : "FollowUpPossible",
+      "symbols" : [ "yes", "no", "new_ticket" ]
+    }
+  }, {
+    "name" : "shared_drafts",
+    "type" : "boolean"
+  }, {
+    "name" : "signature",
+    "type" : "string"
+  }, {
+    "name" : "signature_id",
+    "type" : "long"
+  }, {
+    "name" : "summary_generation",
+    "type" : {
+      "type" : "enum",
+      "name" : "SummaryGeneration",
+      "symbols" : [ "global_default", "enabled", "disabled" ]
+    }
+  }, {
+    "name" : "user_ids",
+    "type" : {
+      "type" : "array",
+      "items" : "long"
+    },
+    "default" : [ ]
+  }, {
+    "name" : "users",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    },
+    "default" : [ ]
+  }, {
+    "name" : "created_at",
+    "type" : "string"
+  }, {
+    "name" : "updated_at",
+    "type" : "string"
+  }, {
+    "name" : "created_by",
+    "type" : "string"
+  }, {
+    "name" : "updated_by",
+    "type" : "string"
+  }, {
+    "name" : "created_by_id",
+    "type" : "long"
+  }, {
+    "name" : "updated_by_id",
+    "type" : "long"
+  } ]
+}

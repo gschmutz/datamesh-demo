@@ -1,4 +1,5 @@
 scalar DateTime
+scalar Date
 scalar Long
 
 type Query {
@@ -25,6 +26,11 @@ type Customer {
     phoneNumber: String
     preferredContact: String
     segment: String
+    dateOfBirth: Date
+    preferredLanguage: String
+    marketingConsent: Boolean!
+    "PROSPECT, ACTIVE or CHURNED."
+    lifecycleStatus: String
     onboardedDate: DateTime
     addresses: [Address!]!
     createdAt: DateTime
@@ -37,6 +43,9 @@ type Address {
     zipCode: String
     city: String
     state: String
+    country: String
+    "BILLING, SHIPPING or HOME."
+    type: String
 }
 
 input CustomerInput {
@@ -51,6 +60,10 @@ input CustomerInput {
     phoneNumber: String
     preferredContact: String
     segment: String
+    dateOfBirth: Date
+    preferredLanguage: String
+    marketingConsent: Boolean = false
+    lifecycleStatus: String
     addresses: [AddressInput!] = []
 }
 
@@ -59,4 +72,7 @@ input AddressInput {
     zipCode: String
     city: String
     state: String
+    country: String
+    "BILLING, SHIPPING or HOME."
+    type: String
 }

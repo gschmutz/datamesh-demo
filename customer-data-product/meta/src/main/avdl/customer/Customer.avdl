@@ -12,6 +12,10 @@ protocol CustomerProtocol {
 		string phone_number;
 		union { null, string } preferred_contact = null;
 		union { null, string } segment = null;
+		union { null, date } date_of_birth = null;
+		union { null, string } preferred_language = null;
+		boolean marketing_consent = false;
+		union { null, string } lifecycle_status = null;
 
 		union { null, string } image        = null;
 		union { null, string } image_source = null;

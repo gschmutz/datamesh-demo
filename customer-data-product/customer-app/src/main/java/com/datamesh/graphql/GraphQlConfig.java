@@ -8,11 +8,12 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 @Configuration
 public class GraphQlConfig {
 
-    /** Register the DateTime and Long scalars used by the schema. */
+    /** Register the DateTime, Date and Long scalars used by the schema. */
     @Bean
     public RuntimeWiringConfigurer runtimeWiringConfigurer() {
         return wiring -> wiring
             .scalar(ExtendedScalars.DateTime)
+            .scalar(ExtendedScalars.Date)
             .scalar(ExtendedScalars.GraphQLLong);
     }
 }
