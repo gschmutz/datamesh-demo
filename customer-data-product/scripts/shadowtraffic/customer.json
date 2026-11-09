@@ -3,10 +3,11 @@
         {
             "name": "genSegments",
             "connection": "customerDb",
-            "table": "segment",
+            "table": "customer.segment",
             "row": {
                 "id": {
-                    "_gen": "sequentialInteger"
+                    "_gen": "sequentialInteger",
+                    "startingFrom": 1
                 },
                 "name": {
                     "_gen": "cycle",
@@ -40,10 +41,11 @@
         {
             "name": "genPhoneTypes",
             "connection": "customerDb",
-            "table": "phone_type",
+            "table": "customer.phone_type",
             "row": {
                 "id": {
-                    "_gen": "sequentialInteger"
+                    "_gen": "sequentialInteger",
+                    "startingFrom": 1
                 },
                 "name": {
                     "_gen": "cycle",
@@ -77,10 +79,11 @@
         {
             "name": "genAddressTypes",
             "connection": "customerDb",
-            "table": "address_type",
+            "table": "customer.address_type",
             "row": {
                 "id": {
-                    "_gen": "sequentialInteger"
+                    "_gen": "sequentialInteger",
+                    "startingFrom": 1
                 },
                 "name": {
                     "_gen": "cycle",
@@ -304,7 +307,7 @@
                 }
             },
             "connection": "customerDb",
-            "table": "country",
+            "table": "customer.country",
             "row": {
                 "code": {
                     "_gen": "var",
@@ -424,7 +427,7 @@
                         "phoneTypeId": {
                             "_gen": "lookup",
                             "connection": "customerDb",
-                            "table": "phone_type",
+                            "table": "customer.phone_type",
                             "path": [
                                 "row",
                                 "id"
@@ -455,7 +458,7 @@
                 "segmentId": {
                     "_gen": "lookup",
                     "connection": "customerDb",
-                    "table": "segment",
+                    "table": "customer.segment",
                     "path": [
                         "row",
                         "id"
@@ -550,7 +553,7 @@
                         "countryCode": {
                             "_gen": "lookup",
                             "connection": "customerDb",
-                            "table": "country",
+                            "table": "customer.country",
                             "path": [
                                 "row",
                                 "code"
@@ -559,7 +562,7 @@
                         "addressTypeId": {
                             "_gen": "lookup",
                             "connection": "customerDb",
-                            "table": "address_type",
+                            "table": "customer.address_type",
                             "path": [
                                 "row",
                                 "id"
@@ -624,7 +627,6 @@
                 "port": 5432,
                 "username": "demo",
                 "password": "abc123!",
-                "schema": "customer",
                 "db": "demodb"
             }
         }
