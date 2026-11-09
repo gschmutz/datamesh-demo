@@ -21,3 +21,24 @@ services:
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
     ports:
       - "29000:8082"
+
+  datamesh-customer-dp:
+    image: ghcr.io/gschmutz/customer-dp:latest
+    container_name: datamesh-customer-dp
+    hostname: datamesh-customer-dp
+    labels:
+      com.platys.name: none
+      com.platys.description: Customer Data Product read-only GraphQL API
+      com.platys.restapi.title: Customer DP GraphQL
+      com.platys.restapi.url: http://dataplatform:29001
+    depends_on:
+      postgresql:
+       condition: service_healthy
+    environment:
+      SERVER_PORT: 8083
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/demodb?currentSchema=customer_dp_v1
+      SPRING_DATASOURCE_USERNAME: demo
+      SPRING_DATASOURCE_PASSWORD: abc123!
+      OPA_URL: http://opa:8181
+    ports:
+      - "29001:8083"

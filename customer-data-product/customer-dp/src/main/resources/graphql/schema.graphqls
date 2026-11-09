@@ -9,11 +9,6 @@ type Query {
     customerById(id: ID!): Customer
 }
 
-type Mutation {
-    "Onboard a customer and publish its state event. Returns the saved customer."
-    onboardCustomer(input: CustomerInput!): Customer!
-}
-
 type Customer {
     id: ID!
     login: String
@@ -48,25 +43,6 @@ type Address {
     type: String
 }
 
-input CustomerInput {
-    id: ID!
-    login: String
-    active: Boolean = true
-    verified: Boolean = false
-    vip: Boolean = false
-    firstName: String
-    lastName: String
-    emailAddress: String
-    preferredContact: String
-    segmentId: Int
-    dateOfBirth: Date
-    preferredLanguage: String
-    marketingConsent: Boolean = false
-    lifecycleStatus: String
-    addresses: [AddressInput!] = []
-    phones: [PhoneInput!] = []
-}
-
 type Phone {
     id: ID!
     "MOBILE, HOME, WORK or FAX."
@@ -74,20 +50,4 @@ type Phone {
     number: String
     "When the customer is reachable on this number, e.g. Mon-Fri 09:00-17:00."
     availability: String
-}
-
-input PhoneInput {
-    phoneTypeId: Int
-    number: String!
-    availability: String
-}
-
-input AddressInput {
-    street: String
-    zipCode: String
-    city: String
-    state: String
-    countryCode: String
-    "BILLING, SHIPPING or HOME."
-    addressTypeId: Int
 }

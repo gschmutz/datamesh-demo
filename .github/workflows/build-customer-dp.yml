@@ -7,14 +7,13 @@ on:
     tags:
       - 'v*'
     paths:
-      - 'customer-data-product/customer-app/**'
-      - 'customer-data-product/meta/**'
-      - '.github/workflows/build-customer.yml'
+      - 'customer-data-product/customer-dp/**'
+      - '.github/workflows/build-customer-dp.yml'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/customer-app
+  IMAGE_NAME: ${{ github.repository_owner }}/customer-dp
 
 jobs:
   build-and-push:
@@ -34,12 +33,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build datamesh-meta (Avro schemas)
-        working-directory: customer-data-product/meta
-        run: mvn clean install -DskipTests
-
-      - name: Build datamesh-customer JAR
-        working-directory: customer-data-product/customer-app
+      - name: Build datamesh-customer-dp JAR
+        working-directory: customer-data-product/customer-dp
         run: mvn clean package -DskipTests
 
       - name: Set up QEMU
@@ -70,7 +65,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: customer-data-product/customer-app
+          context: customer-data-product/customer-dp
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}

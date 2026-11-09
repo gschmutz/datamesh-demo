@@ -1,4 +1,4 @@
-package com.datamesh.graphql.pii;
+package com.datamesh.customer.dp.graphql.pii;
 
 import java.util.List;
 import java.util.Map;

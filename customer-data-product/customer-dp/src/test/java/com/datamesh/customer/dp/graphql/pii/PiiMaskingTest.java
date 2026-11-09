@@ -1,4 +1,4 @@
-package com.datamesh.graphql.pii;
+package com.datamesh.customer.dp.graphql.pii;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

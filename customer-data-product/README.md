@@ -19,9 +19,17 @@ export DATAPLATFORM_IP=dataplatform
 ../customer-data-product/customer-app/start-outbox.sh
 ```
 
-## GraphQL 
+## GraphQL (customer-dp)
 
-Navigate to <http://2.58.54.30:29000/graphiql.html>
+The read-only GraphQL API lives in the `customer-dp` project and reads the data product schema `customer_dp_v1`
+(filled by the Redpanda Connect stream `customer-state-to-postgres`).
+
+```bash
+cd $DATAPLATFORM_HOME
+docker compose up -d datamesh-customer-dp
+```
+
+Navigate to <http://dataplatform:29001/graphiql.html>
 
 Execute a graphql query, such as
 

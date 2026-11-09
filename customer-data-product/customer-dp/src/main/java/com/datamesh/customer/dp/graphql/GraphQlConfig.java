@@ -1,4 +1,4 @@
-package com.datamesh.graphql;
+package com.datamesh.customer.dp.graphql;
 
 import graphql.scalars.ExtendedScalars;
 import org.springframework.context.annotation.Bean;

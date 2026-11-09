@@ -1,11 +1,11 @@
-package com.datamesh.graphql.pii;
+package com.datamesh.customer.dp.graphql.pii;
 
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
-import com.datamesh.customer.entity.Address;
-import com.datamesh.customer.entity.Person;
-import com.datamesh.customer.entity.Phone;
+import com.datamesh.customer.dp.entity.Address;
+import com.datamesh.customer.dp.entity.Customer;
+import com.datamesh.customer.dp.entity.Phone;
 
 import graphql.GraphQLContext;
 
@@ -17,13 +17,13 @@ import graphql.GraphQLContext;
 public class PiiMaskingController {
 
     @SchemaMapping(typeName = "Customer", field = "firstName")
-    public String firstName(Person p, GraphQLContext ctx) { return mask(ctx, "Customer", "firstName", p.getFirstName()); }
+    public String firstName(Customer p, GraphQLContext ctx) { return mask(ctx, "Customer", "firstName", p.getFirstName()); }
 
     @SchemaMapping(typeName = "Customer", field = "lastName")
-    public String lastName(Person p, GraphQLContext ctx) { return mask(ctx, "Customer", "lastName", p.getLastName()); }
+    public String lastName(Customer p, GraphQLContext ctx) { return mask(ctx, "Customer", "lastName", p.getLastName()); }
 
     @SchemaMapping(typeName = "Customer", field = "emailAddress")
-    public String emailAddress(Person p, GraphQLContext ctx) { return mask(ctx, "Customer", "emailAddress", p.getEmailAddress()); }
+    public String emailAddress(Customer p, GraphQLContext ctx) { return mask(ctx, "Customer", "emailAddress", p.getEmailAddress()); }
 
     @SchemaMapping(typeName = "Address", field = "street")
     public String street(Address a, GraphQLContext ctx) { return mask(ctx, "Address", "street", a.getStreet()); }

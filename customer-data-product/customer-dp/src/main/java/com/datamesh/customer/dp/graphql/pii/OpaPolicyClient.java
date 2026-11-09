@@ -1,4 +1,4 @@
-package com.datamesh.graphql.pii;
+package com.datamesh.customer.dp.graphql.pii;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
