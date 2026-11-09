@@ -143,9 +143,10 @@ schema:
 
 slaProperties:
   - property: generalAvailability
-    value: TBC
+    value: 24
+    unit: h
   - property: retention
-    value: TBC
+    value: 30
     unit: d
 
 team:
