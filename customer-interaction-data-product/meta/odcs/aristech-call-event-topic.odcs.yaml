@@ -127,7 +127,7 @@ slaProperties:
     unit: d
 
 team:
-  name: TBC
+  name: customer-interaction-data-product-team
   members:
     - username: guido.schmutz@accenture.com
       role: owner
