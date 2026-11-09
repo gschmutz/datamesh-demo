@@ -3,7 +3,7 @@
         {
             "name": "genSegments",
             "connection": "customerDb",
-            "table": "customer.segment",
+            "table": "segment",
             "row": {
                 "id": {
                     "_gen": "sequentialInteger"
@@ -40,7 +40,7 @@
         {
             "name": "genPhoneTypes",
             "connection": "customerDb",
-            "table": "customer.phone_type",
+            "table": "phone_type",
             "row": {
                 "id": {
                     "_gen": "sequentialInteger"
@@ -77,7 +77,7 @@
         {
             "name": "genAddressTypes",
             "connection": "customerDb",
-            "table": "customer.address_type",
+            "table": "address_type",
             "row": {
                 "id": {
                     "_gen": "sequentialInteger"
@@ -304,7 +304,7 @@
                 }
             },
             "connection": "customerDb",
-            "table": "customer.country",
+            "table": "country",
             "row": {
                 "code": {
                     "_gen": "var",
