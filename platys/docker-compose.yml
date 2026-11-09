@@ -447,6 +447,7 @@ services:
       --metrics-port 9400
       --reload completion
       --watch
+      --seed 42
     restart: unless-stopped
   #  ================================== Open Policy Agent (opa) ========================================== #
   opa:

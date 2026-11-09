@@ -742,7 +742,7 @@
       # either 'completion' or 'immediate'
       SHADOWTRAFFIC_reload_policy: completion
       SHADOWTRAFFIC_sample_size:
-      SHADOWTRAFFIC_seed_value:
+      SHADOWTRAFFIC_seed_value: 42
       SHADOWTRAFFIC_to_stdout: false
       SHADOWTRAFFIC_with_studio: false
       SHADOWTRAFFIC_report_benchmark: false
