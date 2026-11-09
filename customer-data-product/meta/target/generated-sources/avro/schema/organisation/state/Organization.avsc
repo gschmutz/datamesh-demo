@@ -1,0 +1,45 @@
+{
+  "type" : "record",
+  "name" : "Organization",
+  "namespace" : "com.datamesh.organization.avro",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "string"
+  }, {
+    "name" : "name",
+    "type" : "string"
+  }, {
+    "name" : "shared",
+    "type" : "boolean"
+  }, {
+    "name" : "domain",
+    "type" : "string",
+    "default" : ""
+  }, {
+    "name" : "domain_assignment",
+    "type" : "boolean"
+  }, {
+    "name" : "active",
+    "type" : "boolean"
+  }, {
+    "name" : "vip",
+    "type" : "boolean"
+  }, {
+    "name" : "note",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "member_ids",
+    "type" : {
+      "type" : "array",
+      "items" : "long"
+    },
+    "default" : [ ]
+  }, {
+    "name" : "created_at",
+    "type" : "string"
+  }, {
+    "name" : "updated_at",
+    "type" : "string"
+  } ]
+}

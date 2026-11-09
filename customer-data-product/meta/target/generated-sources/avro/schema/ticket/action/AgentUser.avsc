@@ -1,0 +1,56 @@
+{
+  "type" : "record",
+  "name" : "AgentUser",
+  "namespace" : "ch.admin.zammad.avro",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "long"
+  }, {
+    "name" : "login",
+    "type" : "string"
+  }, {
+    "name" : "email",
+    "type" : "string"
+  }, {
+    "name" : "firstname",
+    "type" : "string"
+  }, {
+    "name" : "lastname",
+    "type" : "string"
+  }, {
+    "name" : "image",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "image_source",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "active",
+    "type" : "boolean"
+  }, {
+    "name" : "verified",
+    "type" : "boolean"
+  }, {
+    "name" : "out_of_office",
+    "type" : "boolean"
+  }, {
+    "name" : "out_of_office_start_at",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "out_of_office_end_at",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "out_of_office_replacement_id",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "created_at",
+    "type" : "string"
+  }, {
+    "name" : "updated_at",
+    "type" : "string"
+  } ]
+}

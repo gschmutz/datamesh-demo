@@ -1,0 +1,34 @@
+@namespace("ch.admin.customer.avro")
+protocol CustomerProtocol {
+	import idl "Organization.avdl";
+
+	record Customer {
+		long   id;
+		string login;
+		string email;
+		string firstname;
+		string lastname;
+		union { null, string } image        = null;
+		union { null, string } image_source = null;
+		union { null, string } department   = null;
+		union { null, Organization } organization = null;
+		array<Organization>  secondary_organizations      = [];
+		string  created_at;
+		string  updated_at;
+		boolean active;
+		boolean verified;
+		boolean vip;
+		string phone   = "";
+		string mobile  = "";
+		string fax     = "";
+		string web     = "";
+		string street  = "";
+		string city    = "";
+		string zip     = "";
+		string country = "";
+		string note    = "";
+		union { null, string } address = null;
+	}
+
+
+}

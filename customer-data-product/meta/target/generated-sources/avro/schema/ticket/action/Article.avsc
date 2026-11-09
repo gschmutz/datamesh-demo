@@ -1,0 +1,182 @@
+{
+  "type" : "record",
+  "name" : "Article",
+  "namespace" : "ch.admin.zammad.avro",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "long"
+  }, {
+    "name" : "ticket_id",
+    "type" : "long"
+  }, {
+    "name" : "body",
+    "type" : "string"
+  }, {
+    "name" : "content_type",
+    "type" : "string"
+  }, {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "ArticleType",
+      "symbols" : [ "email", "phone", "web", "note", "sms", "chat", "fax" ]
+    }
+  }, {
+    "name" : "type_id",
+    "type" : "long"
+  }, {
+    "name" : "sender",
+    "type" : {
+      "type" : "enum",
+      "name" : "SenderType",
+      "symbols" : [ "Customer", "Agent", "System" ]
+    }
+  }, {
+    "name" : "sender_id",
+    "type" : "long"
+  }, {
+    "name" : "from",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "to",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "internal",
+    "type" : "boolean"
+  }, {
+    "name" : "body_rendering_error",
+    "type" : "boolean"
+  }, {
+    "name" : "subject",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "cc",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "reply_to",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "in_reply_to",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "message_id",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "message_id_md5",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "origin_by",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "origin_by_id",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "detected_language",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "time_unit",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "accounted_time",
+    "type" : "double",
+    "default" : 0.0
+  }, {
+    "name" : "created_by",
+    "type" : {
+      "type" : "record",
+      "name" : "AgentUser",
+      "fields" : [ {
+        "name" : "id",
+        "type" : "long"
+      }, {
+        "name" : "login",
+        "type" : "string"
+      }, {
+        "name" : "email",
+        "type" : "string"
+      }, {
+        "name" : "firstname",
+        "type" : "string"
+      }, {
+        "name" : "lastname",
+        "type" : "string"
+      }, {
+        "name" : "image",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "image_source",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "active",
+        "type" : "boolean"
+      }, {
+        "name" : "verified",
+        "type" : "boolean"
+      }, {
+        "name" : "out_of_office",
+        "type" : "boolean"
+      }, {
+        "name" : "out_of_office_start_at",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "out_of_office_end_at",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "out_of_office_replacement_id",
+        "type" : [ "null", "long" ],
+        "default" : null
+      }, {
+        "name" : "created_at",
+        "type" : "string"
+      }, {
+        "name" : "updated_at",
+        "type" : "string"
+      } ]
+    }
+  }, {
+    "name" : "created_by_id",
+    "type" : "long"
+  }, {
+    "name" : "updated_by",
+    "type" : "AgentUser"
+  }, {
+    "name" : "updated_by_id",
+    "type" : "long"
+  }, {
+    "name" : "created_at",
+    "type" : "string"
+  }, {
+    "name" : "updated_at",
+    "type" : "string"
+  }, {
+    "name" : "attachments",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    },
+    "default" : [ ]
+  }, {
+    "name" : "ai_stored_result_ids",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    },
+    "default" : [ ]
+  } ]
+}

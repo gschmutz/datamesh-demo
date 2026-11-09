@@ -1,0 +1,48 @@
+{
+  "type" : "record",
+  "name" : "Priority",
+  "namespace" : "ch.admin.zammad.avro",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "long"
+  }, {
+    "name" : "name",
+    "type" : "string"
+  }, {
+    "name" : "note",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "ui_color",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "ui_icon",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "default_create",
+    "type" : "boolean"
+  }, {
+    "name" : "active",
+    "type" : "boolean"
+  }, {
+    "name" : "created_at",
+    "type" : "string"
+  }, {
+    "name" : "updated_at",
+    "type" : "string"
+  }, {
+    "name" : "created_by",
+    "type" : "string"
+  }, {
+    "name" : "updated_by",
+    "type" : "string"
+  }, {
+    "name" : "created_by_id",
+    "type" : "long"
+  }, {
+    "name" : "updated_by_id",
+    "type" : "long"
+  } ]
+}

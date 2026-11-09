@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "SummaryGeneration",
+  "namespace" : "ch.admin.zammad.avro",
+  "symbols" : [ "global_default", "enabled", "disabled" ]
+}
