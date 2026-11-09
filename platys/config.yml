@@ -2381,7 +2381,7 @@
       PUPPYGRAPH_ai_models: ''
       PUPPYGRAPH_ai_max_tokens: 64000
       PUPPYGRAPH_metrics_enabled: true
-            
+
       #
       # ===== Memgraph ========
       #
@@ -2582,7 +2582,7 @@
       #
       # ===== Clickhouse ========
       #
-      CLICKHOUSE_enable: true
+      CLICKHOUSE_enable: false
       CLICKHOUSE_volume_map_data: false
       CLICKHOUSE_db_name: clickhouse
       CLICKHOUSE_username: clickhouse
@@ -3116,7 +3116,7 @@
       # ===== GraphQL Hive Console ========
       #
       # Requires POSTGRESQL, REDIS, CLICKHOUSE, KAFKA and an S3 service (s3_service_to_use) to be enabled.
-      HIVE_CONSOLE_enable: true
+      HIVE_CONSOLE_enable: false
       HIVE_CONSOLE_log_level: debug
       # secrets - change these for anything beyond local testing (ENCRYPTION_SECRET must be 32 characters)
       HIVE_CONSOLE_encryption_secret: ff8ad626a0c7c48d99dd2f107cfe3dbe
@@ -3127,7 +3127,7 @@
       #
       # ===== GraphQL Hive Gateway ========
       #
-      HIVE_GATEWAY_enable: true
+      HIVE_GATEWAY_enable: false
       # name of the supergraph schema file placed in conf/hive-gateway/ to serve
       HIVE_GATEWAY_supergraph_file: supergraph.graphql
       HIVE_GATEWAY_log_level: info
