@@ -4,7 +4,7 @@ services:
     container_name: datamesh-customer-app
     hostname: datamesh-customer-app
     labels:
-      com.platys.name: none
+      com.platys.name: datamesh-customer-app
       com.platys.description: Customer Spring Boot Application
       com.platys.restapi.title: Spark UI
       com.platys.restapi.url: http://dataplatform:29000    
