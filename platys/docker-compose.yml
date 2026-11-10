@@ -507,53 +507,6 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-  #  ================================== Ollama  ========================================== #
-  ollama:
-    image: docker.io/ollama/ollama:0.40.16
-    container_name: ollama
-    hostname: ollama
-    labels:
-      com.platys.name: ollama
-      com.platys.description: Locally runs large language models
-      com.platys.restapi.title: Ollama API
-      com.platys.restapi.url: http://dataplatform:11434/api/tags
-    ports:
-      - 11434:11434
-    tty: true
-    environment:
-      OLLAMA_KEEP_ALIVE: 24h
-      OLLAMA_HOST: 0.0.0.0
-      OLLAMA_DEBUG: 0
-    volumes:
-      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
-    restart: unless-stopped
-    healthcheck:
-      test: [CMD, ollama, list]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-  ollama-pull-model:
-    image: docker.io/ollama/ollama:latest
-    container_name: ollama-pull-model
-    hostname: ollama-pull-model
-    environment:
-      - OLLAMA_HOST=ollama:11434
-    entrypoint:
-      # In the command section, $ are replaced with $$ to avoid the error 'Invalid interpolation format for "command" option'
-      - sh
-      - -c
-      - |
-        echo 'Waiting for Ollama to be ready...';
-        until ollama list > /dev/null 2>&1; do
-          sleep 2;
-        done;      
-        echo "Pulling LLMs"
-        for llm in $$(echo "llama3.2" | sed "s/,/ /g")
-        do
-          ollama pull "$$llm"
-        done
-    init: true
   #  ================================== Redis ========================================== #
   redis-1:
     image: docker.io/bitnamilegacy/redis:8.2

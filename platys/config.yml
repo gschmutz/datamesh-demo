@@ -1633,7 +1633,7 @@
       #
       MINDSDB_enable: false
       
-      OLLAMA_enable: true
+      OLLAMA_enable: false
       # on mac you have to disable GPU! This will be much slower, so be aware! On Mac you should install Ollama natively.
       OLLAMA_gpu_enabled: false
       OLLAMA_gpu_driver: nvidia
