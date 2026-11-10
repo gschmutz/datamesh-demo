@@ -2,7 +2,7 @@ package datamesh.customer.pii_test
 
 import data.datamesh.customer.pii
 
-# Same shape as the generated pii-classification.json.
+# Same shape as the generated pii-classification-data.json.
 classification := {
 	"Customer": {"firstName": "confidential", "emailAddress": "confidential", "segment": "internal"},
 	"Address": {"street": "confidential"},

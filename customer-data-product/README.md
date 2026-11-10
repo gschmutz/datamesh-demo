@@ -56,6 +56,21 @@ query Customer {
 }
 ```
 
+```json
+{
+    "X-User-Id": "admin",
+    "X-User-Roles": "admin"
+}
+```
 
 
+## Create the data for the OPA Policy
 
+```bash
+cd $DATAPLAFORM_HOME/../customer-data-product/scritps/opt
+
+datacontract export custom \
+  --template templates/pii-classification.json.j2 \
+  --output rego/pii-classification-data.json \
+  ../../meta/odcs/customer-dp-graphql.odcs.yaml
+```

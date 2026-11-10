@@ -4,7 +4,7 @@
 # Output: {type: {field: "redact"}} for every field that must be masked ("redact" -> "***").
 #         Anything not listed is returned in clear text.
 #
-# Which fields are sensitive comes from the data contract: pii-classification.json is
+# Which fields are sensitive comes from the data contract: pii-classification-data.json is
 # generated from the ODCS contract customer-dp-graphql.odcs.yaml (see templates/), it holds
 # {type: {field: classification}}. Fields classified "confidential" are masked unless the
 # caller has a full access role. Missing or unknown roles are restricted.

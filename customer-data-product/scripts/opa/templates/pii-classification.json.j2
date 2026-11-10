@@ -1,6 +1,6 @@
 {#- Renders the classified properties of the GraphQL ODCS contract as OPA data.
     datacontract export custom --template templates/pii-classification.json.j2 \
-      --output rego/pii-classification.json ../../meta/odcs/customer-dp-graphql.odcs.yaml -#}
+      --output rego/pii-classification-data.json ../../meta/odcs/customer-dp-graphql.odcs.yaml -#}
 {% set ns = namespace(types=[]) -%}
 {% for s in data_contract.schema_ -%}
 {%- set ns2 = namespace(fields=[]) -%}
