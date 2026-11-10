@@ -532,6 +532,28 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+  ollama-pull-model:
+    image: docker.io/genai-stack/pull-model:latest
+    container_name: ollama-pull-model
+    hostname: ollama-pull-model
+    build:
+      context: ./dockerfiles/genai-stack
+      dockerfile: pull_model.Dockerfile
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    entrypoint:
+      # In the command section, $ are replaced with $$ to avoid the error 'Invalid interpolation format for "command" option'
+      - bash
+      - -c
+      - |
+        echo "Installing LLMs"
+        for llm in $$(echo "llama3.2" | sed "s/,/ /g")
+        do
+          export LLM="$$llm"
+          bb -f pull_model.clj "$$llm"
+        done
+    tty: true
+    init: true
   #  ================================== Redis ========================================== #
   redis-1:
     image: docker.io/bitnamilegacy/redis:8.2
