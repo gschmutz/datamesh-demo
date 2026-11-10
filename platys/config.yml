@@ -1008,6 +1008,7 @@
       OPA_volume_map_config_file: false      
       OPA_log_level: INFO
       OPA_log_format: json
+      OPA_decision_log_console_enabled: true
       
       #
       # ===== Moat ========
@@ -1034,7 +1035,7 @@
       #
       # ===== Open Policy Administration Layer (OPAL) ========
       #
-      OPAL_enable: false
+      OPAL_enable: true
       # either opa or cedar
       OPAL_policy_engine: opa
       
