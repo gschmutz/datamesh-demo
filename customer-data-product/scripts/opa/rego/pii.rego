@@ -1,53 +1,33 @@
 # Field-level PII masking policy for the datamesh-customer GraphQL API.
 #
-# Input:  {"user": "alice", "roles": ["support-agent"]}
-# Output: {type: {field: strategy}} for every field that must be masked.
-#         Strategies: "redact" -> "***", "partial" -> keep a hint (j***@acme.com),
-#                     "null"   -> return null.
-# Anything not listed is returned in clear text.
+# Input:  {"user": "alice", "roles": ["data-steward"]}
+# Output: {type: {field: "redact"}} for every field that must be masked ("redact" -> "***").
+#         Anything not listed is returned in clear text.
+#
+# Which fields are sensitive comes from the data contract: pii-classification.json is
+# generated from the ODCS contract customer-dp-graphql.odcs.yaml (see templates/), it holds
+# {type: {field: classification}}. Fields classified "confidential" are masked unless the
+# caller has a full access role. Missing or unknown roles are restricted.
 #
 # Query: POST /v1/data/datamesh/customer/pii/masked
 package datamesh.customer.pii
 
-# Roles that may see everything.
+# Roles that may see confidential fields.
 full_access_roles := {"admin", "data-steward"}
 
-# The profile is derived from the roles; unknown or missing roles are restricted.
-profile := "full" if {
+# Classification that must be masked.
+masked_classification := "confidential"
+
+full_access if {
 	some role in input.roles
 	role in full_access_roles
-} else := "support" if {
-	"support-agent" in input.roles
-} else := "restricted"
-
-profiles := {
-	"full": {},
-	"support": {
-		"Customer": {
-			"emailAddress": "partial",
-		},
-		"Phone": {
-			"number": "partial",
-		},
-		"Address": {
-			"street": "redact",
-			"zipCode": "redact",
-		},
-	},
-	"restricted": {
-		"Customer": {
-			"firstName": "partial",
-			"lastName": "partial",
-			"emailAddress": "redact",
-		},
-		"Phone": {
-			"number": "redact",
-		},
-		"Address": {
-			"street": "redact",
-			"zipCode": "redact",
-		},
-	},
 }
 
-masked := profiles[profile]
+masked := {} if {
+	full_access
+} else := {type: {field: "redact" |
+	some field, classification in fields
+	classification == masked_classification
+} |
+	some type, fields in data.datamesh.customer.pii.classification
+}
