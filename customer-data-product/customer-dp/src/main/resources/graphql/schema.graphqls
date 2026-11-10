@@ -29,13 +29,10 @@ type Customer {
     image: String
     "Source of the avatar image."
     imageSource: String
-    department: String
     "Web site, empty when not set."
     web: String
     "Free-text note, empty when not set."
     note: String
-    "Free-text address line kept for compatibility, structured addresses are in addresses."
-    address: String
     onboardedDate: DateTime
     addresses: [Address!]!
     phones: [Phone!]!

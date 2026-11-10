@@ -19,14 +19,12 @@ protocol CustomerProtocol {
 
 		union { null, string } image        = null;
 		union { null, string } image_source = null;
-		union { null, string } department   = null;
 
 		boolean active;
 		boolean verified;
 		boolean vip;
 		string web     = "";
 		string note    = "";
-		union { null, string } address = null;
 
 		array<Address> addresses;
 		array<Phone> phones = [];

@@ -133,11 +133,6 @@ schema:
         physicalType: "text"
         required: false
         description: "Source of the avatar image."
-      - name: "department"
-        logicalType: "string"
-        physicalType: "text"
-        required: false
-        description: "Department of the customer."
       - name: "active"
         logicalType: "boolean"
         physicalType: "boolean"
@@ -163,11 +158,6 @@ schema:
         physicalType: "text"
         required: true
         description: "Free-text note. Defaults to ''."
-      - name: "address"
-        logicalType: "string"
-        physicalType: "text"
-        required: false
-        description: "Free-text address line kept for compatibility. Structured addresses are in the address table."
       - name: "onboarded_date"
         logicalType: "timestamp"
         physicalType: "timestamptz"

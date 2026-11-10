@@ -41,7 +41,7 @@ output:
         INSERT INTO customer_dp_v1.customer (
           id, login, email_address, first_name, last_name, preferred_contact, segment,
           date_of_birth, preferred_language, marketing_consent, lifecycle_status,
-          image, image_source, department, active, verified, vip, web, note, address,
+          image, image_source, active, verified, vip, web, note,
           onboarded_date, modified_at)
         SELECT
           c->>'id', c->>'login', c->>'email_address', c->>'first_name', c->>'last_name',
@@ -50,9 +50,9 @@ output:
                ELSE DATE '1970-01-01' + (c->>'date_of_birth')::int END,
           c->>'preferred_language',
           COALESCE((c->>'marketing_consent')::boolean, false),
-          c->>'lifecycle_status', c->>'image', c->>'image_source', c->>'department',
+          c->>'lifecycle_status', c->>'image', c->>'image_source',
           (c->>'active')::boolean, (c->>'verified')::boolean, (c->>'vip')::boolean,
-          COALESCE(c->>'web', ''), COALESCE(c->>'note', ''), c->>'address',
+          COALESCE(c->>'web', ''), COALESCE(c->>'note', ''),
           to_timestamp((c->>'onboarded_date')::bigint / 1000.0), now()
         FROM p
         ON CONFLICT (id) DO UPDATE SET
@@ -61,9 +61,9 @@ output:
           preferred_contact = EXCLUDED.preferred_contact, segment = EXCLUDED.segment,
           date_of_birth = EXCLUDED.date_of_birth, preferred_language = EXCLUDED.preferred_language,
           marketing_consent = EXCLUDED.marketing_consent, lifecycle_status = EXCLUDED.lifecycle_status,
-          image = EXCLUDED.image, image_source = EXCLUDED.image_source, department = EXCLUDED.department,
+          image = EXCLUDED.image, image_source = EXCLUDED.image_source,
           active = EXCLUDED.active, verified = EXCLUDED.verified, vip = EXCLUDED.vip,
-          web = EXCLUDED.web, note = EXCLUDED.note, address = EXCLUDED.address,
+          web = EXCLUDED.web, note = EXCLUDED.note,
           onboarded_date = EXCLUDED.onboarded_date, modified_at = now()
         RETURNING id
       ),

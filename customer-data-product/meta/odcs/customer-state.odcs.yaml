@@ -159,11 +159,6 @@ schema:
             physicalType: string
             required: false
             description: Source of the avatar image.
-          - name: department
-            logicalType: string
-            physicalType: string
-            required: false
-            description: Department of the customer.
           - name: active
             logicalType: boolean
             physicalType: boolean
@@ -189,11 +184,6 @@ schema:
             physicalType: string
             required: true
             description: Free-text note. Empty string when not set.
-          - name: address
-            logicalType: string
-            physicalType: string
-            required: false
-            description: Free-text address line, kept for compatibility. Structured addresses are in addresses.
           - name: addresses
             logicalType: array
             physicalType: array

@@ -22,13 +22,11 @@ CREATE TABLE IF NOT EXISTS customer (
     lifecycle_status   TEXT,
     image              TEXT,
     image_source       TEXT,
-    department         TEXT,
     active             BOOLEAN     NOT NULL,
     verified           BOOLEAN     NOT NULL,
     vip                BOOLEAN     NOT NULL,
     web                TEXT        NOT NULL DEFAULT '',
     note               TEXT        NOT NULL DEFAULT '',
-    address            TEXT,
     onboarded_date     TIMESTAMPTZ NOT NULL,
     created_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
     modified_at        TIMESTAMPTZ NOT NULL DEFAULT now()
