@@ -331,7 +331,7 @@ support:
     url: mailto:guido.schmutz@accenture.com
 
 team:
-  name: Customer Data Product
+  name: customer-data-product-team
   members:
     - username: guido.schmutz@accenture.com
       role: owner
