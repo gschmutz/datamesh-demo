@@ -1,345 +1,340 @@
-# Open Data Contract Standard (ODCS) v3.0.2
-# GraphQL API of the customer data product (project customer-dp, schema customer-dp/src/main/resources/graphql/schema.graphqls)
-# Read-only API on top of the PostgreSQL schema customer_dp_v1 (contract customer-dp-v1-postgresql).
-apiVersion: v3.0.2
-kind: DataContract
-
-id: customer-dp-v1-graphql
-name: Customer Data Product - GraphQL
-version: 1.0.0
-status: active
-domain: customer
-dataProduct: customer
-tenant: datamesh
-
+apiVersion: "v3.2.0"
+kind: "DataContract"
+id: "customer-dp-v1-graphql"
+name: "Customer Data Product - GraphQL"
+version: "1.0.0"
+status: "active"
+domain: "customer"
+dataProduct: "customer"
+tenant: "datamesh"
 description:
-  purpose: Read-only GraphQL API to query customers with their addresses and phone numbers.
-  usage: Query customers with customers(limit) or customerById(id). The API has no mutations; the data is written by the pipeline from the Kafka topic pub.cus.customer.state.v1.
-  limitations: Contains personal data (PII). The caller identity is taken from the headers X-User-Id and X-User-Roles (set by a trusted gateway); which PII fields are masked, and how, is decided by OPA policies. If OPA is unreachable, all PII fields are redacted. Masked fields may therefore return a masked value or null.
-
+  purpose: "Read-only GraphQL API to query customers with their addresses and phone numbers."
+  usage: "Query customers with customers(limit) or customerById(id). The API has no mutations; the data is written by the pipeline from the Kafka topic pub.cus.customer.state.v1."
+  limitations: "Contains personal data (PII). The caller identity is taken from the headers X-User-Id and X-User-Roles (set by a trusted gateway); which PII fields are masked, and how, is decided by OPA policies. If OPA is unreachable, all PII fields are redacted. Masked fields may therefore return a masked value or null."
 tags:
-  - customer
-  - graphql
-  - pii
-
+  - "customer"
+  - "graphql"
+  - "pii"
 servers:
-  - server: customer-dp-graphql
-    type: api
-    environment: dev
-    location: http://dataplatform:29001/graphql
-    description: GraphQL endpoint of the customer-dp service (GraphiQL at /graphiql.html).
+  - server: "customer-dp-graphql"
+    type: "api"
+    environment: "dev"
+    location: "http://dataplatform:29001/graphql"
+    description: "GraphQL endpoint of the customer-dp service (GraphiQL at /graphiql.html)."
     customProperties:
-      - property: protocol
-        value: graphql
-      - property: queries
-        value: 'customers(limit: Int = 50): [Customer!]!, customerById(id: ID!): Customer'
-      - property: mutations
-        value: none (read-only)
-
+      - property: "protocol"
+        value: "graphql"
+      - property: "queries"
+        value: "customers(limit: Int = 50): [Customer!]!, customerById(id: ID!): Customer"
+      - property: "mutations"
+        value: "none (read-only)"
 schema:
-  - name: Customer
-    physicalName: Customer
-    physicalType: graphql-type
-    logicalType: object
-    description: 'A customer with its addresses and phone numbers (table customer).'
+  - name: "Customer"
+    physicalName: "Customer"
+    physicalType: "graphql-type"
+    logicalType: "object"
+    description: "A customer with its addresses and phone numbers (table customer)."
     properties:
-      - name: id
-        logicalType: string
-        physicalType: 'ID!'
+      - name: "id"
+        logicalType: "string"
+        physicalType: "ID!"
         required: true
         primaryKey: true
         primaryKeyPosition: 1
         unique: true
-        description: 'Unique customer identifier (UUID).'
+        description: "Unique customer identifier (UUID)."
         examples:
-          - 'cad4e633-d23e-9e95-97bb-909e7fa82e7d'
-      - name: login
-        logicalType: string
-        physicalType: 'String'
+          - "cad4e633-d23e-9e95-97bb-909e7fa82e7d"
+      - name: "login"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Login name of the customer.'
-      - name: active
-        logicalType: boolean
-        physicalType: 'Boolean!'
+        description: "Login name of the customer."
+      - name: "active"
+        logicalType: "boolean"
+        physicalType: "Boolean!"
         required: true
-        description: 'Whether the customer is active.'
-      - name: verified
-        logicalType: boolean
-        physicalType: 'Boolean!'
+        description: "Whether the customer is active."
+      - name: "verified"
+        logicalType: "boolean"
+        physicalType: "Boolean!"
         required: true
-        description: 'Whether the customer has been verified.'
-      - name: vip
-        logicalType: boolean
-        physicalType: 'Boolean!'
+        description: "Whether the customer has been verified."
+      - name: "vip"
+        logicalType: "boolean"
+        physicalType: "Boolean!"
         required: true
-        description: 'Whether the customer is a VIP.'
-      - name: firstName
-        logicalType: string
-        physicalType: 'String'
+        description: "Whether the customer is a VIP."
+      - name: "firstName"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        classification: confidential
-        tags: [pii]
-        description: 'First name.'
-      - name: lastName
-        logicalType: string
-        physicalType: 'String'
+        classification: "confidential"
+        tags:
+          - "pii"
+        description: "First name."
+      - name: "lastName"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        classification: confidential
-        tags: [pii]
-        description: 'Last name.'
-      - name: emailAddress
-        logicalType: string
-        physicalType: 'String'
+        classification: "confidential"
+        tags:
+          - "pii"
+        description: "Last name."
+      - name: "emailAddress"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        classification: confidential
-        tags: [pii]
-        description: 'Primary e-mail address.'
-      - name: preferredContact
-        logicalType: string
-        physicalType: 'String'
+        classification: "confidential"
+        tags:
+          - "pii"
+        description: "Primary e-mail address."
+      - name: "preferredContact"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Preferred contact channel.'
+        description: "Preferred contact channel."
         examples:
-          - 'email'
-          - 'phone'
-      - name: segment
-        logicalType: string
-        physicalType: 'String'
+          - "email"
+          - "phone"
+      - name: "segment"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Customer segment, stored as a plain value.'
+        description: "Customer segment, stored as a plain value."
         examples:
-          - 'bronze'
-          - 'silver'
-          - 'gold'
-          - 'platinum'
-      - name: dateOfBirth
-        logicalType: date
-        physicalType: 'Date'
+          - "bronze"
+          - "silver"
+          - "gold"
+          - "platinum"
+      - name: "dateOfBirth"
+        logicalType: "date"
+        physicalType: "Date"
         required: false
-        classification: confidential
-        tags: [pii]
-        description: 'Date of birth.'
-      - name: preferredLanguage
-        logicalType: string
-        physicalType: 'String'
+        classification: "confidential"
+        tags:
+          - "pii"
+        description: "Date of birth."
+      - name: "preferredLanguage"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Preferred language.'
+        description: "Preferred language."
         examples:
-          - 'en'
-      - name: marketingConsent
-        logicalType: boolean
-        physicalType: 'Boolean!'
+          - "en"
+      - name: "marketingConsent"
+        logicalType: "boolean"
+        physicalType: "Boolean!"
         required: true
-        description: 'Whether the customer agreed to receive marketing. Defaults to false.'
-      - name: lifecycleStatus
-        logicalType: string
-        physicalType: 'String'
+        description: "Whether the customer agreed to receive marketing. Defaults to false."
+      - name: "lifecycleStatus"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'PROSPECT, ACTIVE or CHURNED.'
+        description: "PROSPECT, ACTIVE or CHURNED."
         examples:
-          - 'PROSPECT'
-          - 'ACTIVE'
-          - 'CHURNED'
-      - name: image
-        logicalType: string
-        physicalType: 'String'
+          - "PROSPECT"
+          - "ACTIVE"
+          - "CHURNED"
+      - name: "image"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Avatar image reference.'
-      - name: imageSource
-        logicalType: string
-        physicalType: 'String'
+        description: "Avatar image reference."
+      - name: "imageSource"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Source of the avatar image.'
-      - name: department
-        logicalType: string
-        physicalType: 'String'
+        description: "Source of the avatar image."
+      - name: "department"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Department of the customer.'
-      - name: web
-        logicalType: string
-        physicalType: 'String'
+        description: "Department of the customer."
+      - name: "web"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Web site, empty when not set.'
-      - name: note
-        logicalType: string
-        physicalType: 'String'
+        description: "Web site, empty when not set."
+      - name: "note"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Free-text note, empty when not set.'
-      - name: address
-        logicalType: string
-        physicalType: 'String'
+        description: "Free-text note, empty when not set."
+      - name: "address"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Free-text address line kept for compatibility, structured addresses are in addresses.'
-      - name: onboardedDate
-        logicalType: timestamp
-        physicalType: 'DateTime'
+        description: "Free-text address line kept for compatibility, structured addresses are in addresses."
+      - name: "onboardedDate"
+        logicalType: "timestamp"
+        physicalType: "DateTime"
         required: false
-        description: 'Time the customer was onboarded.'
-      - name: addresses
-        logicalType: array
-        physicalType: '[Address!]!'
+        description: "Time the customer was onboarded."
+      - name: "addresses"
+        logicalType: "array"
+        physicalType: "[Address!]!"
         required: true
-        description: 'Addresses of the customer, see type Address. May be empty.'
+        description: "Addresses of the customer, see type Address. May be empty."
         items:
-          logicalType: object
-          physicalType: Address
-      - name: phones
-        logicalType: array
-        physicalType: '[Phone!]!'
+          logicalType: "object"
+          physicalType: "Address"
+      - name: "phones"
+        logicalType: "array"
+        physicalType: "[Phone!]!"
         required: true
-        description: 'Phone numbers of the customer, see type Phone. May be empty.'
+        description: "Phone numbers of the customer, see type Phone. May be empty."
         items:
-          logicalType: object
-          physicalType: Phone
-      - name: createdAt
-        logicalType: timestamp
-        physicalType: 'DateTime'
+          logicalType: "object"
+          physicalType: "Phone"
+      - name: "createdAt"
+        logicalType: "timestamp"
+        physicalType: "DateTime"
         required: false
-        description: 'Row insertion time (not part of the source event). Defaults to now().'
-      - name: updatedAt
-        logicalType: timestamp
-        physicalType: 'DateTime'
+        description: "Row insertion time (not part of the source event). Defaults to now()."
+      - name: "updatedAt"
+        logicalType: "timestamp"
+        physicalType: "DateTime"
         required: false
-        description: 'Time the row was last written (not part of the source event). Defaults to now().'
-  - name: Address
-    physicalName: Address
-    physicalType: graphql-type
-    logicalType: object
-    description: 'Address of a customer (table address).'
+        description: "Time the row was last written (not part of the source event). Defaults to now()."
+  - name: "Address"
+    physicalName: "Address"
+    physicalType: "graphql-type"
+    logicalType: "object"
+    description: "Address of a customer (table address)."
     properties:
-      - name: id
-        logicalType: string
-        physicalType: 'ID!'
+      - name: "id"
+        logicalType: "string"
+        physicalType: "ID!"
         required: true
         primaryKey: true
         primaryKeyPosition: 1
         unique: true
-        description: 'Surrogate key, generated always as identity.'
-      - name: street
-        logicalType: string
-        physicalType: 'String'
+        description: "Surrogate key, generated always as identity."
+      - name: "street"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        classification: confidential
-        tags: [pii]
-        description: 'Street and house number.'
-      - name: zipCode
-        logicalType: string
-        physicalType: 'String'
+        classification: "confidential"
+        tags:
+          - "pii"
+        description: "Street and house number."
+      - name: "zipCode"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        classification: confidential
-        tags: [pii]
-        description: 'Postal code. A string to preserve leading zeros.'
-      - name: city
-        logicalType: string
-        physicalType: 'String'
+        classification: "confidential"
+        tags:
+          - "pii"
+        description: "Postal code. A string to preserve leading zeros."
+      - name: "city"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'City.'
-      - name: state
-        logicalType: string
-        physicalType: 'String'
+        description: "City."
+      - name: "state"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'State or region.'
-      - name: country
-        logicalType: string
-        physicalType: 'String'
+        description: "State or region."
+      - name: "country"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'Country code (ISO 3166-1 alpha-2).'
+        description: "Country code (ISO 3166-1 alpha-2)."
         examples:
-          - 'CH'
-          - 'DE'
-      - name: type
-        logicalType: string
-        physicalType: 'String'
+          - "CH"
+          - "DE"
+      - name: "type"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'BILLING, SHIPPING or HOME.'
+        description: "BILLING, SHIPPING or HOME."
         examples:
-          - 'BILLING'
-          - 'SHIPPING'
-          - 'HOME'
-      - name: createdAt
-        logicalType: timestamp
-        physicalType: 'DateTime'
+          - "BILLING"
+          - "SHIPPING"
+          - "HOME"
+      - name: "createdAt"
+        logicalType: "timestamp"
+        physicalType: "DateTime"
         required: false
-        description: 'Row insertion time. Defaults to now().'
-      - name: updatedAt
-        logicalType: timestamp
-        physicalType: 'DateTime'
+        description: "Row insertion time. Defaults to now()."
+      - name: "updatedAt"
+        logicalType: "timestamp"
+        physicalType: "DateTime"
         required: false
-        description: 'Time the row was last written. Defaults to now().'
-  - name: Phone
-    physicalName: Phone
-    physicalType: graphql-type
-    logicalType: object
-    description: 'Phone number of a customer (table phone).'
+        description: "Time the row was last written. Defaults to now()."
+  - name: "Phone"
+    physicalName: "Phone"
+    physicalType: "graphql-type"
+    logicalType: "object"
+    description: "Phone number of a customer (table phone)."
     properties:
-      - name: id
-        logicalType: string
-        physicalType: 'ID!'
+      - name: "id"
+        logicalType: "string"
+        physicalType: "ID!"
         required: true
         primaryKey: true
         primaryKeyPosition: 1
         unique: true
-        description: 'Surrogate key, generated always as identity.'
-      - name: type
-        logicalType: string
-        physicalType: 'String'
+        description: "Surrogate key, generated always as identity."
+      - name: "type"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'MOBILE, HOME, WORK or FAX.'
+        description: "MOBILE, HOME, WORK or FAX."
         examples:
-          - 'MOBILE'
-          - 'HOME'
-          - 'WORK'
-          - 'FAX'
-      - name: number
-        logicalType: string
-        physicalType: 'String'
+          - "MOBILE"
+          - "HOME"
+          - "WORK"
+          - "FAX"
+      - name: "number"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        classification: confidential
-        tags: [pii]
-        description: 'Phone number.'
+        classification: "confidential"
+        tags:
+          - "pii"
+        description: "Phone number."
         examples:
-          - '+41 79 123 45 67'
-      - name: availability
-        logicalType: string
-        physicalType: 'String'
+          - "+41 79 123 45 67"
+      - name: "availability"
+        logicalType: "string"
+        physicalType: "String"
         required: false
-        description: 'When the customer is reachable on this number, e.g. Mon-Fri 09:00-17:00.'
+        description: "When the customer is reachable on this number, e.g. Mon-Fri 09:00-17:00."
         examples:
-          - 'Mon-Fri 09:00-17:00'
-      - name: createdAt
-        logicalType: timestamp
-        physicalType: 'DateTime'
+          - "Mon-Fri 09:00-17:00"
+      - name: "createdAt"
+        logicalType: "timestamp"
+        physicalType: "DateTime"
         required: false
-        description: 'Row insertion time. Defaults to now().'
-      - name: updatedAt
-        logicalType: timestamp
-        physicalType: 'DateTime'
+        description: "Row insertion time. Defaults to now()."
+      - name: "updatedAt"
+        logicalType: "timestamp"
+        physicalType: "DateTime"
         required: false
-        description: 'Time the row was last written. Defaults to now().'
-
+        description: "Time the row was last written. Defaults to now()."
 slaProperties:
-  - property: generalAvailability
-    value: 2026-01-01
-  - property: latency
+  - property: "generalAvailability"
+    value: "2026-01-01"
+  - property: "latency"
     value: 1
-    unit: s
-    description: Target response time of a query (TBC).
-
+    unit: "s"
+    description: "Target response time of a query (TBC)."
 support:
-  - channel: customer-data-product
-    tool: email
-    url: mailto:guido.schmutz@accenture.com
-
+  - channel: "customer-data-product"
+    tool: "email"
+    url: "mailto:guido.schmutz@accenture.com"
 team:
-  name: customer-data-product-team
+  name: "customer-data-product-team"
   members:
-    - username: guido.schmutz@accenture.com
-      role: owner
-
+    - username: "guido.schmutz@accenture.com"
+      role: "owner"
 customProperties:
-  - property: graphqlSchema
-    value: customer-data-product/customer-dp/src/main/resources/graphql/schema.graphqls
-  - property: upstreamContract
-    value: customer-dp-postgresql.odcs.yaml
-  - property: maskingPolicy
-    value: customer-data-product/scripts/opa/rego/pii.rego
+  - property: "graphqlSchema"
+    value: "customer-data-product/customer-dp/src/main/resources/graphql/schema.graphqls"
+  - property: "upstreamContract"
+    value: "customer-dp-postgresql.odcs.yaml"
+  - property: "maskingPolicy"
+    value: "customer-data-product/scripts/opa/rego/pii.rego"
