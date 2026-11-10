@@ -509,7 +509,7 @@ services:
       start_period: 30s
   #  ================================== Ollama  ========================================== #
   ollama:
-    image: docker.io/ollama/ollama:0.32.12
+    image: docker.io/ollama/ollama:0.40.16
     container_name: ollama
     hostname: ollama
     labels:
