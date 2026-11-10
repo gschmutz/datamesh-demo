@@ -7,9 +7,9 @@ status: "active"
 type: "source-aligned"
 tenant: "datamesh"
 description:
-  purpose: "Provides customer master data (profile, addresses and phone numbers) as the full customer state, event-driven on Kafka and as relational tables in PostgreSQL."
+  purpose: "Provides customer master data (profile, addresses and phone numbers) as the full customer state, event-driven on Kafka, as relational tables in PostgreSQL and through a read-only GraphQL API."
   limitations: "Contains personal data (PII). Access must follow the data protection policy; the GraphQL API masks PII fields through OPA policies. Segment, country and the address and phone types are plain values (no lookup tables)."
-  usage: "Consume the customer state in real time from the Kafka topic, or query it from the PostgreSQL tables (and the read-only GraphQL API on top of them) for analytical and operational lookups."
+  usage: "Consume the customer state in real time from the Kafka topic, query it from the PostgreSQL tables, or use the read-only GraphQL API on top of them for analytical and operational lookups."
 tags:
 - "customer"
 - "pii"
@@ -30,6 +30,15 @@ outputPorts:
   customProperties:
   - property: "contractFile"
     value: "../odcs/customer-dp-postgresql.odcs.yaml"
+- name: "customer-graphql-api"
+  version: "1.0.0"
+  description: "Read-only GraphQL API (service customer-dp) to query customers with their addresses and phone numbers, served from the PostgreSQL schema customer_dp_v1. PII fields are masked through OPA policies."
+  type: "api"
+  contractId: "customer-dp-v1-graphql"
+  customProperties:
+  - property: "contractFile"
+    value: "../odcs/customer-dp-graphql.odcs.yaml"
+
 team:
   name: "customer-data-product-team"
   members:
