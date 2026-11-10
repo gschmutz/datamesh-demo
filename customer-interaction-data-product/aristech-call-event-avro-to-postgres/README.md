@@ -16,6 +16,7 @@ PostgreSQL table `aristech.call_event` defined in
 | `isAuthenticated` | `is_authenticated` |
 | `isIdentified` | `is_identified` |
 | `userData.anliegen` | `anliegen` |
+| `userData.anfrage` | `anfrage` |
 | `userData.bedrohung` | `bedrohung` |
 | `userData.kundennummer` | `kundennummer` (nullable) |
 | `userData.plz` | `plz` (nullable) |

@@ -68,6 +68,17 @@ schema:
         customProperties:
           - property: sourceField
             value: userData.anliegen
+      - name: anfrage
+        logicalType: string
+        physicalType: TEXT
+        required: false
+        businessName: Anfrage (Request)
+        description: Free-text request of the caller.
+        examples:
+          - Wie lange ist meine Ortsabwesenheit gemeldet?
+        customProperties:
+          - property: sourceField
+            value: userData.anfrage
       - name: bedrohung
         logicalType: boolean
         physicalType: BOOLEAN

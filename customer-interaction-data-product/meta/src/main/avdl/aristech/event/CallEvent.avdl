@@ -3,6 +3,8 @@ protocol CallEventProtocol {
     record userData {
         /** Free-text or classified reason for the call. */
         string anliegen;
+        /** Free-text request (Anfrage) of the caller. */
+        union { null, string } anfrage = null;
         /** Flag indicating that a threat was detected or reported in the call. */
         boolean bedrohung;
         /** Customer number as stated by or resolved for the caller. Alphanumeric. */

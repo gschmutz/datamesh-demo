@@ -12,15 +12,16 @@ from typing import Any
 UPSERT_SQL = """
 INSERT INTO call_event (
     call_id, is_authenticated, is_identified,
-    anliegen, bedrohung, kundennummer, plz, prio, soc_l
+    anliegen, anfrage, bedrohung, kundennummer, plz, prio, soc_l
 ) VALUES (
     %(call_id)s, %(is_authenticated)s, %(is_identified)s,
-    %(anliegen)s, %(bedrohung)s, %(kundennummer)s, %(plz)s, %(prio)s, %(soc_l)s
+    %(anliegen)s, %(anfrage)s, %(bedrohung)s, %(kundennummer)s, %(plz)s, %(prio)s, %(soc_l)s
 )
 ON CONFLICT (call_id) DO UPDATE SET
     is_authenticated = EXCLUDED.is_authenticated,
     is_identified    = EXCLUDED.is_identified,
     anliegen         = EXCLUDED.anliegen,
+    anfrage          = EXCLUDED.anfrage,
     bedrohung        = EXCLUDED.bedrohung,
     kundennummer     = EXCLUDED.kundennummer,
     plz              = EXCLUDED.plz,
@@ -37,6 +38,7 @@ def to_row(event: dict[str, Any]) -> dict[str, Any]:
         "is_authenticated": event["isAuthenticated"],
         "is_identified": event["isIdentified"],
         "anliegen": user["anliegen"],
+        "anfrage": user.get("anfrage"),
         "bedrohung": user["bedrohung"],
         "kundennummer": user.get("kundennummer"),
         "plz": user.get("plz"),

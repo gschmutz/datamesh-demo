@@ -69,6 +69,14 @@ schema:
             description: Free-text or classified reason for the call.
             examples:
               - Allgemeine Frage zur Ortsabwesenheit
+          - name: anfrage
+            logicalType: string
+            physicalType: union
+            required: false
+            businessName: Anfrage (Request)
+            description: Free-text request of the caller. Avro union of null and string, default null.
+            examples:
+              - Wie lange ist meine Ortsabwesenheit gemeldet?
           - name: bedrohung
             logicalType: boolean
             physicalType: boolean
