@@ -19,9 +19,23 @@ public class PiiAccess {
         this.decider = decider;
     }
 
+    /**
+     * The masking strategy for a field, or null when it is visible. A field the policy
+     * names explicitly wins over the wildcard entry of the fail-closed decision, which
+     * only applies when {@code allowWildcard} is set.
+     */
+    public String strategy(String type, String field, boolean allowWildcard) {
+        Map<String, Map<String, String>> d = decision();
+        String s = d.getOrDefault(type, Map.of()).get(field);
+        if (s == null && allowWildcard) {
+            s = d.getOrDefault(PiiMasker.WILDCARD, Map.of()).get(PiiMasker.WILDCARD);
+        }
+        return s;
+    }
+
     /** Returns the value as the caller is allowed to see it. */
     public String mask(String type, String field, String value) {
-        return PiiMasker.apply(decision().getOrDefault(type, Map.of()).get(field), value);
+        return PiiMasker.apply(strategy(type, field, true), value);
     }
 
     private Map<String, Map<String, String>> decision() {

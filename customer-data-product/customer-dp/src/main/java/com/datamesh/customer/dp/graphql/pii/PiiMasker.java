@@ -5,12 +5,15 @@ import java.util.Map;
 /** Applies a masking strategy chosen by the policy to a field value. */
 public final class PiiMasker {
 
-    /** Fail-closed decision: every PII field the API knows about is redacted. */
-    public static final Map<String, Map<String, String>> REDACT_ALL = Map.of(
-        "Customer", Map.of("firstName", "redact", "lastName", "redact",
-                           "emailAddress", "redact"),
-        "Address", Map.of("street", "redact", "zipCode", "redact"),
-        "Phone", Map.of("number", "redact"));
+    /** Matches every type or field, used by the fail-closed decision. */
+    public static final String WILDCARD = "*";
+
+    /**
+     * Fail-closed decision, used when the policy cannot be evaluated: every free-text
+     * (String) field except identifiers is redacted, whatever the policy would have classified.
+     */
+    public static final Map<String, Map<String, String>> REDACT_ALL =
+        Map.of(WILDCARD, Map.of(WILDCARD, "redact"));
 
     private PiiMasker() {}
 

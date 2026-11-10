@@ -37,4 +37,11 @@ class PiiMaskingTest {
         assertEquals("1", access.mask("Address", "street", "1"));
         assertEquals(1, calls.get());
     }
+
+    @Test
+    void wildcardOnlyAppliesToFieldsTheCallerAllowsIt() {
+        var access = new PiiAccess("bob", List.of(), (u, r) -> PiiMasker.REDACT_ALL);
+        assertEquals("redact", access.strategy("Customer", "firstName", true));
+        assertNull(access.strategy("Customer", "id", false));
+    }
 }
