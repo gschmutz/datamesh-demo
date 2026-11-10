@@ -522,6 +522,7 @@ services:
     tty: true
     environment:
       OLLAMA_KEEP_ALIVE: 24h
+      OLLAMA_HOST: 0.0.0.0
       OLLAMA_DEBUG: 0
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
@@ -533,26 +534,25 @@ services:
       retries: 5
       start_period: 10s
   ollama-pull-model:
-    image: docker.io/genai-stack/pull-model:latest
+    image: docker.io/ollama/ollama:latest
     container_name: ollama-pull-model
     hostname: ollama-pull-model
-    build:
-      context: ./dockerfiles/genai-stack
-      dockerfile: pull_model.Dockerfile
     environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_HOST=ollama:11434
     entrypoint:
       # In the command section, $ are replaced with $$ to avoid the error 'Invalid interpolation format for "command" option'
-      - bash
+      - sh
       - -c
       - |
-        echo "Installing LLMs"
+        echo 'Waiting for Ollama to be ready...';
+        until ollama list > /dev/null 2>&1; do
+          sleep 2;
+        done;      
+        echo "Pulling LLMs"
         for llm in $$(echo "llama3.2" | sed "s/,/ /g")
         do
-          export LLM="$$llm"
-          bb -f pull_model.clj "$$llm"
+          ollama pull "$$llm"
         done
-    tty: true
     init: true
   #  ================================== Redis ========================================== #
   redis-1:
