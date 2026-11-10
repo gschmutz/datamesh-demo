@@ -1,5 +1,7 @@
 package com.datamesh.customer.dp.entity;
 
+import java.time.Instant;
+
 import org.hibernate.annotations.Immutable;
 
 import jakarta.persistence.Entity;
@@ -21,6 +23,9 @@ public class Phone {
     private String type;
     private String availability;
 
+    private Instant createdAt;
+    private Instant modifiedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -32,5 +37,7 @@ public class Phone {
     public String getNumber() { return number; }
     public String getType() { return type; }
     public String getAvailability() { return availability; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getModifiedAt() { return modifiedAt; }
     public Customer getCustomer() { return customer; }
 }

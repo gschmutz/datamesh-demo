@@ -35,6 +35,12 @@ public class Customer {
     private String preferredLanguage;
     private boolean marketingConsent;
     private String lifecycleStatus;
+    private String image;
+    private String imageSource;
+    private String department;
+    private String web;
+    private String note;
+    private String address;
 
     @Column(name = "onboarded_date")
     private Instant onboardedDate;
@@ -66,6 +72,12 @@ public class Customer {
     public String getPreferredLanguage() { return preferredLanguage; }
     public boolean isMarketingConsent() { return marketingConsent; }
     public String getLifecycleStatus() { return lifecycleStatus; }
+    public String getImage() { return image; }
+    public String getImageSource() { return imageSource; }
+    public String getDepartment() { return department; }
+    public String getWeb() { return web; }
+    public String getNote() { return note; }
+    public String getAddress() { return address; }
     public Instant getOnboardedDate() { return onboardedDate; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getModifiedAt() { return modifiedAt; }

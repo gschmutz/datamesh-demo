@@ -11,7 +11,9 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
+import com.datamesh.customer.dp.entity.Address;
 import com.datamesh.customer.dp.entity.Customer;
+import com.datamesh.customer.dp.entity.Phone;
 import com.datamesh.customer.dp.repository.CustomerRepository;
 
 /**
@@ -49,6 +51,18 @@ public class CustomerGraphQlController {
 
     @SchemaMapping(typeName = "Customer", field = "updatedAt")
     public OffsetDateTime customerUpdatedAt(Customer c) { return utc(c.getModifiedAt()); }
+
+    @SchemaMapping(typeName = "Address", field = "createdAt")
+    public OffsetDateTime addressCreatedAt(Address a) { return utc(a.getCreatedAt()); }
+
+    @SchemaMapping(typeName = "Address", field = "updatedAt")
+    public OffsetDateTime addressUpdatedAt(Address a) { return utc(a.getModifiedAt()); }
+
+    @SchemaMapping(typeName = "Phone", field = "createdAt")
+    public OffsetDateTime phoneCreatedAt(Phone p) { return utc(p.getCreatedAt()); }
+
+    @SchemaMapping(typeName = "Phone", field = "updatedAt")
+    public OffsetDateTime phoneUpdatedAt(Phone p) { return utc(p.getModifiedAt()); }
 
     /** The DateTime scalar works on OffsetDateTime, the entities hold Instants. */
     private static OffsetDateTime utc(Instant i) {

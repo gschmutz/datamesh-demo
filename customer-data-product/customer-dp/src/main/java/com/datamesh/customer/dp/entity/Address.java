@@ -1,5 +1,7 @@
 package com.datamesh.customer.dp.entity;
 
+import java.time.Instant;
+
 import org.hibernate.annotations.Immutable;
 
 import jakarta.persistence.Entity;
@@ -24,6 +26,9 @@ public class Address {
     private String country;
     private String type;
 
+    private Instant createdAt;
+    private Instant modifiedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -38,5 +43,7 @@ public class Address {
     public String getState() { return state; }
     public String getCountry() { return country; }
     public String getType() { return type; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getModifiedAt() { return modifiedAt; }
     public Customer getCustomer() { return customer; }
 }

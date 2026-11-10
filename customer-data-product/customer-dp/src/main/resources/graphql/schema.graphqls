@@ -25,6 +25,17 @@ type Customer {
     marketingConsent: Boolean!
     "PROSPECT, ACTIVE or CHURNED."
     lifecycleStatus: String
+    "Avatar image reference."
+    image: String
+    "Source of the avatar image."
+    imageSource: String
+    department: String
+    "Web site, empty when not set."
+    web: String
+    "Free-text note, empty when not set."
+    note: String
+    "Free-text address line kept for compatibility, structured addresses are in addresses."
+    address: String
     onboardedDate: DateTime
     addresses: [Address!]!
     phones: [Phone!]!
@@ -41,6 +52,8 @@ type Address {
     country: String
     "BILLING, SHIPPING or HOME."
     type: String
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
 type Phone {
@@ -50,4 +63,6 @@ type Phone {
     number: String
     "When the customer is reachable on this number, e.g. Mon-Fri 09:00-17:00."
     availability: String
+    createdAt: DateTime
+    updatedAt: DateTime
 }
