@@ -1087,6 +1087,7 @@ services:
       - 28349:3000
     environment:
       DISABLE_WHATS_NEW: true
+      DISABLE_LOCAL_LOGIN: true
       EXPORT_METRICS: false
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
