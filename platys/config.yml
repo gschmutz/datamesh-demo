@@ -3917,7 +3917,7 @@
       #
       # ===== Data Contract CLI API ========
       #
-      DATA_CONTRACT_CLI_API_enable: false
+      DATA_CONTRACT_CLI_API_enable: true
       
       #
       # ===== Microcks ========

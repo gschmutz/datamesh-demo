@@ -990,6 +990,30 @@ services:
         import time
         while True: time.sleep(60)    
     restart: unless-stopped
+  #  ================================== Data Contract CLI API Server ================= #
+  data-contract-api:
+    image: docker.io/datacontract/cli:latest
+    container_name: data-contract-api
+    hostname: data-contract-api
+    platform: linux/amd64
+    labels:
+      com.platys.name: data-contract-api
+      com.platys.description: Data Contract CLI API Server
+      com.platys.restapi.title: Data Contract API REST API
+      com.platys.restapi.url: http://dataplatform:4242
+    ports:
+      - 4242:4242
+    environment:
+      - DATACONTRACT_CLI_API_KEY=a079ce4c-af90-45ab-abe5-a8d7697f60d6
+      - DATACONTRACT_POSTGRES_HOST=postgresql
+      - DATACONTRACT_POSTGRES_PORT=5432
+      - DATACONTRACT_POSTGRES_DATABASE=workshop
+      - DATACONTRACT_POSTGRES_USERNAME=workshop
+      - DATACONTRACT_POSTGRES_PASSWORD=workshop
+    volumes:
+      - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
+    command: [api, --host, 0.0.0.0, --reload, --port, '4242', --debug]
+    restart: unless-stopped
   #  ================================== Grafana ========================================== #
   grafana:
     image: docker.io/grafana/grafana:13.0.10-ubuntu
