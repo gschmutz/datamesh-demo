@@ -494,7 +494,7 @@ services:
       - OPAL_POLICY_SUBSCRIPTION_DIRS=customer-data-product/scripts/opa/rego
       - OPAL_POLICY_REPO_URL=https://github.com/gschmutz/datamesh-demo
       - OPAL_POLICY_REPO_MAIN_BRANCH=main
-      - OPAL_DATA_CONFIG_SOURCES={"config":{"entries":[{"url":"https://raw.githubusercontent.com/gschmutz/datamesh-demo/main/customer-data-product/scripts/opa/rego/pii-classification-data.json","topics":["policy_data"],"dst_path":"/datamesh/customer/pii/classification","periodic_update_interval":30}]}}
+#      - OPAL_DATA_CONFIG_SOURCES={"config":{"entries":[{"url":"https://raw.githubusercontent.com/gschmutz/datamesh-demo/main/customer-data-product/scripts/opa/rego/pii-classification-data.json","topics":["policy_data"],"dst_path":"/datamesh/customer/pii/classification","periodic_update_interval":30}]}}
       - OPAL_LOG_FORMAT_INCLUDE_PID=true
       # raw.githubusercontent.com serves JSON as text/plain, which the default aiohttp client rejects
       - OPAL_HTTP_FETCHER_PROVIDER_CLIENT=httpx
