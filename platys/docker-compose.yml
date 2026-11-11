@@ -516,6 +516,8 @@ services:
       OPAL_SERVER_URL: http://opal-server:7002
       OPAL_LOG_FORMAT_INCLUDE_PID: true
       # - OPAL_OFFLINE_MODE_ENABLED: true
+      # data comes from git (data.json in the policy bundle), no separate data sources
+      OPAL_DATA_UPDATER_ENABLED: false
       OPAL_DATA_TOPICS: policy_data
       OPAL_POLICY_UPDATER_ENABLED: true
       OPAL_INLINE_OPA_ENABLED: false
