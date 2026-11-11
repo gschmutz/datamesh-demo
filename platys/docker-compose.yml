@@ -489,16 +489,20 @@ services:
     ports:
       - 7002:7002
     environment:
-      - OPAL_POLICY_SOURCE_TYPE=GIT
-      - OPAL_POLICY_REPO_POLLING_INTERVAL=30
-      - OPAL_POLICY_SUBSCRIPTION_DIRS=customer-data-product/scripts/opa/rego
-      - OPAL_POLICY_REPO_URL=https://github.com/gschmutz/datamesh-demo
-      - OPAL_POLICY_REPO_MAIN_BRANCH=main
-#      - OPAL_DATA_CONFIG_SOURCES={"config":{"entries":[{"url":"https://raw.githubusercontent.com/gschmutz/datamesh-demo/main/customer-data-product/scripts/opa/rego/pii-classification-data.json","topics":["policy_data"],"dst_path":"/datamesh/customer/pii/classification","periodic_update_interval":30}]}}
-      - OPAL_LOG_FORMAT_INCLUDE_PID=true
-      # raw.githubusercontent.com serves JSON as text/plain, which the default aiohttp client rejects
-#      - OPAL_HTTP_FETCHER_PROVIDER_CLIENT=httpx
-      - OPAL_POLICY_REPO_WEBHOOK_SECRET=1THQSpwrTz_Km41OGsGPAu2bgzP0WYhBt4eVnTtYVrc
+      OPAL_POLICY_SOURCE_TYPE: GIT
+      OPAL_POLICY_REPO_POLLING_INTERVAL: 30
+      OPAL_POLICY_SUBSCRIPTION_DIRS: customer-data-product/scripts/opa/rego
+      OPAL_POLICY_REPO_URL: https://github.com/gschmutz/datamesh-demo
+      OPAL_POLICY_REPO_MAIN_BRANCH: main
+      OPAL_DATA_CONFIG_SOURCES: >-
+        {"config":{"entries":[
+          {"url":"http://opal-server:7002/policy-data",
+           "topics":["policy_data"],
+           "dst_path":"/static"}
+        ]}}
+      OPAL_HTTP_FETCHER_PROVIDER_CLIENT: httpx
+      OPAL_LOG_FORMAT_INCLUDE_PID: true
+      OPAL_POLICY_REPO_WEBHOOK_SECRET: 1THQSpwrTz_Km41OGsGPAu2bgzP0WYhBt4eVnTtYVrc
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     restart: unless-stopped
@@ -516,16 +520,14 @@ services:
     ports:
       - 28407:7000
     environment:
-      - OPAL_SERVER_URL=http://opal-server:7002
-      - OPAL_LOG_FORMAT_INCLUDE_PID=true
-      # raw.githubusercontent.com serves JSON as text/plain, which the default aiohttp client rejects
-      - OPAL_HTTP_FETCHER_PROVIDER_CLIENT=httpx
-      # - OPAL_OFFLINE_MODE_ENABLED=true
-      - OPAL_DATA_TOPICS=policy_data
-      - OPAL_POLICY_UPDATER_ENABLED=true
-      - OPAL_INLINE_OPA_ENABLED=False
-      - OPAL_POLICY_STORE_URL=http://opa:8181
-      - OPAL_INLINE_CEDAR_ENABLED=False
+      OPAL_SERVER_URL: http://opal-server:7002
+      OPAL_LOG_FORMAT_INCLUDE_PID: true
+      # - OPAL_OFFLINE_MODE_ENABLED: true
+      OPAL_DATA_TOPICS: policy_data
+      OPAL_POLICY_UPDATER_ENABLED: true
+      OPAL_INLINE_OPA_ENABLED: false
+      OPAL_POLICY_STORE_URL: http://opa:8181
+      OPAL_INLINE_CEDAR_ENABLED: false
     volumes:
       - ${PLATYS_DATA_TRANSFER_LOCAL_FOLDER:-./data-transfer}:/data-transfer:z
     command: sh -c "exec /usr/wait-for.sh opal-server:7002 --timeout=20 -- /start.sh"
