@@ -29,6 +29,6 @@ masked := {} if {
 	some field, classification in fields
 	classification == masked_classification
 } |
-	some type, fields in data.datamesh.customer.pii.classification
+	some type, fields in data.classification
 }
 
