@@ -1,1 +1,1 @@
-{"datamesh": {"customer": {"pii": {"classification": {"Customer": {"firstName": "confidential", "lastName": "confidential", "emailAddress": "confidential", "dateOfBirth": "confidential"}, "Address": {"street": "confidential", "zipCode": "confidential", "city": "confidential"}, "Phone": {"number": "confidential"}}}}}}
+{"Customer": {"firstName": "confidential", "lastName": "confidential", "emailAddress": "confidential", "dateOfBirth": "confidential"}, "Address": {"street": "confidential", "zipCode": "confidential", "city": "confidential"}, "Phone": {"number": "confidential"}}

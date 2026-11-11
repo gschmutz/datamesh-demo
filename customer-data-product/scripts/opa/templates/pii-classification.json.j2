@@ -1,4 +1,5 @@
 {#- Renders the classified properties of the GraphQL ODCS contract as OPA data.
+    Loaded by OPAL at /datamesh/customer/pii/classification (see OPAL_DATA_CONFIG_SOURCES).
     datacontract export custom --template templates/pii-classification.json.j2 \
       --output rego/pii-classification-data.json ../../meta/odcs/customer-dp-graphql.odcs.yaml -#}
 {% set ns = namespace(types=[]) -%}
@@ -9,4 +10,4 @@
 {%- endfor -%}
 {%- if ns2.fields %}{% set ns.types = ns.types + ['"' ~ s.name ~ '": {' ~ ns2.fields | join(', ') ~ '}'] %}{% endif -%}
 {%- endfor -%}
-{"datamesh": {"customer": {"pii": {"classification": {{ '{' }}{{ ns.types | join(', ') }}{{ '}' }}}}}}
+{{ '{' }}{{ ns.types | join(', ') }}{{ '}' }}

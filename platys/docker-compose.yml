@@ -494,7 +494,7 @@ services:
       - OPAL_POLICY_SUBSCRIPTION_DIRS=customer-data-product/scripts/opa/rego
       - OPAL_POLICY_REPO_URL=https://github.com/gschmutz/datamesh-demo
       - OPAL_POLICY_REPO_MAIN_BRANCH=main
-      - OPAL_DATA_CONFIG_SOURCES={"config":{"entries":[{"url":"http://opal-server:7002/policy-data","topics":["policy_data"],"dst_path":"/static"}]}}
+      - OPAL_DATA_CONFIG_SOURCES={"config":{"entries":[{"url":"https://raw.githubusercontent.com/gschmutz/datamesh-demo/main/customer-data-product/scripts/opa/rego/pii-classification-data.json","topics":["policy_data"],"dst_path":"/datamesh/customer/pii/classification","periodic_update_interval":30}]}}
       - OPAL_LOG_FORMAT_INCLUDE_PID=true
       - OPAL_POLICY_REPO_WEBHOOK_SECRET=1THQSpwrTz_Km41OGsGPAu2bgzP0WYhBt4eVnTtYVrc
     volumes:
