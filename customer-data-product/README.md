@@ -67,7 +67,7 @@ query Customer {
 ## Create the data for the OPA Policy
 
 ```bash
-cd $DATAPLAFORM_HOME/../customer-data-product/scritps/opt
+cd $DATAPLAFORM_HOME/../customer-data-product/scripts/opt
 
 datacontract export custom \
   --template templates/pii-classification.json.j2 \

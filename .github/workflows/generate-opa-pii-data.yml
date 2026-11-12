@@ -1,0 +1,79 @@
+name: Generate OPA PII classification data
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'customer-data-product/meta/odcs/customer-dp-graphql.odcs.yaml'
+      - 'customer-data-product/scripts/opa/templates/**'
+      - '.github/workflows/generate-opa-pii-data.yml'
+  pull_request:
+    paths:
+      - 'customer-data-product/meta/odcs/customer-dp-graphql.odcs.yaml'
+      - 'customer-data-product/scripts/opa/templates/**'
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit the regenerated file back
+
+    defaults:
+      run:
+        working-directory: customer-data-product/scripts/opa
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install datacontract CLI
+        run: pip install datacontract-cli
+
+      - name: Generate PII classification data
+        run: |
+          datacontract export custom \
+            --template templates/pii-classification.json.j2 \
+            --output rego/pii-classification-data.json \
+            ../../meta/odcs/customer-dp-graphql.odcs.yaml
+
+      - name: Validate generated JSON
+        run: python -m json.tool rego/pii-classification-data.json > /dev/null
+
+      - name: Set up OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: latest
+
+      - name: Run OPA tests
+        run: opa test -v rego pii_test.rego
+
+      - name: Upload data file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pii-classification-data
+          path: customer-data-product/scripts/opa/rego/pii-classification-data.json
+
+      # Only commit back on main (PRs from forks can't be pushed to)
+      - name: Commit updated data file
+        if: github.event_name != 'pull_request'
+        working-directory: .
+        run: |
+          if git diff --quiet -- customer-data-product/scripts/opa/rego/pii-classification-data.json; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add customer-data-product/scripts/opa/rego/pii-classification-data.json
+          git commit -m "chore: regenerate OPA PII classification data"
+          git push
