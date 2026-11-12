@@ -222,7 +222,6 @@ schema:
         physicalType: "String"
         required: false
         description: "City."
-        classification: "Confidential"
       - name: "state"
         logicalType: "string"
         physicalType: "String"
